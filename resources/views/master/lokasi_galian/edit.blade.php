@@ -3,7 +3,7 @@
 @section('styles')
 <style>
     .col-top-item{
-        cursor:pointer;
+        /*cursor:pointer;*/
         border: thin solid #CCCCCC;
         
     }
@@ -217,6 +217,7 @@
             formdata.append($('<input>').attr('type','hidden').attr('name','desa').val(desa));
             formdata.append($('<input>').attr('type','hidden').attr('name','desa_id').val(desa_id));
             formdata.append($('<input>').attr('type','hidden').attr('name','alamat').val(alamat));
+            $('body').append(formdata);
             formdata.submit();
         }else{
             alert('Lengkapi data yang kosong.');

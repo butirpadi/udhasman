@@ -4,7 +4,7 @@
 <link href="plugins/datepicker/datepicker3.css" rel="stylesheet" type="text/css"/>
 <style>
     .col-top-item{
-        cursor:pointer;
+        /*cursor:pointer;*/
         border: thin solid #CCCCCC;
 
     }
@@ -253,6 +253,7 @@
             formdata.append($('<input>').attr('type','hidden').attr('name','tempat_lahir').val(tempat_lahir));
             formdata.append($('<input>').attr('type','hidden').attr('name','gaji_pokok').val(gaji_pokok));
             formdata.append($('input[name=foto]'));
+            $('body').append(formdata);
             formdata.submit();
         }else{
             alert('Lengkapi data yang kosong.');

@@ -45,9 +45,28 @@
             table.table-bordered > tbody > tr > td{
                 border-color:#DDDDDD;
             }
+
+            /*fit column to content*/
+            .table td.fit, 
+            .table th.fit {
+                white-space: nowrap;
+                width: 1%;
+            }
+
+            
+
             /*Table Stipe color*/
             .table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
                background-color: #EEF0F0;
+            }
+
+            /*Kecilkan height row table condensed*/
+            .table-condensed>thead>tr>th, .table-condensed>tbody>tr>th, .table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td, .table-condensed>tbody>tr>td, .table-condensed>tfoot>tr>td{
+                padding: 3px;
+            }
+
+            .table{
+                font-size: 13px;
             }
 
             /*table border*/
@@ -57,11 +76,11 @@
             }*/
 
             /*table hover*/
-            /*.table-hover > tbody > tr:hover > th {
+            /*. > tbody > tr:hover > th {
               background-color: red;
             }*/
 
-            .table-hover>tbody>tr:hover>td, .table-hover>tbody>tr:hover>th {
+            .>tbody>tr:hover>td, .>tbody>tr:hover>th {
               background-color: #3C8DBC;
               color:#eeeeee;
             }
@@ -77,20 +96,32 @@
             }
 
             /*ganti warna button-primary hover di header box*/
-            .box .box-header .btn.btn-primary:hover, .box .box-header div .btn.btn-primary:hover {
+            .box .box-header .btn-group .btn.btn-primary:hover, .box .box-header .btn.btn-primary:hover, .box .box-header div .btn.btn-primary:hover {
                 background-color: #367fa9!important;
                 /*background-color: red;*/
             }
 
             /*ganti warna button-danger hover di header box*/
-            .box .box-header .btn.btn-danger:hover,.box .box-header div .btn.btn-danger:hover {
+            .box .box-header .btn-group .btn.btn-danger:hover, .box .box-header .btn.btn-danger:hover,.box .box-header div .btn.btn-danger:hover {
                 background-color: #d73925!important;
                 /*background-color: red;*/
             }
 
             /*ganti warna button-success hover di header box*/
-            .box .box-header .btn.btn-success:hover, .box .box-header div .btn.btn-success:hover {
+            .box .box-header .btn-group .btn.btn-success:hover, .box .box-header .btn.btn-success:hover, .box .box-header div .btn.btn-success:hover {
                 background-color: #008D4C!important;
+                /*background-color: red;*/
+            }
+
+             /*ganti warna button-warning hover di header box*/
+            .box .box-header .btn-group .btn.btn-warning:hover, .box .box-header .btn.btn-warning:hover, .box .box-header div .btn.btn-success:hover {
+                background-color: #e08e0b!important;
+                /*background-color: red;*/
+            }
+
+             /*ganti warna button-default hover di header box*/
+            .box .box-header .btn-group .btn.btn-default:hover, .box .box-header .btn.btn-default:hover, .box .box-header div .btn.btn-success:hover {
+                background-color: #e7e7e7!important;
                 /*background-color: red;*/
             }
 
@@ -144,6 +175,31 @@
             #table-data thead tr th, .table-data thead tr th{
                 text-align: center;
                 text-transform: uppercase;
+            }
+
+            /*SELECT2 BACKGROUND COLOR*/
+            .select2-search {
+                background-color: #ECF0F5;
+            }
+            .select2-results__option {
+                background-color: #ECF0F5;
+                /*color: yellow;*/
+            }
+
+            .select2-search input {
+                /*background-color: whitesmoke;*/
+            }
+
+            /*table master header*/
+            .table.table-master-header, .table.table-master-header > tbody > tr > td{
+                /*padding: 0;*/
+
+            }
+
+            .table.table-master-header > tbody > tr > td:nth-child(2), .table.table-master-header > tbody > tr > td:nth-child(4){
+                border-left: thin solid lightgrey;
+                padding-left: 10px;
+
             }
         </style>
 

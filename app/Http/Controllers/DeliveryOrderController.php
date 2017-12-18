@@ -40,7 +40,8 @@ class DeliveryOrderController extends Controller
 
 		fwrite($handle, $Data);
 		fclose($handle);
-		copy($file, "//localhost/LX-300");  # Lakukan cetak
+		//copy($file, "//localhost/LX-300");  # Lakukan cetak
+		copy($file, "ipp://192.168.1.2:631/printers/EPSON-LX-310");  # Lakukan cetak
 		unlink($file);
 	}
 

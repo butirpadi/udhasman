@@ -47,7 +47,7 @@
             
         </div>
         <div class="box-body">
-            <table class="table table-bordered table-condensed table-striped table-hover" id="table-data" >
+            <table class="table table-bordered table-condensed table-striped " id="table-data" >
                 <thead>
                     <tr>
                         <th>Ref#</th>

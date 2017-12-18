@@ -27,7 +27,7 @@
     <!-- Default box -->
     <div class="box box-solid">
         <div class="box-header with-border" >
-            <a class="btn btn-primary" id="btn-add" href="pembelian/create" ><i class="fa fa-plus-circle" ></i> Tambah Baru</a>
+            <a class="btn btn-primary" id="btn-add" href="pembelian/create" ><i class="fa fa-plus-circle" ></i> Create</a>
             <a class="btn btn-danger hide" id="btn-delete" href="#" ><i class="fa fa-trash" ></i> Delete</a>
 
             <div class="pull-right" >
@@ -47,7 +47,7 @@
             </div>
         </div>
         <div class="box-body">
-            <table class="table table-bordered table-condensed table-striped table-hover" id="table-data" >
+            <table class="table table-bordered table-condensed table-striped " id="table-data" >
                 <thead>
                     <tr>
                         <th style="width:25px;" class="text-center">

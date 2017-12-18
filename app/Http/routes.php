@@ -121,6 +121,7 @@ Route::group(['middleware' => ['web','auth']], function () {
         Route::get('karyawan/edit/{id}','KaryawanController@edit');
         Route::post('karyawan/update','KaryawanController@update');
         Route::post('karyawan/delete','KaryawanController@delete');
+        Route::get('karyawan-get-driver-by-id/{id}','KaryawanController@getDriverById');
 
         // SUPPLIER
         Route::get('supplier','SupplierController@index');
@@ -177,6 +178,7 @@ Route::group(['middleware' => ['web','auth']], function () {
         Route::get('pekerjaan/edit/{id}','PekerjaanController@edit');
         Route::post('pekerjaan/update','PekerjaanController@update');
         Route::post('pekerjaan/delete','PekerjaanController@delete');
+        Route::get('pekerjaan-get-by-id/{id}','PekerjaanController@getPekerjaanById');
 
     });
 
@@ -215,19 +217,102 @@ Route::group(['middleware' => ['web','auth']], function () {
         
     });
 
+    Route::group(['prefix' => 'delivery'], function () {
+        // ORDERS
+        Route::get('/','DeliveryController@index');
+        Route::get('create','DeliveryController@create');
+        Route::post('insert','DeliveryController@insert');
+        Route::post('update','DeliveryController@update');
+        Route::get('show/{id}','DeliveryController@show');
+        Route::get('edit/{id}','DeliveryController@edit');
+        Route::get('todone/{id}','DeliveryController@toDone');
+        Route::post('delete','DeliveryController@delete');
+        Route::get('topdf/{id}','DeliveryController@toPdf');
+        Route::get('showpdf/{id}','DeliveryController@showPdf');
+        // Route::post('insert','PembelianController@insert');
+        // Route::get('edit/{id}','PembelianController@edit');
+        // Route::post('update','PembelianController@update');
+        // Route::get('validate/{id}','PembelianController@validateIt');
+        // Route::get('cancel/{id}','PembelianController@cancelIt');
+        // Route::post('delete','PembelianController@delete');
+        // Route::get('index','PembelianController@index');
+        
+    });
+
     Route::group(['prefix' => 'penjualan'], function () {
         // ORDERS
         Route::get('/','PenjualanController@index');
         Route::get('create','PenjualanController@create');
         Route::post('insert','PenjualanController@insert');
-        Route::get('edit/{id}','PenjualanController@edit');
+        Route::get('edit/{penjualan_id}','PenjualanController@edit');
         Route::post('update','PenjualanController@update');
-        Route::get('validate/{id}','PenjualanController@validateIt');
-        Route::get('cancel/{id}','PenjualanController@cancelIt');
+        Route::get('validate/{penjualan_id}','PenjualanController@validateIt');
+        Route::get('cancel-penjualan/{penjualan_id}','PenjualanController@cancelPenjualan');
         Route::post('delete','PenjualanController@delete');
-        // Route::get('index','PembelianController@index');
+
+        // FILTER PENJUALAN
+        Route::post('filter','PenjualanController@filter');
+        Route::post('cetak-filter','PenjualanController@cetakFilter');
+        Route::post('cetak-filter-detail','PenjualanController@cetakFilterDetail');
+
+        // direct sales
+        Route::post('insert-direct-sales','PenjualanController@insertDirectSales');
+        Route::post('update-direct-sales','PenjualanController@updateDirectSales');
+        Route::get('validate-direct-sales/{penjualan_id}','PenjualanController@validateDirectSales');
+        Route::get('edit/pengiriman/{penjualan_id}','PenjualanController@editPengiriman');
+        Route::post('update/pengiriman','PenjualanController@updatePengiriman');
+        // pengiriman
+        Route::get('validate-pengiriman/{penjualan_id}','PenjualanController@validatePengiriman');
+        Route::get('kalkulasi-pengiriman/{pengiriman_id}','PenjualanController@kalkulasiPengiriman');
         
     });
+
+    Route::group(['prefix' => 'pengiriman'], function () {
+        // ORDERS
+        Route::get('/','PengirimanController@index');
+        Route::get('edit/{id}','PengirimanController@edit');
+        Route::post('update','PengirimanController@update');
+        Route::get('open/{pengirian_id}','PengirimanController@open');
+        Route::get('validate/{pengiriman_id}','PengirimanController@validateData');
+        Route::get('view-validated/{pengiriman_id}','PengirimanController@viewValidated');
+        Route::get('view-canceled/{pengiriman_id}','PengirimanController@viewCanceled');
+        Route::get('view-done/{pengiriman_id}','PengirimanController@viewDone');
+        Route::post('batch-edit','PengirimanController@batchEdit');
+        Route::post('batch-edit-save','PengirimanController@batchEditSave');
+        Route::post('batch-edit-save-validate','PengirimanController@batchEditSaveValidate');
+        
+    });
+
+    Route::group(['prefix' => 'kalkulasi'], function () {
+        // ORDERS
+        Route::get('/','KalkulasiController@index');
+        Route::get('edit/{kalkulasi_id}','KalkulasiController@edit');
+        Route::get('st-draft/{kalkulasi_id}','KalkulasiController@stDraft');
+        Route::get('st-open/{kalkulasi_id}','KalkulasiController@stOpen');
+        Route::get('st-canceled/{kalkulasi_id}','KalkulasiController@stCanceled');
+        Route::get('st-validated/{kalkulasi_id}','KalkulasiController@stValidated');
+        Route::post('update','KalkulasiController@update');
+        Route::get('validate/{kalkulasi_id}','KalkulasiController@validateKalkulasi');
+        Route::post('batch-edit','KalkulasiController@batchEdit');
+        Route::post('batch-edit-by-pekerjaan','KalkulasiController@batchEditByPekerjaan');
+        Route::post('batch-edit-update','KalkulasiController@batchEditUpdate');
+        Route::get('filter-by-status/{status}','KalkulasiController@filterByStatus');
+        
+    });
+
+    Route::group(['prefix' => 'tagihan-customer'], function () {
+        // ORDERS
+        Route::get('/','TagihanCustomerController@index');
+        Route::get('get-pekerjaan/{customer_id}','TagihanCustomerController@getPekerjaan');
+        Route::get('filter-by-status/{status}','TagihanCustomerController@filterByStatus');
+        Route::get('cetak-tagihan','TagihanCustomerController@cetakTagihan');
+        Route::post('batch-edit','TagihanCustomerController@batchEdit');
+        Route::post('get-data-tagihan','TagihanCustomerController@dataTagihan');
+        Route::post('get-data-tagihan-by-material','TagihanCustomerController@dataTagihanByMaterial');
+       
+        
+    });
+
 
     Route::group(['prefix' => 'billinvoice'], function () {
         // bill
@@ -429,4 +514,48 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::get('api/do-cetak/{id}','ApiController@doCetak');
     Route::get('api/do-pdf/{id}','ApiController@doPdf');
     Route::get('api/do-pdf-copy/{id}','ApiController@doPdfCopy');
+
+
+    // essentioal
+    // generate recordset provinsi, kabupaten & kecamatan untuk odoo
+    Route::get('generate-provinsi-rec',function(){
+        $prov = \DB::table('provinsi')->get();
+        $rownum = 1;
+        $provinsi_id=1;
+        $kabupaten_id=1;
+        $kecamatan_id=1;
+        foreach($prov as $dt){
+            // echo '<!--PROVINSI : '.$dt->name.'-->';
+            echo '<record id="data_provinsi_'. $rownum++ .'" model="udhasman.provinsi">
+                        <field name="id">'.$provinsi_id.'</field>
+                        <field name="name">'.$dt->name.'</field>
+                    </record>'; 
+
+            // GET DATA KABUPATEN
+            // echo '<!--DAFTAR KABUPATEN PROVINSI : '.$dt->name.' -->';
+            $kabupatens = \DB::table('kabupaten')->where('provinsi_id',$dt->id)->get();
+            foreach($kabupatens as $kab){
+                echo '<record id="data_kabupaten_'. $rownum++ .'" model="udhasman.kabupaten">
+                        <field name="id">'.$kabupaten_id.'</field>
+                        <field name="name">'.str_replace('Kabupaten', 'Kab.', $kab->name).'</field>
+                        <field name="provinsi_id">'.$provinsi_id.'</field>
+                    </record>'; 
+
+                // GET DATA KECAMATAN
+                // echo '<!--DAFTAR KECAMATAN KABUPATEN : '.$dt->name.' -->';
+                $kecamatans = \DB::table('kecamatan')->where('kabupaten_id',$kab->id)->get();
+                foreach($kecamatans as $kec){
+                    echo '<record id="data_kecamatan_'. $rownum++ .'" model="udhasman.kecamatan">
+                            <field name="id">'.$kecamatan_id.'</field>
+                            <field name="name">'.$kec->name.'</field>
+                            <field name="kabupaten_id">'.$kabupaten_id.'</field>
+                        </record>'; 
+
+                    $kecamatan_id++;
+                }
+                $kabupaten_id++;
+            }
+            $provinsi_id++;
+        }
+    });
 });

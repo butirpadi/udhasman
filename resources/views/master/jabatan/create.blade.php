@@ -3,7 +3,7 @@
 @section('styles')
 <style>
     .col-top-item{
-        cursor:pointer;
+        /*cursor:pointer;*/
         border: thin solid #CCCCCC;
         
     }
@@ -68,6 +68,7 @@
         if(nama != "" ){
             var formdata = $('<form>').attr('method','POST').attr('action','master/jabatan/insert');
             formdata.append($('<input>').attr('type','hidden').attr('name','nama').val(nama));
+            $('body').append(formdata);
             formdata.submit();
         }else{
             alert('Lengkapi data yang kosong.');

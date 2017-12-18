@@ -5,7 +5,7 @@
 <link type="text/css" href="plugins/timepicker/timepicker.less" />
 <style>
     .col-top-item{
-        cursor:pointer;
+        /*cursor:pointer;*/
         border: thin solid #CCCCCC;
         
     }

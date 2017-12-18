@@ -232,4 +232,19 @@ class KaryawanController extends Controller
 		});
 	}
 
+
+	public function getDriverById($id){
+		$driver = \DB::table('karyawan')
+						->where('driver','1')
+						->where('id',$id)
+						->first();
+		$nopol = \DB::table('armada')
+					->where('karyawan_id',$id)
+					->first();
+		$driver->nopol = $nopol->nopol;
+
+		return json_encode($driver);
+	}
+
+
 }

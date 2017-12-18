@@ -26,7 +26,7 @@
     <!-- Default box -->
     <div class="box box-solid">
         <div class="box-header with-border ">
-            <a class="btn btn-primary" id="btn-add" href="master/supplier/create" ><i class="fa fa-plus-circle" ></i> Tambah Baru</a>
+            <a class="btn btn-primary" id="btn-add" href="master/supplier/create" ><i class="fa fa-plus-circle" ></i> Create</a>
             <a class="btn btn-danger hide" id="btn-delete" href="#" ><i class="fa fa-trash" ></i> Delete</a>
 
             <div class="pull-right" >
@@ -47,7 +47,7 @@
         </div>
         <div class="box-body">
             <?php $rownum=1; ?>
-            <table class="table table-bordered table-condensed table-striped table-hover" id="table-data" >
+            <table class="table table-bordered table-condensed table-striped " id="table-data" >
                 <thead>
                     <tr>
                         <th style="width:25px;" class="text-center" >
@@ -162,7 +162,8 @@
 
             var deleteForm = $('<form>').attr('method','POST').attr('action','master/supplier/delete');
             deleteForm.append($('<input>').attr('type','hidden').attr('name','dataid').attr('value',JSON.stringify(dataid)));
-            deleteForm.submit();
+            $('body').append(deleteForm);
+deleteForm.submit();
         }
 
         e.preventDefault();

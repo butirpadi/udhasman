@@ -38,7 +38,7 @@
         <div class="box-body">
 
             <?php $rownum=1; ?>
-            <table class="table table-bordered table-condensed table-hover" id="table-data" >
+            <table class="table table-bordered table-condensed " id="table-data" >
                 <thead>
                     <tr>
                         {{-- <th style="width:25px;">No</th> --}}

@@ -12,6 +12,26 @@ use \FPDF;
 class MyPdf extends FPDF{
 // class MyPdf {
 
+	private $show_page_number = false;
+	private $footer_desc = "";
+
+	public function setFooterDesc($val){
+		$this->footer_desc = $val;
+	}
+
+	public function showPageNumber($val){
+		$this->show_page_number = $val;
+	}
+
+	function SetDash($black=null, $white=null)
+    {
+        if($black!==null)
+            $s=sprintf('[%.3F %.3F] 0 d',$black*$this->k,$white*$this->k);
+        else
+            $s='[] 0 d';
+        $this->_out($s);
+    }
+
 	function WordWrap($text, $maxwidth)
 	{
 	    $text = trim($text);
@@ -247,5 +267,30 @@ class MyPdf extends FPDF{
         else
             return strlen($s);
     }
+
+
+    // override footer
+    function Footer(){
+
+    	if($this->show_page_number){
+		    // Select Text Color
+		    $this->SetTextColor(89,89,89);
+		    $this->SetDrawColor(89,89,89);
+		    
+    	 	// Go to 1.5 cm from bottom
+		    $this->SetY(-15);
+		    // Select Arial italic 8
+		    $this->SetFont('Arial','I',8);
+		    // Print current and total page numbers
+		    // $this->Cell(0,10,'Page '.$this->PageNo().'/{nb}',0,0,'C');
+		    // Page Number on right
+		    $this->Cell(0,10,$this->PageNo(),'T',2,'R',false);
+		    // Page Footer Description
+		    $this->SetY(-15);
+		    $this->Cell(0,10,$this->footer_desc,0,0,'L',false);
+    	}
+    }
+
+
 
 }

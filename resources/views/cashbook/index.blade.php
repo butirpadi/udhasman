@@ -68,7 +68,7 @@
             <?php $balance=0; ?>
             <?php $debit=0;; ?>
             <?php $credit=0;; ?>
-            <table class="table table-bordered table-condensed table-hover" id="table-data" >
+            <table class="table table-bordered table-condensed " id="table-data" >
                 <thead>
                     <tr>
                         <th style="width:25px;">

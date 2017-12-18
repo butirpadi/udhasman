@@ -73,7 +73,7 @@
         </div>
         <div class="box-body">
             <?php $rownum = ($data->currentPage() - 1 ) * $paging_item_number + 1 ; ?>
-            <table class="table table-bordered table-condensed table-striped table-hover" id="table-data" >
+            <table class="table table-bordered table-condensed table-striped " id="table-data" >
                 <thead>
                     <tr>
                         <th style="width:25px;" class="text-center">

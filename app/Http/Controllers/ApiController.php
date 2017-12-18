@@ -215,91 +215,92 @@ class ApiController extends Controller
         $space_left = str_repeat(' ', 60);
         $space_right = str_repeat(' ', 60);
 
-        // Kepada
-        $kepada =     		'Kepada        : ' . $data->customer;
-        $kepada = substr_replace(str_repeat(' ',60), $kepada, 0,strlen($kepada));
+     //    // Kepada
+     //    $kepada =     		'Kepada        : ' . $data->customer;
+     //    $kepada = substr_replace(str_repeat(' ',60), $kepada, 0,strlen($kepada));
         
-        $nomor =          	'Nomor         : ' . $data->delivery_order_number;
-        $nomor = substr_replace(str_repeat(' ',60), $nomor, 0,strlen($nomor));
+     //    $nomor =          	'Nomor         : ' . $data->delivery_order_number;
+     //    $nomor = substr_replace(str_repeat(' ',60), $nomor, 0,strlen($nomor));
         
-        $pekerjaan =      	'Pekerjaan     : ' . $data->pekerjaan;
-        $pekerjaan = substr_replace(str_repeat(' ',60), $pekerjaan, 0,strlen($pekerjaan));
+     //    $pekerjaan =      	'Pekerjaan     : ' . $data->pekerjaan;
+     //    $pekerjaan = substr_replace(str_repeat(' ',60), $pekerjaan, 0,strlen($pekerjaan));
         
-        $tanggal =        'Tanggal Order : ' . $data->order_date_formatted;
-        $tanggal = substr_replace(str_repeat(' ',60), $tanggal, 0,strlen($tanggal));
+     //    $tanggal =        'Tanggal Order : ' . $data->order_date_formatted;
+     //    $tanggal = substr_replace(str_repeat(' ',60), $tanggal, 0,strlen($tanggal));
         
-        $alamat =         'Alamat        : ' . $data->alamat_pekerjaan;
-        $alamat = substr_replace(str_repeat(' ',60), $alamat, 0,strlen($alamat));
+     //    $alamat =         'Alamat        : ' . $data->alamat_pekerjaan;
+     //    $alamat = substr_replace(str_repeat(' ',60), $alamat, 0,strlen($alamat));
         
-        $no_kendaraan =   'No. Kendaraan : ' . $data->nopol;
-        $no_kendaraan = substr_replace(str_repeat(' ',60), $no_kendaraan, 0,strlen($no_kendaraan));
+     //    $no_kendaraan =   'No. Kendaraan : ' . $data->nopol;
+     //    $no_kendaraan = substr_replace(str_repeat(' ',60), $no_kendaraan, 0,strlen($no_kendaraan));
 
-        $Data .= $condensed1;
-        $Data .= $left;
+     //    $Data .= $condensed1;
+     //    $Data .= $left;
 
-        $space_len = strlen($data->customer) - strlen($data->customer);
-        $spaces_1 = $space_len > 0 ? 0 : abs($space_len);
-        $spaces_2 = $space_len > 0 ? abs($space_len) : 0;
+     //    $space_len = strlen($data->customer) - strlen($data->customer);
+     //    $spaces_1 = $space_len > 0 ? 0 : abs($space_len);
+     //    $spaces_2 = $space_len > 0 ? abs($space_len) : 0;
 
-        $Data .= $kepada . $nomor .$LF;
-        $Data .= $pekerjaan . $tanggal .$LF;
-        $Data .= $alamat . $no_kendaraan .$LF;
+     //    $Data .= $kepada . $nomor .$LF;
+     //    $Data .= $pekerjaan . $tanggal .$LF;
+     //    $Data .= $alamat . $no_kendaraan .$LF;
 
-        // TABLE HEADER
-        $header_border = str_repeat('-', $max_line);
-        $header_space = str_repeat(' ', $max_line);
-        $table_header = substr_replace($header_space, 'NO', 2,strlen('NO'));
-        $table_header = substr_replace($table_header, 'MATERIAL', 7,strlen('MATERIAL'));
-        $table_header = substr_replace($table_header, 'JUMLAH', -8,strlen('JUMLAH'));
+     //    // TABLE HEADER
+     //    $header_border = str_repeat('-', $max_line);
+     //    $header_space = str_repeat(' ', $max_line);
+     //    $table_header = substr_replace($header_space, 'NO', 2,strlen('NO'));
+     //    $table_header = substr_replace($table_header, 'MATERIAL', 7,strlen('MATERIAL'));
+     //    $table_header = substr_replace($table_header, 'JUMLAH', -8,strlen('JUMLAH'));
 
-        $Data .= $header_border . $LF;
-        $Data .= $table_header . $LF;        
-        $Data .= $header_border . $LF;
+     //    $Data .= $header_border . $LF;
+     //    $Data .= $table_header . $LF;        
+     //    $Data .= $header_border . $LF;
 
-        // TABLE CONTENT
-    	$content_space = str_repeat(' ', $max_line);
-    	$content_row = substr_replace($content_space, 1, 2,1);
-        $content_row = substr_replace($content_row, $data->material, 7,strlen($data->material));
-        $content_row = substr_replace($content_row, 1, -2,1);
+     //    // TABLE CONTENT
+    	// $content_space = str_repeat(' ', $max_line);
+    	// $content_row = substr_replace($content_space, 1, 2,1);
+     //    $content_row = substr_replace($content_row, $data->material, 7,strlen($data->material));
+     //    $content_row = substr_replace($content_row, 1, -2,1);
 
-        $Data .= $content_row . $LF;
+     //    $Data .= $content_row . $LF;
 
 	   	
-	   	// TABLE SPACE
-        $Data .= $LF.$LF.$LF.$LF.$LF.$LF.$LF.$LF;
+	   	// // TABLE SPACE
+     //    $Data .= $LF.$LF.$LF.$LF.$LF.$LF.$LF.$LF;
 
-        // LAST ROW LINE
-        $Data .=  str_repeat('-', $max_line) . $LF;
+     //    // LAST ROW LINE
+     //    $Data .=  str_repeat('-', $max_line) . $LF;
 
-        // FOOT NOTE
-        $Data .= Appsetting('delivery_order_catatan_kaki') . $LF. $LF;
+     //    // FOOT NOTE
+     //    $Data .= Appsetting('delivery_order_catatan_kaki') . $LF. $LF;
 
-        // TERTANDA
-        $penerima_space = str_repeat(' ', $max_line/3);
-        $penerima_space_2 = str_repeat(' ', $max_line/3);
-        $penerima_header = substr_replace($penerima_space,'Penerima', (strlen($penerima_space)-strlen('Penerima'))/2,strlen('Penerima') );
-        $penerima = substr_replace($penerima_space_2,'____________________', (strlen($penerima_space_2)-strlen('____________________'))/2,strlen('____________________') );
+     //    // TERTANDA
+     //    $penerima_space = str_repeat(' ', $max_line/3);
+     //    $penerima_space_2 = str_repeat(' ', $max_line/3);
+     //    $penerima_header = substr_replace($penerima_space,'Penerima', (strlen($penerima_space)-strlen('Penerima'))/2,strlen('Penerima') );
+     //    $penerima = substr_replace($penerima_space_2,'____________________', (strlen($penerima_space_2)-strlen('____________________'))/2,strlen('____________________') );
 
-        $pengirim_space_1 = str_repeat(' ', $max_line/3);
-        $pengirim_space_2 = str_repeat(' ', $max_line/3);
-        $pengirim_header = substr_replace($pengirim_space_1,'Pengirim', (strlen($pengirim_space_1)-strlen('Pengirim'))/2,strlen('Pengirim') );
-        $pengirim = substr_replace($pengirim_space_2,$data->karyawan, (strlen($pengirim_space_2)-strlen($data->karyawan))/2,strlen($data->karyawan) );
+     //    $pengirim_space_1 = str_repeat(' ', $max_line/3);
+     //    $pengirim_space_2 = str_repeat(' ', $max_line/3);
+     //    $pengirim_header = substr_replace($pengirim_space_1,'Pengirim', (strlen($pengirim_space_1)-strlen('Pengirim'))/2,strlen('Pengirim') );
+     //    $pengirim = substr_replace($pengirim_space_2,$data->karyawan, (strlen($pengirim_space_2)-strlen($data->karyawan))/2,strlen($data->karyawan) );
 
-        $admin_space_1 = str_repeat(' ', $max_line/3);
-        $admin_space_2 = str_repeat(' ', $max_line/3);
-        $admin_header = substr_replace($admin_space_1,Appsetting('delivery_order_slip_tertanda'), (strlen($admin_space_1)-strlen(Appsetting('delivery_order_slip_tertanda')))/2,strlen(Appsetting('delivery_order_slip_tertanda')));
-        $user = \DB::table('users')->find($data->user_id)->name;
-        $admin = substr_replace($admin_space_2,$user, (strlen($admin_space_2)-strlen($user))/2,strlen($user));
+     //    $admin_space_1 = str_repeat(' ', $max_line/3);
+     //    $admin_space_2 = str_repeat(' ', $max_line/3);
+     //    $admin_header = substr_replace($admin_space_1,Appsetting('delivery_order_slip_tertanda'), (strlen($admin_space_1)-strlen(Appsetting('delivery_order_slip_tertanda')))/2,strlen(Appsetting('delivery_order_slip_tertanda')));
+     //    $user = \DB::table('users')->find($data->user_id)->name;
+     //    $admin = substr_replace($admin_space_2,$user, (strlen($admin_space_2)-strlen($user))/2,strlen($user));
 
-        $Data .= $penerima_header . $pengirim_header . $admin_header . $LF . $LF. $LF. $LF; 
-        $Data .= $penerima . $pengirim . $admin ; 
+     //    $Data .= $penerima_header . $pengirim_header . $admin_header . $LF . $LF. $LF. $LF; 
+     //    $Data .= $penerima . $pengirim . $admin ; 
 
-        // set cutting edge
-        $Data.= $LF . $LF . $LF. $LF. $LF. $LF. $LF. $LF. $LF. $LF. $LF. $LF. $LF. $LF. $LF. $LF;
+     //    // set cutting edge
+     //    $Data.= $LF . $LF . $LF. $LF. $LF. $LF. $LF. $LF. $LF. $LF. $LF. $LF. $LF. $LF. $LF. $LF;
 
         fwrite($handle, $Data);
         fclose($handle);
-        copy($file, Appsetting('printer_address'));  # Lakukan cetak
+        // copy($file, Appsetting('printer_address'));  # Lakukan cetak
+        copy($file, '//localhost/LX-310');  # Lakukan cetak
         unlink($file);
 	}
 

@@ -6,7 +6,7 @@
 
 <style>
     .col-top-item{
-        cursor:pointer;
+        /*cursor:pointer;*/
         border: thin solid #CCCCCC;
 
     }
@@ -286,6 +286,7 @@
             formdata.append($('<input>').attr('type','hidden').attr('name','bulan').val(bulan));
             formdata.append($('<input>').attr('type','hidden').attr('name','tahun').val(tahun));
             formdata.append($('input[name=foto]'));
+            $('body').append(formdata);
             formdata.submit();
         }else{
             alert('Lengkapi data yang kosong.');
