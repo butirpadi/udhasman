@@ -53,12 +53,12 @@
                         <th style="width:25px;" class="text-center">
                             <input type="checkbox" name="ck_all" style="margin-left:15px;padding:0;"  >
                         </th>
-                        <th>#</th>
+                        <th>Ref#</th>
                         <th>Tanggal</th>
                         <th>Nomor Nota</th>
                         <th>Supplier</th>
                         <th>Total</th>
-                        <th>Status</th>
+                        <!-- <th>Status</th> -->
                         <th class="col-sm-1 col-md-1 col-lg-1" ></th>
                     </tr>
                 </thead>
@@ -85,7 +85,7 @@
                         <td class="uang text-right" >
                             {{$dt->total}}
                         </td>
-                        <td class="text-center" >
+                        <!-- <td class="text-center" >
                             @if($dt->status == 'OPEN')
                                 <label class="label label-warning" >OPEN</label>
                             @elseif($dt->status =='VALIDATED')
@@ -95,7 +95,7 @@
                             @elseif($dt->status =='CANCELED')
                                 <label class="label label-danger" >CANCELED</label>
                             @endif
-                        </td>
+                        </td> -->
                         <td class="text-center" >
                             <a class="btn btn-primary btn-xs" href="pembelian/edit/{{$dt->id}}" ><i class="fa fa-edit" ></i></a>
                         </td>
@@ -241,6 +241,7 @@
 
             var deleteForm = $('<form>').attr('method','POST').attr('action','pembelian/delete');
             deleteForm.append($('<input>').attr('type','hidden').attr('name','dataid').attr('value',JSON.stringify(dataid)));
+            $('body').append(deleteForm);
             deleteForm.submit();
         }
 

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Helpers\HtmlPdf;
+use Spipu\Html2Pdf\Html2Pdf;
 
 class DeliveryController extends Controller
 {
@@ -89,6 +90,7 @@ class DeliveryController extends Controller
 				'nopol' => $req->nopol,
 				'material_id' => $req->material,
 				'lokasi_galian_id' => $req->lokasi_galian,
+				'nota_timbang' => $req->nota_timbang,
 				'state' => 'draft',
 			]);
 
@@ -217,16 +219,20 @@ class DeliveryController extends Controller
 				'netto' => number_format($req->gross - $req->tare,2),
 				'harga_satuan' => str_replace(',', '', $req->harga_satuan),
 				'harga_total' => $harga_total,
+				'nota_timbang' => $req->nota_timbang,
 			]);
 
-			if($req->kalkulas != '' || $req->panjang != '' || $req->lebar != '' || $req->tinggi != '' || $req->gross != '' || $req->tare != '' || $req->harga_satuan != ''){
-				// set state ke open
-				\DB::table('new_pengiriman')
-	        		->where('id','=',$data_do->id)
-	        		->update([
-							'state' => 'open'
-							]);
-			}
+	        if($data_do->state != 'done'){
+				if(($req->kalkulasi != '' || $req->panjang != '' || $req->lebar != '' || $req->tinggi != '' || $req->gross != '' || $req->tare != '' || $req->harga_satuan != '')){
+					// set state ke open
+					\DB::table('new_pengiriman')
+		        		->where('id','=',$data_do->id)
+		        		->update([
+								'state' => 'open'
+								]);
+				}
+	        	
+	        }
 
 		});
 
@@ -256,19 +262,64 @@ class DeliveryController extends Controller
 	}	
 
 	public function toPdf($id){
-		$pdf = new HtmlPdf();
-		$pdf->SetFont('Arial','',12);
-	    $pdf->AddPage();
-	    $pdf->WriteHTML($this->showPdf($id));
-	    $pdf->Output();
-	    exit;
+		// $pdf = new HtmlPdf();
+		// $pdf->SetFont('Arial','',12);
+	 //    $pdf->AddPage();
+	 //    $pdf->WriteHTML($this->showPdf($id));
+	 //    $pdf->Output();
+	 //    exit;
+
+		// $html2pdf_path = base_path() . '\vendor\spipu\html2pdf\html2pdf.class.php';
+        // \File::requireOnce($html2pdf_path);
+
+        $html2pdf = new Html2Pdf('P', 'A4', 'en');
+		$html2pdf->writeHTML($this->showPdf($id)->__toString());
+		$html2pdf->output();
+
 	}
 
 	public function showPdf($id){
 		$pengiriman = \DB::table('view_new_pengiriman')->find($id);
+		$alamat_pekerjaan = \DB::table('view_pekerjaan')->find($pengiriman->pekerjaan_id);
 		return view('delivery.pdf',[
-				'pengiriman' => $pengiriman
+				'pengiriman' => $pengiriman,
+				'alamat' => $alamat_pekerjaan,
 			]);
+	}
+
+	public function filter($val){
+		$pengiriman = \DB::table('view_new_pengiriman')
+		->where('state',$val)
+		->orderBy('order_date')
+		->get();
+
+		return view('delivery.filter',[
+				'pengiriman' => $pengiriman,
+				'filter' => $val
+			]);
+	}
+
+	public function groupby($val){
+		$pengiriman = \DB::table('view_new_pengiriman')
+		->select('*',\DB::raw('count(id) as jumlah'))
+		->groupBy($val)
+		->orderBy('order_date')
+		->get();			
+
+		return view('delivery.group',[
+				'pengiriman' => $pengiriman,
+				'group' => $val
+			]);
+		
+	}
+
+	public function groupdetail($groupby,$id){
+		$pengiriman = \DB::table('view_new_pengiriman')
+		->where($groupby.'_id','=',$id)
+		->orderBy('order_date')
+		->get();
+
+		echo json_encode($pengiriman);
 	}
 
 

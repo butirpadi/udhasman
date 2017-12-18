@@ -145,6 +145,10 @@
                               <label >Nopol</label>
                               <input type="text" name="nopol" class="form-control" value="{{$pengiriman->nopol}}" required>    
                             </div>
+                            <div class="form-group">
+                              <label >Nota Timbang</label>
+                              <input type="text" name="nota_timbang" class="form-control" value="{{$pengiriman->nota_timbang}}" >    
+                            </div>
                             <!-- <div class="form-group ">
                               <label >Harga Satuan</label>
                               <input type="text" name="harga_satuan" class="form-control" value="{{$pengiriman->harga_satuan}}" />
@@ -270,7 +274,7 @@
         <div class="box-footer" >
             <button type="submit" class="btn btn-primary" id="btn-save" ><i class="fa fa-save" ></i> Save</button>
             <a class="btn btn-success"  ><i class="fa fa-print" ></i> Print</a>
-            <a class="btn btn-success" href="delivery/topdf/{{$pengiriman->id}}"  ><i class="fa fa-file-pdf-o" ></i> PDF</a>
+            <a class="btn btn-success" target="_blank" href="delivery/topdf/{{$pengiriman->id}}"  ><i class="fa fa-file-pdf-o" ></i> PDF</a>
             <a class="btn btn-danger" id="btn-cancel-save" href="delivery" ><i class="fa fa-close" ></i> Close</a>
             <a class="btn bg-maroon pull-right {{$pengiriman->state != 'done' ? '' : 'hide'}}" id="btn-validate" ><i class="fa fa-check" ></i> Validate</a>
         </div>

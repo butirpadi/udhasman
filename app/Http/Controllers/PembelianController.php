@@ -59,7 +59,7 @@ class PembelianController extends Controller
 			// generate nomor pembelian
 	        $prefix = Appsetting('pembelian_prefix');
 	        $counter = Appsetting('pembelian_counter');
-	        $nomor_pembelian = $prefix.'/'.date('Y/m/').$counter++;
+	        $nomor_pembelian = $prefix.'/'.date('Y/').$counter++;
 
 	        // insert into pembelian
 	        $pembelian_id = \DB::table('pembelian')->insertGetId([

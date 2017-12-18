@@ -50,6 +50,11 @@
             </div>
             <a class="btn btn-danger hide" id="btn-delete" href="#" ><i class="fa fa-trash" ></i> Delete</a>
 
+            <label style="font-size: 14px;font-weight: normal;margin-right: 10px;"  class="label bg-purple label-large" ><i class="fa fa-th-large" ></i> Group by: <i>{{$group}}</i>
+                   <a href="delivery" style="color: white;border-left: thin solid white;padding-left: 5px;padding-right: 5px;margin-left: 10px;" >X</a>
+            </label>
+
+
             <div class="pull-right" >
                 <table style="background-color: #ECF0F5;" >
                     <tr>
@@ -73,10 +78,10 @@
                         <th style="width:25px;" class="text-center">
                             <input type="checkbox" name="ck_all" style="margin-left:15px;padding:0;" />
                         </th>
-                        <th>Ref#</th>
-                        <th>Tanggal</th>
                         <th>Customer</th>
                         <th>Pekerjaan</th>
+                        <th>Ref#</th>
+                        <th>Tanggal</th>
                         <th>Driver/Nopol</th>
                         <!-- <th>Kalkulasi</th> -->
                         <th>Status</th>
@@ -85,44 +90,24 @@
                 </thead>
                 <tbody>
                     @foreach($pengiriman as $dt)
-                    <tr>
+                    <tr class="row-grouped" data-groupby="{{$group}}" data-groupid="{{$group == 'pekerjaan' ? $dt->pekerjaan_id : $dt->customer_id}}" >
                         <td>
-                            <input type="checkbox" class="ck_row" name="ck_{{$dt->id}}" style="margin-left:15px;padding:0;" data-originalid="{{$dt->id}}"  />
+                            <!-- <input type="checkbox" class="ck_row" name="ck_{{$dt->id}}" style="margin-left:15px;padding:0;" data-originalid="{{$dt->id}}"  /> -->
                         </td>
-                        <td class="text-center" >
-                            {{$dt->name}}
-                        </td>
-                        <td class="text-center" >
-                            {{$dt->order_date}}
-                        </td>
-                        <td>
-                            {{$dt->customer}}
-                        </td>
-                        <td>
-                            {{$dt->pekerjaan}}
-                        </td>
-                        <td>
-                            {{$dt->karyawan}}
-                            @if($dt->karyawan_id)
-                            /
+                        <td  >
+                            @if($group == 'customer')
+                                <strong><i>{{$dt->customer . ' (' . $dt->jumlah . ')'}}</i></strong>
                             @endif
-                            {{$dt->nopol}}
-                        </td>
-                        <!-- <td>
-                            {{$dt->kalkulasi}}
-                        </td> -->
-                        <td class="text-center" >
-                            @if($dt->state == 'open')
-                                <label class="label label-warning">OPEN</label>
-                            @elseif($dt->state == 'draft')
-                                <label class="label label-danger">DRAFT</label>
-                            @elseif($dt->state == 'done')
-                                <label class="label label-success">DONE</label>
+                            @if($group == 'pekerjaan')
+                                <strong><i>{{$dt->pekerjaan . ' (' . $dt->jumlah . ')'}}</i></strong>
                             @endif
                         </td>
-                        <td class="text-center" >
-                            <a class="btn btn-success btn-xs" href="delivery/show/{{$dt->id}}" ><i class="fa fa-edit" ></i></a>
-                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -216,6 +201,59 @@
 
         e.preventDefault();
         return false;
+    });
+
+    $('.row-grouped').click(function(){
+        groupby = $(this).data('groupby');
+        groupid = $(this).data('groupid');
+        parentrow = $(this);
+
+        $.getJSON('delivery/groupdetail/'+groupby+'/'+groupid, function(data) {
+            // clear child
+            $('tr.row-child').remove();
+
+                $.each(data, function(i,item) {
+                    if(item.state == 'draft'){
+                        status = '<label class="label label-danger" >DRAFT</label>';
+                    }else if(item.state =='open'){
+                        status = '<label class="label label-warning" >OPEN</label>';
+                    }else if(item.state =='done'){
+                        status = '<label class="label label-success" >DONE</label>';
+                    }
+                    parentrow.after(
+                            $('<tr>').addClass('row-child').attr('data-parentid',groupid).append(
+                                            $('<td>')
+                                        ).append(
+                                            $('<td>').text(item.customer)
+                                        ).append(
+                                            $('<td>').text(item.pekerjaan)
+                                        ).append(
+                                            $('<td>').text(item.name)
+                                        ).append(
+                                            $('<td>').addClass('text-center').text(item.order_date_format)
+                                        ).append(
+                                            $('<td>').text(item.karyawan + ' / ' + item.nopol)
+                                        ).append(
+                                            $('<td>').addClass('text-center').html(status)
+                                        ).append(
+                                            $('<td>').addClass('text-center').html('<a target="_blank" class="btn btn-success btn-xs" href="delivery/show/' + item.id + '" ><i class="fa fa-edit" ></i></a>')
+                                        )
+                        );
+                });
+            });
+
+        // $.get('delivery/groupdetail/'+groupby+'/'+groupid,null,function(res){
+        //     // add child row
+        //     data = JSON.stringify(res);
+
+        //     // $.each(dt,function(){
+        //     //     alert('ok');
+        //     // });
+
+            
+        // });
+
+
     });
 
     

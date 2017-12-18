@@ -59,7 +59,7 @@
             {{-- <label> <small>Sales Order</small> <h4 style="font-weight: bolder;margin-top:0;padding-top:0;margin-bottom:0;padding-bottom:0;" >New</h4></label> --}}
             <label><h3 style="margin:0;padding:0;font-weight:bold;" >New</h3></label>
 
-            <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
+            <!-- <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
             <a class="btn  btn-arrow-right pull-right disabled bg-gray" >DONE</a>
 
             <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
@@ -69,41 +69,28 @@
             <a class="btn btn-arrow-right pull-right disabled bg-gray" >OPEN</a>
 
             <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
-            <a class="btn btn-arrow-right pull-right disabled bg-blue" >DRAFT</a>
+            <a class="btn btn-arrow-right pull-right disabled bg-blue" >DRAFT</a> -->
         </div>
         <div class="box-body">
-            <table class="table table-condensed no-border" >
-                <tbody>
-                    <tr>
-                        <td class="col-lg-2">
-                            <label>Supplier</label>
-                        </td>
-                        <td class="col-lg-4" >
-
-                            {!! Form::select('supplier',$select_supplier,null,['class'=>'form-control','required']) !!}
-                        </td>
-                        <td class="col-lg-2" ></td>
-                        <td class="col-lg-2" >
-                            <label>Tanggal</label>
-                        </td>
-                        <td class="col-lg-2" >
-                            <input type="text" name="tanggal" class="input-tanggal form-control" value="{{date('d-m-Y')}}" required>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label>Nomor Nota</label>
-                        </td>
-                        <td>
-                            <input type="text" name="supplier_ref" class="form-control">
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
-
+            <div class="row" >
+                <div class="col-xs-6" >
+                    <div class="form-group">
+                        <label >Supplier</label>
+                        {!! Form::select('supplier',$select_supplier,null,['class'=>'form-control','required']) !!}
+                    </div>
+                    <div class="form-group">
+                        <label >Nomor Nota</label>
+                        <input type="text" name="supplier_ref" class="form-control">
+                    </div>
+                </div>
+                <div class="col-xs-6" >
+                    <div class="form-group">
+                        <label >Tanggal</label>
+                        <input type="text" name="tanggal" class="input-tanggal form-control" value="{{date('d-m-Y')}}" required>
+                    </div>
+                </div>
+            </div>
+            
             <h4 class="page-header" style="font-size:14px;color:#3C8DBC"><strong>DETIL BARANG</strong></h4>
 
             <table id="table-product" class="table table-bordered table-condensed table-data" >
@@ -532,6 +519,8 @@
     // BTN SAVE TRANSACTION
     $('#btn-save').click(function(){
 
+        // alert('save pembelian');
+
         // cek kelengkapan data
         var po_master = {"supplier_id":"",
                          // "purchaseperson_id":"",
@@ -603,6 +592,7 @@
             var newform = $('<form>').attr('method','POST').attr('action','pembelian/insert');
                 newform.append($('<input>').attr('type','hidden').attr('name','po_master').val(JSON.stringify(po_master)));
                 newform.append($('<input>').attr('type','hidden').attr('name','po_product').val(JSON.stringify(po_product)));
+                $('body').append(newform);
                 newform.submit();
 
         }else{

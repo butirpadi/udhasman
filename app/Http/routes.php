@@ -229,6 +229,9 @@ Route::group(['middleware' => ['web','auth']], function () {
         Route::post('delete','DeliveryController@delete');
         Route::get('topdf/{id}','DeliveryController@toPdf');
         Route::get('showpdf/{id}','DeliveryController@showPdf');
+        Route::get('filter/{val}','DeliveryController@filter');
+        Route::get('groupby/{val}','DeliveryController@groupby');
+        Route::get('groupdetail/{groupby}/{id}','DeliveryController@groupdetail');
         // Route::post('insert','PembelianController@insert');
         // Route::get('edit/{id}','PembelianController@edit');
         // Route::post('update','PembelianController@update');

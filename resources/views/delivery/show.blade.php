@@ -116,7 +116,11 @@
                               <label >Nopol</label>
                               <input type="text" name="nopol" class="form-control" value="{{$pengiriman->nopol}}" readonly/>
                             </div>
-                            <div class="form-group hide group-rit">
+                            <div class="form-group">
+                              <label >Nota Timbang</label>
+                              <input type="text" name="nota_timbang" class="form-control" value="{{$pengiriman->nota_timbang}}" readonly>    
+                            </div>
+                            <!-- <div class="form-group hide group-rit">
                               <label >Quantity</label>
                               <input type="text" name="qty" class="form-control" value="1" readonly />
                             </div>
@@ -149,7 +153,7 @@
                             <div class="form-group hide group-ton">
                               <label >Netto</label>
                               <input type="text" name="netto" class="form-control" readonly />
-                            </div>
+                            </div> -->
 
                         </div>
 
@@ -224,7 +228,7 @@
         <div class="box-footer" >
             <a class="btn bg-purple" href="delivery/edit/{{$pengiriman->id}}" ><i class="fa fa-edit" ></i> Edit</a>
             <a class="btn btn-success" id="btn-print" ><i class="fa fa-print" ></i> Print</a>
-            <a class="btn btn-success" id="btn-print" ><i class="fa fa-file-pdf-o" ></i> PDF</a>
+            <a class="btn btn-success" target="_blank" href="delivery/topdf/{{$pengiriman->id}}"  ><i class="fa fa-file-pdf-o" ></i> PDF</a>
             <a class="btn btn-danger" id="btn-cancel-save" href="delivery" ><i class="fa fa-close" ></i> Close</a>
             <a class="btn bg-primary pull-right" href="delivery/create" ><i class="fa fa-plus-circle" ></i> Create</a>
         </div>

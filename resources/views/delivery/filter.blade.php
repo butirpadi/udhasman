@@ -38,16 +38,10 @@
                   <li><a href="delivery/filter/done">Done</a></li>
                 </ul>
             </div>
-            <div class="btn-group">
-                <a  class="btn bg-maroon dropdown-toggle" data-toggle="dropdown">
-                    <i class="fa fa-th-large" ></i>
-                    Group by
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a href="delivery/groupby/customer">Customer</a></li>
-                  <li><a href="delivery/groupby/pekerjaan">Pekerjaan</a></li>
-                </ul>
-            </div>
+            <label style="font-size: 14px;font-weight: normal;"  class="label label-info label-large" ><i class="fa fa-filter" ></i> State: <i>{{$filter}}</i>
+                   <a href="delivery" style="color: white;border-left: thin solid white;padding-left: 5px;padding-right: 5px;margin-left: 10px;" >X</a>
+            </label>
+            
             <a class="btn btn-danger hide" id="btn-delete" href="#" ><i class="fa fa-trash" ></i> Delete</a>
 
             <div class="pull-right" >

@@ -59,7 +59,7 @@
             {{-- <label> <small>Sales Order</small> <h4 style="font-weight: bolder;margin-top:0;padding-top:0;margin-bottom:0;padding-bottom:0;" >New</h4></label> --}}
             <label><h3 style="margin:0;padding:0;font-weight:bold;" >{{$data->ref}}</h3></label>
 
-            <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
+<!--             <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
             <a class="btn  btn-arrow-right pull-right disabled bg-gray" >DONE</a>
 
             <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
@@ -69,7 +69,7 @@
             <a class="btn btn-arrow-right pull-right disabled bg-blue" >OPEN</a>
 
             <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
-            <a class="btn btn-arrow-right pull-right disabled bg-gray" >DRAFT</a>
+            <a class="btn btn-arrow-right pull-right disabled bg-gray" >DRAFT</a> -->
         </div>
         <div class="box-body">
             <input type="hidden" name="pembelian_id" value="{{$data->id}}">
@@ -220,7 +220,7 @@
             </div>
         </div><!-- /.box-body -->
         <div class="box-footer" >
-            <a id="btn-validate" class="btn btn-success" href="pembelian/validate/{{$data->id}}" ><i class="fa fa-check" ></i> Validate</a>
+            <!-- <a id="btn-validate" class="btn btn-success" href="pembelian/validate/{{$data->id}}" ><i class="fa fa-check" ></i> Validate</a> -->
             <button type="submit" class="btn btn-primary" id="btn-save" ><i class="fa fa-save" ></i> Save</button>
             <a class="btn btn-danger" id="btn-cancel-save" href="pembelian" ><i class="fa fa-close" ></i> Close</a>
         </div>
@@ -622,6 +622,7 @@
             var newform = $('<form>').attr('method','POST').attr('action','pembelian/update');
                 newform.append($('<input>').attr('type','hidden').attr('name','po_master').val(JSON.stringify(po_master)));
                 newform.append($('<input>').attr('type','hidden').attr('name','po_product').val(JSON.stringify(po_product)));
+                $('body').append(newform);
                 newform.submit();
 
         }else{
