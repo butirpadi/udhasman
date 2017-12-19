@@ -40,7 +40,7 @@
     <!-- Default box -->
     <div class="box box-solid">
         <div class="box-header with-border">
-            <a class="btn btn-primary" id="btn-add" href="cashbook/create" ><i class="fa fa-plus-circle" ></i> Tambah Baru</a>
+            <a class="btn btn-primary" id="btn-add" href="cashbook/create" ><i class="fa fa-plus-circle" ></i> Create</a>
             <button class="btn btn-danger hide" id="btn-delete" href="#" ><i class="fa fa-trash" ></i> Delete</button>
             
             <div class="pull-right" >
@@ -80,7 +80,7 @@
                         <th>Desc</th>
                         <th  >Debit</th>
                         <th  >Credit</th>
-                        <th style="background-color: #ECF0F5;" >Balance</th>
+                        <!-- <th style="background-color: #ECF0F5;" >Balance</th> -->
                         <th style="width:50px;"></th>
                     </tr>
                 </thead>
@@ -104,7 +104,7 @@
                         <td>
                             {{$dt->cash_number}}
                         </td>
-                        <td>
+                        <td class="text-center" >
                             {{$dt->tanggal_formatted}}
                         </td>
                         <td>
@@ -124,9 +124,9 @@
                             -
                             @endif
                         </td>
-                        <td style="background-color: #ECF0F5;" class="uang text-right balance-on-row" >
+                        <!-- <td style="background-color: #ECF0F5;" class="uang text-right balance-on-row" >
                             {{number_format($balance,0,'.',',' )}}
-                        </td>
+                        </td> -->
                         <td class="text-center" >
                             <a class="btn btn-success btn-xs" href="cashbook/edit/{{$dt->id}}" ><i class="fa fa-edit" ></i></a>
                             {{-- <a class="btn btn-danger btn-xs btn-delete-cashbook" href="cashbook/delete/{{$dt->id}}" ><i class="fa fa-trash" ></i></a> --}}
@@ -134,7 +134,7 @@
                     </tr>
                     @endforeach
                 </tbody>
-                <tfoot  >
+                <!-- <tfoot  >
                     <td style="border-top: darkgrey solid 2px;" colspan="4" ></td>
                     <td style="border-top: darkgrey solid 2px;" class="text-right" >
                         <label>{{number_format($debit,0,'.',',')}}</label>
@@ -146,7 +146,7 @@
                         <label>{{number_format($balance,0,'.',',')}}</label>
                     </td>
                     <td style="border-top: darkgrey solid 2px;" ></td>
-                </tfoot>
+                </tfoot> -->
             </table>
         </div><!-- /.box-body -->
     </div><!-- /.box -->

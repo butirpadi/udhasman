@@ -53,8 +53,7 @@
                         <th style="width:25px;" class="text-center" >
                             <input type="checkbox" name="ck_all" style="margin-left:15px;padding:0;" >
                         </th>
-                        {{-- <th style="width:25px;">No</th> --}}
-                        <th class="col-lg-1 col-md-1 col-sm-1">Kode</th>
+                        <!-- <th class="col-lg-1 col-md-1 col-sm-1">Kode</th> -->
                         <th>Nama</th>
                         <th>Alamat</th>
                         <th>Telp</th>
@@ -66,10 +65,9 @@
                         <td class="text-center" >
                             <input type="checkbox" class="ck_row" >
                         </td>
-                        {{-- <td class="row-to-edit" >{{$rownum++}}</td> --}}
-                        <td class="row-to-edit" >
+                        <!-- <td class="row-to-edit" >
                             {{$dt->kode}}
-                        </td>
+                        </td> -->
                         <td class="row-to-edit" >
                             {{$dt->nama}}
                         </td>

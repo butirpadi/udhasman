@@ -25,102 +25,62 @@
 
 <!-- Main content -->
 <section class="content">
-  {{-- <form method="POST" action="master/supplier/insert" > --}}
     <div class="box box-solid" >
-      <div class="box-body" >
-        <table class="table table-bordered table-condensed" >
-             <tbody>
-                <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
+        <div class="box-header with-border" style="padding-top:5px;padding-bottom:5px;" >
+            <label><h3 style="margin:0;padding:0;font-weight:bold;" >{{$data->nama}}</h3></label>
+        </div>
+        <div class="box-body" >
+            <div class="row" >
+                <div class="col-xs-6" >
+                    <div class="form-group">
                         <label>Nama</label>
-                    </td>
-                    <td>
-                        <input type="text" name="nama" class="form-control" required autofocus autocomplete="off" value="{{$data->nama}}" >
-                        <input type="hidden" name="id" value="{{$data->id}}">
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
-                        <label>Kode</label>
-                    </td>
-                    <td>
-                        <input type="text" readonly name="kode" class="form-control " required autocomplete="off" value="{{$data->kode}}" >
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
+                        <input type="text" name="nama" class="form-control" required autofocus autocomplete="off" value="{{$data->nama}}" />
+                        <input type="hidden" name="id" value="{{$data->id}}" />
+                        <input type="text" readonly name="kode" class="form-control hide" required autocomplete="off" value="{{$data->kode}}" >
+
+                    </div>  
+                    <div class="form-group">
                         <label>Alamat</label>
-                    </td>
-                    <td>
                         <input type="text" name="alamat" class="form-control " value="{{$data->alamat}}" >
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
+
+                    </div>  
+                    <div class="form-group">
                         <label>Provinsi</label>
-                    </td>
-                    <td>
                         <input type="text" name="provinsi" class="form-control " data-id="{{$data->provinsi_id}}" value="{{$data->provinsi}}" >
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
-                        <label>Kota/Kabupaten</label>
-                    </td>
-                    <td>
-                        <input type="text" name="kabupaten" class="form-control " data-id="{{$data->kabupaten_id}}" value="{{$data->kabupaten}}" >
-                    </td>
+
+                    </div>  
                     
-                </tr>
-                <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
+                </div>
+                <div class="col-xs-6" >
+                    <div class="form-group">
+                        <label>Kota/Kabupaten</label>
+                        <input type="text" name="kabupaten" class="form-control " data-id="{{$data->kabupaten_id}}" value="{{$data->kabupaten}}" >
+
+                    </div>  
+                    <div class="form-group">
                         <label>Kecamatan</label>
-                    </td>
-                    <td>
                         <input type="text" name="kecamatan" class="form-control " data-id="{{$data->kecamatan_id}}" value="{{$data->kecamatan}}" >
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
+
+                    </div>  
+                    <div class="form-group">
                         <label>Desa</label>
-                    </td>
-                    <td>
                         <input type="text" name="desa" class="form-control " data-id="{{$data->desa_id}}" value="{{$data->desa}}" >
-                    </td>
-                </tr>
-                <tr>
-                    <td>
+
+                    </div>  
+                    <div class="form-group">
                         <label>Telp</label>
-                    </td>
-                    <td>
                         <input type="text" class="form-control" name="telp" value="{{$data->telp}}">
-                    </td>
-                </tr><tr>
-                    <td>
-                       
-                    </td>
-                    <td>
-                        <input type="text" class="form-control" name="telp2" value="{{$data->telp2}}" >
-                    </td>
-                </tr><tr>
-                    <td>
                         
-                    </td>
-                    <td>
-                        <input type="text" class="form-control" name="telp3" value="{{$data->telp3}}">
-                    </td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>
-                        <button type="submit" class="btn btn-primary" id="btn-save" ><i class="fa fa-save" ></i> Save</button>
-                        <a class="btn btn-danger" href="master/supplier" ><i class="fa fa-close" ></i> Close</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                    </div>  
+                </div>
+            </div>
+        </div>
+        <div class="box-footer" >
+            <button type="submit" class="btn btn-primary" id="btn-save" ><i class="fa fa-save" ></i> Save</button>
+            <a class="btn btn-danger" href="master/supplier" ><i class="fa fa-close" ></i> Close</a>            
+        </div>
     </div>
-  {{-- </form> --}}
+
 </section><!-- /.content -->
 
 @stop
@@ -151,7 +111,7 @@
         var telp2 = $('input[name=telp2]').val();
         var telp3 = $('input[name=telp3]').val();
 
-        if(nama != "" && kode != "" && nopol != "" ){
+        if(nama != ""  && nopol != "" ){
             var formdata = $('<form>').attr('method','POST').attr('action','master/supplier/update');
             formdata.append($('<input>').attr('type','hidden').attr('name','id').val(id));
             formdata.append($('<input>').attr('type','hidden').attr('name','nama').val(nama));

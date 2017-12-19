@@ -25,91 +25,70 @@
 
 <!-- Main content -->   
 <section class="content">
-  {{-- <form method="POST" action="master/pekerjaan/insert" > --}}
     <div class="box box-solid" >
-      <div class="box-body" >
-        <table class="table table-bordered table-condensed" >
-             <tbody>
-                <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
+        <div class="box-header with-border" style="padding-top:5px;padding-bottom:5px;" >
+            <label><h3 style="margin:0;padding:0;font-weight:bold;" >New</h3></label>
+        </div>
+        <div class="box-body" >
+            <div class="row" >
+                <div class="col-xs-6" >
+                    <div class="form-group">
                         <label>Customer</label>
-                    </td>
-                    <td>
-                        <input type="text" name="customer" class="form-control" required autofocus autocomplete="off" value="" >
-                        <input type="hidden" name="customer_id" class="form-control" required >
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
+                        <input type="text" name="customer" class="form-control" required autofocus autocomplete="off" value="" />
+                        <input type="hidden" name="customer_id" class="form-control" required />
+                    </div>  
+                    <div class="form-group">
                         <label>Nama</label>
-                    </td>
-                    <td>
-                        <input type="text" name="nama" class="form-control" required  autocomplete="off" value="" >
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
+                        <input type="text" name="nama" class="form-control" required  autocomplete="off" value="" />
+                        
+                    </div>  
+                    <div class="form-group">
                         <label>Tahun Pekerjaan</label>
-                    </td>
-                    <td>
-                        <input type="text" name="tahun" class="form-control" required autocomplete="off" value="" >
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
+                        <input type="text" name="tahun" class="form-control" required autocomplete="off" value="" />
+                        
+                        
+                    </div>  
+                    <div class="form-group">
                         <label>Alamat</label>
-                    </td>
-                    <td>
-                        <input type="text" name="alamat" class="form-control" required autocomplete="off" value="" >
-                    </td>
-                </tr>
-                <tr>
-                    <td  >
+                        <input type="text" name="alamat" class="form-control" required autocomplete="off" value="" />
+                        
+                        
+                    </div>  
+                    
+                </div>
+
+                <div class="col-xs-6" >
+                    <div class="form-group">
                         <label>Provinsi</label>
-                    </td>
-                    <td>
-                        <input type="text" name="provinsi" class="form-control" required autocomplete="off" value="" >
-                        <input type="hidden" name="provinsi_id" class="form-control" required autocomplete="off" value="" >
-                    </td>
-                </tr>
-                <tr>
-                    <td  >
-                        <label>Kabupaten</label>
-                    </td>
-                    <td>
-                        <input type="text" name="kabupaten" class="form-control" required autocomplete="off" value="" >
-                        <input type="hidden" name="kabupaten_id" class="form-control" required autocomplete="off" value="" >
-                    </td>
-                </tr>
-                <tr>
-                    <td  >
+                        <input type="text" name="provinsi" class="form-control" required autocomplete="off" value="" />
+                        <input type="hidden" name="provinsi_id" class="form-control" required autocomplete="off" value="" />                        
+                    </div>  
+                    <div class="form-group">
+                        <label>Kota/Kabupaten</label>
+                        <input type="text" name="kabupaten" class="form-control" required autocomplete="off" value="" />
+                        <input type="hidden" name="kabupaten_id" class="form-control" required autocomplete="off" value="" />
+                    </div>  
+                    <div class="form-group">
                         <label>Kecamatan</label>
-                    </td>
-                    <td>
-                        <input type="text" name="kecamatan" class="form-control" required autocomplete="off" value="" >
-                        <input type="hidden" name="kecamatan_id" class="form-control" required autocomplete="off" value="" >
-                    </td>
-                </tr>
-                <tr>
-                    <td  >
+                        <input type="text" name="kecamatan" class="form-control" required autocomplete="off" value="" />
+                        <input type="hidden" name="kecamatan_id" class="form-control" required autocomplete="off" value="" />
+                        
+                    </div> 
+                    <div class="form-group">
                         <label>Desa</label>
-                    </td>
-                    <td>
-                        <input type="text" name="desa" class="form-control" required autocomplete="off" value="" >
-                        <input type="hidden" name="desa_id" class="form-control" required autocomplete="off" value="" >
-                    </td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>
-                        <button type="submit" class="btn btn-primary" id="btn-save" ><i class="fa fa-save" ></i> Save</button>
-                        <a class="btn btn-danger" href="master/pekerjaan" ><i class="fa fa-close" ></i> Close</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                        <input type="text" name="desa" class="form-control" required autocomplete="off" value="" />
+                        <input type="hidden" name="desa_id" class="form-control" required autocomplete="off" value="" />
+                        
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="box-footer">
+            <button type="submit" class="btn btn-primary" id="btn-save" ><i class="fa fa-save" ></i> Save</button>
+            <a class="btn btn-danger" href="master/pekerjaan" ><i class="fa fa-close" ></i> Close</a>
+        </div>
     </div>
-  {{-- </form> --}}
 </section><!-- /.content -->
 
 @stop

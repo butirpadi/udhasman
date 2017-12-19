@@ -24,38 +24,23 @@
 
 <!-- Main content -->
 <section class="content">
-  {{-- <form method="POST" action="master/alat/insert" > --}}
     <div class="box box-solid" >
-      <div class="box-body" >
-        <table class="table table-bordered table-condensed" >
-            <tbody>
-                <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
-                        <label>Nama</label>
-                    </td>
-                    <td>
-                        <input type="text" name="nama" class="form-control" required autofocus autocomplete="off" >
-                    </td>
-                </tr>
-                {{-- <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
-                        <label>Kode</label>
-                    </td>
-                    <td>
-                        <input type="text" name="kode" class="form-control" required autocomplete="off" >
-                    </td>
-                </tr> --}}
-                <tr>
-                    <td></td>
-                    <td>
-                        <button type="submit" class="btn btn-primary" id="btn-save" ><i class="fa fa-save" ></i> Save</button>
-                        <a class="btn btn-danger" href="master/alat" ><i class="fa fa-close" ></i> Close</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="box-header with-border" style="padding-top:5px;padding-bottom:5px;" >
+            <label><h3 style="margin:0;padding:0;font-weight:bold;" >New</h3></label>
+        </div>
+        <div class="box-body" >
+            <div class="row" >
+                <div class="col-xs-12" >
+                    <label>Nama</label>
+                    <input type="text" name="nama" class="form-control" required autofocus autocomplete="off" >                       
+                </div>
+            </div>
+        </div>
+        <div class="box-footer" >
+            <button type="submit" class="btn btn-primary" id="btn-save" ><i class="fa fa-save" ></i> Save</button>
+            <a class="btn btn-danger" href="master/alat" ><i class="fa fa-close" ></i> Close</a>
+        </div>
     </div>
-  {{-- </form> --}}
 </section><!-- /.content -->
 
 @stop

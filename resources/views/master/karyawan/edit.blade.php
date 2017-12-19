@@ -28,173 +28,100 @@
 
 <!-- Main content -->
 <section class="content">
-  {{-- <form method="POST" action="master/karyawan/insert" > --}}
     <div class="box box-solid" >
-      <div class="box-body" >
-        <table class="table table-bordered table-condensed" >
-             <tbody>
-                <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
+        <div class="box-header with-border" style="padding-top:5px;padding-bottom:5px;" >
+            <label><h3 style="margin:0;padding:0;font-weight:bold;" >{{$data->kode}}</h3></label>
+        </div>
+        <div class="box-body" >
+            <div class="row" >
+                <div class="col-xs-6" >
+                    <div class="form-group">
                         <label>Nama</label>
-                    </td>
-                    <td>
-                        <input type="text" name="nama" class="form-control"  autofocus autocomplete="off" required value="{{$data->nama}}" >
-                        <input type="hidden" name="id" class="form-control" value="{{$data->id}}">
-                    </td>
-                    <td rowspan="5" class="col-lg-2 col-md-2 col-sm-2" >
-                        <img id="foto-karyawan" class="col-lg-12 col-sm-12 col-md-12" src="foto_karyawan/{{$data->foto}}" >
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
+                        <input type="text" name="nama" class="form-control"  autofocus autocomplete="off" required value="{{$data->nama}}" />
+                        <input type="hidden" name="id" class="form-control" value="{{$data->id}}"/>
+                    </div>  
+                    <div class="form-group">
                         <label>Panggilan</label>
-                    </td>
-                    <td>
-                        <input type="text" name="panggilan" class="form-control"  autocomplete="off" required value="{{$data->panggilan}}" >
-                    </td>
-
-                </tr>
-                <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
-                        <label>Kode</label>
-                    </td>
-                    <td>
-                        <input type="text" name="kode" class="form-control"  autocomplete="off" required value="{{$data->kode}}" readonly >
-                    </td>
-
-                </tr>
-                <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
+                        <input type="text" name="panggilan" class="form-control"  autocomplete="off" required value="{{$data->panggilan}}" />
+                        
+                    </div>  
+                    <div class="form-group">
                         <label>Jabatan</label>
-                    </td>
-                    <td>
                         {!! Form::select('jabatan',$selectJabatan,$data->kode_jabatan,['class'=>'form-control']) !!}
-                    </td>
-
-                </tr>
-                <tr>
-                  <td>
-                    <label>Gaji/Harian</label>
-                  </td>
-                  <td>
-                    <input name="gaji_pokok" class="form-control input-uang" value="{{$data->gaji_pokok}}" />
-                  </td>
-                </tr>
-                <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
+                    </div>  
+                    <div class="form-group">
+                        <label>Gaji/Harian</label>
+                        <input name="gaji_pokok" class="form-control input-uang" value="{{$data->gaji_pokok}}" />
+                        
+                    </div>  
+                    <div class="form-group">
                         <label>KTP</label>
-                    </td>
-                    <td>
-                        <input type="text" name="ktp" class="form-control"  autocomplete="off" value="{{$data->ktp}}" >
-                    </td>
-                    <td>
-                        <input type="file" name="foto" accept="image/*">
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
+                        <input type="text" name="ktp" class="form-control"  autocomplete="off" value="{{$data->ktp}}" />
+                        
+
+                    </div>  
+                    <div class="form-group">
                         <label>Tempat/Tanggal Lahir</label>
-                    </td>
-                    <td>
                         <div class="input-group">
                             <input type="text" name="tempat_lahir" class="form-control" value="{{$data->tempat_lahir}}">
-
-                             {{-- <div class="input-group-btn" style="width:30%;">
-                              <input type="text" name="tgl_lahir" class="input-date form-control" value="{{$data->tgl_lahir_formatted != '00-00-0000' ? $data->tgl_lahir_formatted : ''}}">
-                            </div> --}}
-                            <div class="input-group-addon" >
+                            <div class="input-group-addon" style="border:none;" >
                                 <label>Tanggal</label>
                             </div>
-                            <div class="input-group-btn" style="width:50px;">
-                              <input type="text" name="tanggal" class="form-control text-right" maxlength="2" value="{{$data->tanggal}}">
-                            </div>
-                            <div class="input-group-btn" style="width:50px;">
-                              <input type="text" name="bulan" class="form-control text-right" maxlength="2" value="{{$data->bulan}}">
-                            </div>
-                            <div class="input-group-btn" style="width:100px;">
-                              <input type="text" name="tahun" class="form-control text-right" maxlength="4" value="{{$data->tahun}}">
+                            <div class="input-group-btn" style="width: 150px;" >
+                                <input type="text" name="tanggal" class="input-tanggal form-control" value="{{$data->tgl_lahir_formatted}}" />    
                             </div>
                         </div>
-                    </td>
-                    <td></td>
+                    </div>  
+                </div>
 
-                </tr>
-                <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
+                <div class="col-xs-3" >
+                    <div class="form-group">
                         <label>Alamat</label>
-                    </td>
-                    <td>
-                        <input type="text" name="alamat" class="form-control " value="{{$data->alamat}}" >
-                    </td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
+                        <input type="text" name="alamat" class="form-control " value="{{$data->alamat}}" /> 
+                    </div>  
+                    <div class="form-group">
                         <label>Provinsi</label>
-                    </td>
-                    <td>
                         <input type="text" name="provinsi" class="form-control " data-id="{{$data->provinsi_id}}" value="{{$data->provinsi}}" >
-                    </td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
+
+                    </div>  
+                    <div class="form-group">
                         <label>Kota/Kabupaten</label>
-                    </td>
-                    <td>
                         <input type="text" name="kabupaten" class="form-control " data-id="{{$data->kabupaten_id}}" value="{{$data->kabupaten}}" >
-                    </td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
+
+                    </div>  
+                    <div class="form-group">
                         <label>Kecamatan</label>
-                    </td>
-                    <td>
                         <input type="text" name="kecamatan" class="form-control " data-id="{{$data->kecamatan_id}}" value="{{$data->kecamatan}}" >
-                    </td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
+
+                    </div> 
+                </div>
+                <div class="col-xs-3 text-center" >
+                    <img style="max-height: 230px;max-width:200px;border:solid thin whitesmoke;padding:10px;" id="foto-karyawan" class="col-lg-12 col-sm-12 col-md-12" src="foto_karyawan/{{$data->foto}}" >
+                    <input type="button" value="Choose File" onclick="document.getElementById('foto-input').click();" style="margin-top: 10px;" />
+                    <input type="file" id="foto-input" name="foto" style="display: none;" class="text-center" accept="image/*" >
+
+                </div>
+
+                <div class="col-xs-6" >                   
+                     
+                    <div class="form-group">
                         <label>Desa</label>
-                    </td>
-                    <td>
-                        <input type="text" name="desa" class="form-control " data-id="{{$data->desa_id}}" value="{{$data->desa}}" >
-                    </td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
+                        <input type="text" name="desa" class="form-control " data-id="{{$data->desa_id}}" value="{{$data->desa}}" />
+                    </div>  
+                    <div class="form-group">
                         <label>Telp</label>
-                    </td>
-                    <td>
-                        <input type="text" name="telp" class="form-control " data-id="" value="{{$data->telp}}" >
-                    </td>
-                    <td>
-                        
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label>Aktif</label>
-                    </td>
-                    <td>
-                        <input type="checkbox" name="is_aktif" {{$data->is_active == 'Y' ? 'checked':''}}>
-                    </td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td colspan="2" >
-                        <button type="submit" class="btn btn-primary" id="btn-save" ><i class="fa fa-save" ></i> Save</button>
-                        <a class="btn btn-danger" href="master/karyawan" ><i class="fa fa-close" ></i> Close</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                        <input type="text" name="telp" class="form-control " data-id="" value="{{$data->telp}}" />
+                        <!-- <input type="checkbox" name="is_aktif" {{$data->is_active == 'Y' ? 'checked':''}} />                         -->
+                    </div>  
+                </div>
+            </div>
+
+        </div>
+        <div class="box-footer">
+            <button type="submit" class="btn btn-primary" id="btn-save" ><i class="fa fa-save" ></i> Save</button>
+            <a class="btn btn-danger" href="master/karyawan" ><i class="fa fa-close" ></i> Close</a>
+        </div>
     </div>
-  {{-- </form> --}}
 </section><!-- /.content -->
 
 @stop
@@ -258,7 +185,7 @@
         var bulan = $('input[name=bulan]').val();
         var tahun = $('input[name=tahun]').val();
 
-        if(nama != "" && kode != ""){
+        if(nama != "" ){
 
         // alert('masuk kondisi');
             var formdata = $('<form>').attr('method','POST').attr('action','master/karyawan/update').attr('enctype','multipart/form-data');

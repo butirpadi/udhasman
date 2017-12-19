@@ -25,80 +25,56 @@
 
 <!-- Main content -->
 <section class="content">
-  {{-- <form method="POST" action="master/lokasi/insert" > --}}
     <div class="box box-solid" >
-      <div class="box-body" >
-        <table class="table table-bordered table-condensed" >
-            <tbody>
-                <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
+        <div class="box-header with-border" style="padding-top:5px;padding-bottom:5px;" >
+            <label><h3 style="margin:0;padding:0;font-weight:bold;" >Edit</h3></label>
+        </div>
+        <div class="box-body" >
+            <div class="row" >
+                <div class="col-xs-6" >
+                    <div class="form-group">
                         <label>Nama</label>
-                    </td>
-                    <td>
-                        <input type="text" name="nama" class="form-control" required autofocus autocomplete="off" value="{{$data->nama}}" >
-                        <input type="hidden" name="id" value="{{$data->id}}" >
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
-                        <label>Kode</label>
-                    </td>
-                    <td>
-                        <input type="text" name="kode" class="form-control" required autocomplete="off" value="{{$data->kode}}" readonly >
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
+                        <input type="text" name="nama" class="form-control" required autofocus autocomplete="off" value="{{$data->nama}}" />
+                        <input type="hidden" name="id" value="{{$data->id}}" />
+                        <input type="text" name="kode" class="form-control hide"  autocomplete="off" value="{{$data->kode}}" readonly />
+
+                    </div>  
+                    <div class="form-group">
                         <label>Alamat</label>
-                    </td>
-                    <td>
-                        <input type="text" name="alamat" class="form-control " value="{{$data->alamat}}">
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
+                        <input type="text" name="alamat" class="form-control " value="{{$data->alamat}}"/>
+                        
+                    </div>  
+                    <div class="form-group">
                         <label>Provinsi</label>
-                    </td>
-                    <td>
-                        <input type="text" name="provinsi" class="form-control " data-id="{{$data->provinsi_id}}" value="{{$data->provinsi}}" required>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
+                        <input type="text" name="provinsi" class="form-control " data-id="{{$data->provinsi_id}}" value="{{$data->provinsi}}" />
+                        
+                    </div>  
+                </div>
+                <div class="col-xs-6" >
+                    <div class="form-group">
                         <label>Kota/Kabupaten</label>
-                    </td>
-                    <td>
-                        <input type="text" name="kabupaten" class="form-control " data-id="{{$data->kabupaten_id}}" value="{{$data->kabupaten}}" required>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
+                        <input type="text" name="kabupaten" class="form-control " data-id="{{$data->kabupaten_id}}" value="{{$data->kabupaten}}" />
+                        
+                    </div>  
+                    <div class="form-group">
                         <label>Kecamatan</label>
-                    </td>
-                    <td>
-                        <input type="text" name="kecamatan" class="form-control " data-id="{{$data->kecamatan_id}}" value="{{$data->kecamatan}}" required>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
+                        <input type="text" name="kecamatan" class="form-control " data-id="{{$data->kecamatan_id}}" value="{{$data->kecamatan}}" />
+
+                    </div>  
+                    <div class="form-group">
                         <label>Desa</label>
-                    </td>
-                    <td>
-                        <input type="text" name="desa" class="form-control " data-id="{{$data->desa_id}}" value="{{$data->desa}}" required>
-                    </td>
-                </tr>
-                
-                <tr>
-                    <td></td>
-                    <td>
-                        <button type="submit" class="btn btn-primary" id="btn-save" ><i class="fa fa-save" ></i> Save</button>
+                        <input type="text" name="desa" class="form-control " data-id="{{$data->desa_id}}" value="{{$data->desa}}" />
+
+                    </div>  
+                </div>
+            </div>
+        </div>
+        <div class="box-footer" >
+            <button type="submit" class="btn btn-primary" id="btn-save" ><i class="fa fa-save" ></i> Save</button>
                         <a class="btn btn-danger" href="master/lokasi" ><i class="fa fa-close" ></i> Close</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        </div>
+        
     </div>
-  {{-- </form> --}}
 </section><!-- /.content -->
 
 @stop

@@ -51,10 +51,9 @@
                 <thead>
                     <tr>
                         <th style="width:25px;" class="text-center" >
-                            <input type="checkbox" name="ck_all" style="margin-left:15px;padding:0;" >
+                            <input type="checkbox" name="ck_all" style="margin-left:15px;padding:0;" />
                         </th>
-                        {{-- <th style="width:25px;">No</th> --}}
-                        <th class="col-lg-1 col-md-1 col-sm-1">Kode</th>
+                        <!-- <th class="col-lg-1 col-md-1 col-sm-1 text-center">Kode</th> -->
                         <th>Nopol</th>
                         <th>Keterangan</th>
                         <th>Driver</th>
@@ -65,13 +64,12 @@
                     <tr data-rowid="{{$rownum}}" data-id="{{$dt->id}}">
                         <td class="text-center" >
                             @if($dt->can_delete == 'true')
-                                <input type="checkbox" class="ck_row" >
+                                <input type="checkbox" class="ck_row" />
                             @endif
                         </td>
-                        {{-- <td class="row-to-edit" >{{$rownum++}}</td> --}}
-                        <td class="row-to-edit" >
+                      <!--   <td class="row-to-edit text-center" >
                             {{$dt->kode}}
-                        </td>
+                        </td> -->
                         <td class="row-to-edit" >
                             {{$dt->nopol}}
                         </td>

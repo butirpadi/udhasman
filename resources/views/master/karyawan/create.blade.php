@@ -25,156 +25,97 @@
 
 <!-- Main content -->
 <section class="content">
-  {{-- <form method="POST" action="master/karyawan/insert" > --}}
     <div class="box box-solid" >
-      <div class="box-body" >
-        <table class="table table-bordered table-condensed" >
-            <tbody>
-                <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
+        <div class="box-header with-border" style="padding-top:5px;padding-bottom:5px;" >
+            <label><h3 style="margin:0;padding:0;font-weight:bold;" >New</h3></label>
+        </div>
+        <div class="box-body" >
+            <div class="row" >
+                <div class="col-xs-6" >
+                    <div class="form-group">
                         <label>Nama</label>
-                    </td>
-                    <td>
-                        <input type="text" name="nama" class="form-control"  autofocus autocomplete="off" required>
-                    </td>
-                    <td rowspan="11" class="col-lg-2 col-md-2 col-sm-2" >
-                        <img id="foto-karyawan" class="col-lg-12 col-sm-12 col-md-12" >
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
+                        <input type="text" name="nama" class="form-control"  autofocus autocomplete="off" required />
+                        <input type="text" name="kode" class="form-control hide"  autocomplete="off" required />
+                    </div>  
+                    <div class="form-group">
                         <label>Panggilan</label>
-                    </td>
-                    <td>
-                        <input type="text" name="panggilan" class="form-control"  autocomplete="off" required >
-                    </td>
-
-                </tr>
-                {{-- <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
-                        <label>Kode</label>
-                    </td>
-                    <td>
-                        <input type="text" name="kode" class="form-control"  autocomplete="off" required >
-                    </td>
-
-                </tr> --}}
-                <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
+                        <input type="text" name="panggilan" class="form-control"  autocomplete="off"  />
+                    </div>  
+                    <div class="form-group">
                         <label>Jabatan</label>
-                    </td>
-                    <td>
                         {!! Form::select('jabatan',$selectJabatan,null,['class'=>'form-control']) !!}
-                    </td>
 
-                </tr>
-                <tr>
-                  <td>
-                    <label>Gaji/Harian</label>
-                  </td>
-                  <td>
-                    <input name="gaji_pokok" class="form-control input-uang" />
-                  </td>
-                </tr>
-                <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
+                    </div>  
+                    <div class="form-group">
+                        <label>Gaji/Harian</label>
+                        <input name="gaji_pokok" class="form-control input-uang" />
+
+                    </div>  
+                    <div class="form-group">
                         <label>KTP</label>
-                    </td>
-                    <td>
-                        <input type="text" name="ktp" class="form-control"  autocomplete="off"  >
-                    </td>
+                        <input type="text" name="ktp" class="form-control"  autocomplete="off"  />
 
-                </tr>
-                <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
+                    </div>  
+                    <div class="form-group">
                         <label>Tempat/Tanggal Lahir</label>
-                    </td>
-                    <td>
                         <div class="input-group">
-                            <input type="text" name="tempat_lahir" class="form-control">
-
-                             {{-- <div class="input-group-btn" style="width:30%;">
-                              <input type="text" name="tgl_lahir" class="input-date form-control">
-                            </div> --}}
-                            <div class="input-group-addon" >
+                            <input type="text" name="tempat_lahir" class="form-control"/>
+                            <div class="input-group-addon" style="border:none;" >
                                 <label>Tanggal</label>
                             </div>
-                            <div class="input-group-btn" style="width:50px;">
-                              <input type="text" name="tanggal" class="form-control text-right" maxlength="2" value="">
-                            </div>
-                            <div class="input-group-btn" style="width:50px;">
-                              <input type="text" name="bulan" class="form-control text-right" maxlength="2" value="">
-                            </div>
-                            <div class="input-group-btn" style="width:100px;">
-                              <input type="text" name="tahun" class="form-control text-right" maxlength="4" value="">
+                            <div class="input-group-btn" style="width: 150px;" >
+                                <input type="text" name="tanggal" class="input-tanggal form-control" value="{{date('d-m-Y')}}" />    
                             </div>
                         </div>
-                    </td>
+                    </div>  
+                </div>
 
-                </tr>
-                <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
+                <div class="col-xs-3" >
+                    <div class="form-group">
                         <label>Alamat</label>
-                    </td>
-                    <td>
-                        <input type="text" name="alamat" class="form-control " >
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
+                        <input type="text" name="alamat" class="form-control " />
+                    </div>  
+                    <div class="form-group">
                         <label>Provinsi</label>
-                    </td>
-                    <td>
-                        <input type="text" name="provinsi" class="form-control " data-id="" >
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
+                        <input type="text" name="provinsi" class="form-control " data-id="" />
+                    </div>  
+                    <div class="form-group">
                         <label>Kota/Kabupaten</label>
-                    </td>
-                    <td>
-                        <input type="text" name="kabupaten" class="form-control " data-id="" >
-                    </td>
+                        <input type="text" name="kabupaten" class="form-control " data-id="" />
 
-                </tr>
-                <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
+                    </div>  
+                    <div class="form-group">
                         <label>Kecamatan</label>
-                    </td>
-                    <td>
-                        <input type="text" name="kecamatan" class="form-control " data-id="" >
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
+                        <input type="text" name="kecamatan" class="form-control " data-id="" />
+                    </div> 
+                </div>
+                <div class="col-xs-3 text-center" >
+                    <img style="max-height: 230px;max-width:200px;border:solid thin whitesmoke;padding:10px;" id="foto-karyawan" class="" ><br/>
+                    <input type="button" value="Choose File" onclick="document.getElementById('foto-input').click();" style="margin-top: 10px;" />
+                    <input type="file" id="foto-input" name="foto" style="display: none;" class="text-center" accept="image/*" >
+
+                </div>
+
+                <div class="col-xs-6" >                   
+                     
+                    <div class="form-group">
                         <label>Desa</label>
-                    </td>
-                    <td>
-                        <input type="text" name="desa" class="form-control " data-id="" >
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
+                        <input type="text" name="desa" class="form-control " data-id="" />
+                        
+                    </div>  
+                    <div class="form-group">
                         <label>Telp</label>
-                    </td>
-                    <td>
-                        <input type="text" name="telp" class="form-control " data-id="" >
-                    </td>
-                    <td>
-                        <input type="file" name="foto" accept="image/*">
-                    </td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td colspan="2" >
-                        <button type="submit" class="btn btn-primary" id="btn-save" ><i class="fa fa-save" ></i> Save</button>
-                        <a class="btn btn-danger" href="master/karyawan" ><i class="fa fa-close" ></i> Close</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                        <input type="text" name="telp" class="form-control " data-id="" />
+                    </div>  
+                </div>
+            </div>
+
+        </div>
+        <div class="box-footer">
+            <button type="submit" class="btn btn-primary" id="btn-save" ><i class="fa fa-save" ></i> Save</button>
+            <a class="btn btn-danger" href="master/karyawan" ><i class="fa fa-close" ></i> Close</a>
+        </div>
     </div>
-  {{-- </form> --}}
 </section><!-- /.content -->
 
 @stop
@@ -188,7 +129,7 @@
 (function ($) {
 
     // SET DATEPICKER
-    $('.input-date').datepicker({
+     $('.input-tanggal').datepicker({
         format: 'dd-mm-yyyy',
         todayHighlight: true,
         autoclose: true

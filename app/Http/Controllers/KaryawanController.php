@@ -63,7 +63,12 @@ class KaryawanController extends Controller
 
 			$jabatan_id = \DB::table('jabatan')->whereKode($req->jabatan)->first()->id;
 
-			$fix_tgl_lahir =  $req->tahun . '-' . $req->bulan . '-' . $req->tanggal;
+			// $fix_tgl_lahir =  $req->tahun . '-' . $req->bulan . '-' . $req->tanggal;
+			// generate tanggal
+	        $tgl_lahir = $req->tanggal;
+	        $arr_tgl = explode('-',$tgl_lahir);
+	        $fix_tgl_lahir = new \DateTime();
+	        $fix_tgl_lahir->setDate($arr_tgl[2],$arr_tgl[1],$arr_tgl[0]); 
 
 			$karyawan_id = \DB::table('karyawan')
 			->insertGetId([
@@ -164,7 +169,11 @@ class KaryawanController extends Controller
 				$jabatan_id = $karyawan->jabatan_id;
 			}
 
-            $tgl_lahir =  $req->tahun . '-' . $req->bulan . '-' . $req->tanggal;
+            // $tgl_lahir =  $req->tahun . '-' . $req->bulan . '-' . $req->tanggal;
+            $tgl_lahir = $req->tanggal;
+	        $arr_tgl = explode('-',$tgl_lahir);
+	        $fix_tgl_lahir = new \DateTime();
+	        $fix_tgl_lahir->setDate($arr_tgl[2],$arr_tgl[1],$arr_tgl[0]); 
 
 			\DB::table('karyawan')
 			->where('id',$req->id)
@@ -177,10 +186,10 @@ class KaryawanController extends Controller
 					'desa_id' => $req->desa_id,
 					'telp' => $req->telp,
 					'jabatan_id' => $jabatan_id,
-					'tgl_lahir' => $tgl_lahir,
+					'tgl_lahir' => $fix_tgl_lahir,
 					'tempat_lahir' => $req->tempat_lahir,
 					'gaji_pokok' => $req->gaji_pokok,
-					'is_active' => $req->is_aktif == 'true' ? 'Y':'N'
+					'is_active' => 'Y'//$req->is_aktif == 'true' ? 'Y':'N'
 				]);
 
 			$foto_lama = \DB::table('karyawan')->find($req->id)->foto;

@@ -53,8 +53,8 @@
                         <th style="width:25px;" class="text-center" >
                             <input type="checkbox" name="ck_all" style="margin-left:15px;padding:0;" >
                         </th>
-                        {{-- <th style="width:25px;">No</th> --}}
-                        <th class="col-sm-2 col-md-2 col-lg-2" >Kode</th>
+                        <!-- <th style="width:25px;">No</th> -->
+                        <!-- <th class="col-sm-2 col-md-2 col-lg-2" >Kode</th> -->
                         <th>Nama</th>
                         <th>Product Unit</th>
                         <th class="col-sm-1 col-md-1 col-lg-1" ></th>
@@ -64,14 +64,12 @@
                     @foreach($data as $dt)
                     <tr data-rowid="{{$rownum}}" data-id="{{$dt->id}}">
                         <td class="text-center" >
-                            {{-- @if($dt->ref == 0) --}}
                                 <input type="checkbox" class="ck_row" >
-                            {{-- @endif --}}
                         </td>
-                        {{-- <td class="row-to-edit" >{{$rownum++}}</td> --}}
-                        <td class="row-to-edit" >
+                        <!-- <td class="row-to-edit" >{{$rownum++}}</td> -->
+                        <!-- <td class="row-to-edit" >
                             {{$dt->kode}}
-                        </td>
+                        </td> -->
                         <td class="row-to-edit" >
                             {{$dt->nama}}
                         </td>

@@ -53,12 +53,10 @@
                         <th style="width:25px;" class="text-center">
                             <input type="checkbox" name="ck_all" style="margin-left:15px;padding:0;" >
                         </th>
-                        {{-- <th style="width:25px;">No</th> --}}
-                        {{-- <th class="col-sm-2 col-md-2 col-lg-2" >Kode</th> --}}
+                        <!-- <th class="col-sm-2 col-md-2 col-lg-2" >Kode</th> -->
                         <th>Nama</th>
                         <th>Customer</th>
                         <th>Tahun</th>
-                        {{-- <th>Can Delete</th> --}}
                         <th class="col-sm-1 col-md-1 col-lg-1" ></th>
                     </tr>
                 </thead>
@@ -66,26 +64,17 @@
                     @foreach($data as $dt)
                     <tr data-rowid="{{$rownum}}" data-id="{{$dt->id}}">
                         <td class="text-center" >
-                            @if($dt->can_delete == 'true')
                                 <input type="checkbox" class="ck_row" >
-                            @endif
                         </td>
-                        {{-- <td class="row-to-edit" >{{$rownum++}}</td> --}}
-                        {{-- <td class="row-to-edit" >
-                            {{$dt->kode}}
-                        </td> --}}
                         <td class="row-to-edit" >
                             {{$dt->nama}}
                         </td>
                         <td>
                             {{$dt->customer}}
                         </td>
-                        <td>
+                        <td class="text-center" >
                             {{$dt->tahun}}
                         </td>
-                        {{-- <td>
-                            {{$dt->can_delete}}
-                        </td> --}}
                         <td class="text-center" >
                             <a class="btn btn-primary btn-xs" href="master/pekerjaan/edit/{{$dt->id}}" ><i class="fa fa-edit" ></i></a>
                         </td>
@@ -140,11 +129,11 @@
     }
 
     // Row Clicked
-    $(document).on('click','.row-to-edit',function(){        
-        var row = $(this).parent();        
-        var data_id = row.data('id');            
-        location.href = 'master/pekerjaan/edit/' + data_id ;        
-    });
+    // $(document).on('click','.row-to-edit',function(){        
+    //     var row = $(this).parent();        
+    //     var data_id = row.data('id');            
+    //     location.href = 'master/pekerjaan/edit/' + data_id ;        
+    // });
 
     // Delete Data Lokasi
     $('#btn-delete').click(function(e){
