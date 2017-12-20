@@ -47,7 +47,8 @@
                     </div>  
                     <div class="form-group">
                         <label>Jabatan</label>
-                        {!! Form::select('jabatan',$selectJabatan,$data->kode_jabatan,['class'=>'form-control']) !!}
+                        <!-- {!! Form::select('jabatan',$selectJabatan,$data->kode_jabatan,['class'=>'form-control']) !!} -->
+                        {!! Form::select('jabatan',['driver'=>'DRIVER','staff'=>'STAFF'],$data->driver == 1 ? 'driver':'staff',['class'=>'form-control']) !!}
                     </div>  
                     <div class="form-group">
                         <label>Gaji/Harian</label>

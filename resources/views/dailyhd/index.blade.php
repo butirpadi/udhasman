@@ -16,7 +16,7 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Harian Alat Berat
+        Operasional Alat Berat
     </h1>
 </section>
 
@@ -26,7 +26,7 @@
     <!-- Default box -->
     <div class="box box-solid">
         <div class="box-body">
-            <a class="btn btn-primary" id="btn-add" href="dailyhd/create" ><i class="fa fa-plus-circle" ></i> Tambah Baru</a>
+            <a class="btn btn-primary" id="btn-add" href="dailyhd/create" ><i class="fa fa-plus-circle" ></i> Create</a>
             <button class="btn btn-danger hide" id="btn-delete" ><i class="fa fa-trash" ></i> Delete</button>
             <div class="clearfix" ></div>
             <br/>
@@ -48,7 +48,7 @@
                         <th>Oli</th> --}}
                         <th>Pengawas</th>
                         <th>Operator</th>
-                        <th>Status</th>
+                        <!-- <th>Status</th> -->
                         <th style="width:25px;"></th>
                     </tr>
                 </thead>
@@ -88,13 +88,13 @@
                         <td>
                             {{'['.$dt->kode_operator . '] ' .$dt->nama_operator}}
                         </td>
-                        <td class="text-center" >
+                        <!-- <td class="text-center" >
                             @if($dt->status == 'O')
                                 <label class="label label-warning" >OPEN</label>
                             @else
                                 <label class="label label-success" >VALIDATED</label>
                             @endif
-                        </td>
+                        </td> -->
                         <td class="text-center">
                             <a class="btn btn-primary btn-xs" href="dailyhd/edit/{{$dt->id}}" ><i class="fa fa-edit" ></i></a>
                         </td>

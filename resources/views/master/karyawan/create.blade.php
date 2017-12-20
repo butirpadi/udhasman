@@ -43,7 +43,8 @@
                     </div>  
                     <div class="form-group">
                         <label>Jabatan</label>
-                        {!! Form::select('jabatan',$selectJabatan,null,['class'=>'form-control']) !!}
+                        <!-- {!! Form::select('jabatan',$selectJabatan,null,['class'=>'form-control']) !!} -->
+                        {!! Form::select('jabatan',['driver'=>'DRIVER','staff'=>'STAFF'],null,['class'=>'form-control']) !!}
 
                     </div>  
                     <div class="form-group">

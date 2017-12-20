@@ -138,6 +138,11 @@ Route::group(['middleware' => ['web','auth']], function () {
         Route::get('customer/edit/{id}','CustomerController@edit');
         Route::post('customer/update','CustomerController@update');
         Route::post('customer/delete','CustomerController@delete');
+        Route::get('customer/edit-pekerjaan/{id}','CustomerController@editPekerjaan');
+        Route::get('customer/create-pekerjaan/{id}','CustomerController@createPekerjaan');
+        Route::post('customer/update-pekerjaan','CustomerController@updatePekerjaan');
+        Route::post('customer/insert-pekerjaan','CustomerController@insertPekerjaan');
+        Route::get('customer/del-pekerjaan/{id}','CustomerController@delPekerjaan');
 
         // MATERIAL
         Route::get('material','MaterialController@index');

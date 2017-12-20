@@ -48,7 +48,8 @@ class DailyhdController extends Controller
 		return \DB::transaction(function()use($req){
 			// generate number
 			$dailyhd_counter = \DB::table('appsetting')->whereName('dailyhd_counter')->first()->value;
-			$dailyhd_number = 'HAB/' . date('Y') . '/000' . $dailyhd_counter++;
+			$prefix = Appsetting('operasional_alat_prefix');
+			$dailyhd_number = $prefix . date('Y') . '/000' . $dailyhd_counter++;
 			\DB::table('appsetting')
 				->whereName('dailyhd_counter')
 				->update(['value'=>$dailyhd_counter]);

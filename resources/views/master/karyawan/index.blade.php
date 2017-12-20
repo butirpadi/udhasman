@@ -90,7 +90,7 @@
                         @endif
                         </td>
                         <td class="row-to-edit" >
-                            {{$dt->jabatan}}
+                            {{$dt->driver == 1 ? 'Driver' : 'Staff'}}
                         </td>
                         <td class="row-to-edit" >
                           @if($dt->alamat)

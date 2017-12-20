@@ -64,9 +64,11 @@ class CustomerController extends Controller
 
 	public function edit($id){
 		$data = \DB::table('view_customer')->find($id);
+		$pekerjaan = \DB::table('pekerjaan')->where('customer_id',$id)->orderBy('created_at','desc')->get();
 
 		return view('master.customer.edit',[
 				'data' => $data,
+				'pekerjaan' => $pekerjaan,
 			]);
 	}
 
@@ -98,6 +100,56 @@ class CustomerController extends Controller
 			return redirect('master/customer');
 
 		});
+	}
+
+	public function createPekerjaan($idCustomer){
+		$customer = \DB::table('customer')->find($idCustomer);
+
+		return view('master.customer.create-pekerjaan',[
+				'customer' => $customer,
+			]);
+	}
+
+	public function editPekerjaan($idPekerjaan){
+		$pekerjaan = \DB::table('view_pekerjaan')->find($idPekerjaan);
+		$customer = \DB::table('customer')->find($pekerjaan->customer_id);
+
+		return view('master.customer.edit-pekerjaan',[
+				'data' => $pekerjaan,
+				'customer' => $customer,
+			]);
+	}
+
+	public function updatePekerjaan(Request $req){
+		\DB::table('pekerjaan')
+			->where('id',$req->id)
+			->update([
+					'nama' => $req->nama,
+					'alamat' => $req->alamat,
+					'desa_id' => $req->desa_id,
+					'tahun' => $req->tahun,
+				]);
+		$pekerjaan = \DB::table('pekerjaan')->find($req->id);
+		$customer = \DB::table('customer')->find($pekerjaan->customer_id);
+		return redirect('master/customer/edit/'.$customer->id);
+	}
+
+	public function insertPekerjaan(Request $req){
+		\DB::table('pekerjaan')
+			->insert([
+					'customer_id' => $req->customer_id,
+					'nama' => $req->nama,
+					'alamat' => $req->alamat,
+					'desa_id' => $req->desa_id,
+					'tahun' => $req->tahun,
+				]);
+
+		return redirect('master/customer/edit/'.$req->customer_id);
+	}
+
+	public function delPekerjaan($idPekerjaan){
+		return \DB::table('pekerjaan')->delete($idPekerjaan);
+		// return redirect()->back();
 	}
 
 }

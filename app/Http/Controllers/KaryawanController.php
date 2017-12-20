@@ -68,7 +68,12 @@ class KaryawanController extends Controller
 	        $tgl_lahir = $req->tanggal;
 	        $arr_tgl = explode('-',$tgl_lahir);
 	        $fix_tgl_lahir = new \DateTime();
-	        $fix_tgl_lahir->setDate($arr_tgl[2],$arr_tgl[1],$arr_tgl[0]); 
+	        if(count($arr_tgl)<3){
+	        	$fix_tgl_lahir->setDate(1980,1,1); 
+	        }else{
+	        	$fix_tgl_lahir->setDate($arr_tgl[2],$arr_tgl[1],$arr_tgl[0]); 
+	        	
+	        }
 
 			$karyawan_id = \DB::table('karyawan')
 			->insertGetId([
@@ -79,10 +84,12 @@ class KaryawanController extends Controller
 					'alamat' => $req->alamat,
 					'desa_id' => $req->desa_id,
 					'telp' => $req->telp,
-					'jabatan_id' => $jabatan_id,
+					// 'jabatan_id' => $jabatan_id,
 					'tgl_lahir' => $fix_tgl_lahir,
 					'tempat_lahir' => $req->tempat_lahir,
 					'gaji_pokok' => $req->gaji_pokok,
+					'driver' => $req->jabatan == 'driver' ? 1:'',
+					'staff' => $req->jabatan == 'staff' ? 1:'',
 				]);
 
 			//insert foto
@@ -129,12 +136,14 @@ class KaryawanController extends Controller
 			// cek apakah ajabatan berubah
 			$karyawan = \DB::table('karyawan')->find($req->id);
 
-			$jabatan_baru_id = \DB::table('jabatan')->whereKode($req->jabatan)->first()->id;
+			// $jabatan_baru_id = \DB::table('jabatan')->whereKode($req->jabatan)->first()->id;
 
-			if($karyawan->jabatan_id != $jabatan_baru_id){
+			$jabatan_lama = $karyawan->driver == 1 ? 'driver' : 'staff';
+
+			if($jabatan_lama != $req->jabatan){
 				// ganti jabatan & generate kode baru
 				//------------------------------------------------------------------
-				if($req->jabatan == 'DV'){
+				if($req->jabatan == 'driver'){
 					$prefix = \DB::table('appsetting')->whereName('driver_prefix')->first()->value;
 					$counter = \DB::table('appsetting')->whereName('driver_counter')->first()->value;
 				}else{
@@ -156,17 +165,17 @@ class KaryawanController extends Controller
 
 				$kode = $prefix . $zero . $counter++;
 
-				if($req->jabatan == 'DV'){
+				if($req->jabatan == 'driver'){
 					\DB::table('appsetting')->whereName('driver_counter')->update(['value'=>$counter]);
 				}else{
 					\DB::table('appsetting')->whereName('staff_counter')->update(['value'=>$counter]);
 				}	
 
-				$jabatan_id = $jabatan_baru_id;
+				// $jabatan_id = $jabatan_baru_id;
 
 			}else{
 				$kode = $karyawan->kode;
-				$jabatan_id = $karyawan->jabatan_id;
+				// $jabatan_id = $karyawan->jabatan_id;
 			}
 
             // $tgl_lahir =  $req->tahun . '-' . $req->bulan . '-' . $req->tanggal;
@@ -185,11 +194,13 @@ class KaryawanController extends Controller
 					'alamat' => $req->alamat,
 					'desa_id' => $req->desa_id,
 					'telp' => $req->telp,
-					'jabatan_id' => $jabatan_id,
+					// 'jabatan_id' => $jabatan_id,
 					'tgl_lahir' => $fix_tgl_lahir,
 					'tempat_lahir' => $req->tempat_lahir,
 					'gaji_pokok' => $req->gaji_pokok,
-					'is_active' => 'Y'//$req->is_aktif == 'true' ? 'Y':'N'
+					'is_active' => 'Y',//$req->is_aktif == 'true' ? 'Y':'N'
+					'driver' => $req->jabatan == 'driver' ? 1:'',
+					'staff' => $req->jabatan == 'staff' ? 1:'',
 				]);
 
 			$foto_lama = \DB::table('karyawan')->find($req->id)->foto;

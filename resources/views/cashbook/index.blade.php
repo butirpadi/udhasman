@@ -20,7 +20,7 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Cashbook
+        Buku Kas
     </h1>
 </section>
 

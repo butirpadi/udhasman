@@ -1,6 +1,7 @@
 @extends('layouts.master')
 
 @section('styles')
+<link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
 <style>
     .col-top-item{
         /*cursor:pointer;*/
@@ -19,7 +20,7 @@
     <h1>
         <a href="master/customer" >Data Customer</a> 
         <i class="fa fa-angle-double-right" ></i> 
-        Edit
+        {{$data->nama}}
     </h1>
 </section>
 
@@ -91,6 +92,40 @@
                         
                     </div> 
                 </div>
+
+                <div class="col-xs-12" style="min-height: 600px;" >
+                    <h4 id="section-pekerjaan" class="page-header" style="font-size:14px;color:#3C8DBC"><strong>PEKERJAAN</strong></h4>
+                    <a class="btn btn-primary" href="master/customer/create-pekerjaan/{{$data->id}}" ><i class="fa fa-plus-circle" ></i> Create Pekerjaan</a>
+                    <br/>
+                    <br/>
+                    <table class="table table-bordered table-condensed datatable" >
+                        <thead>
+                            <tr>
+                                <th class="col-xs-" >NAMA</th>
+                                <th class="col-xs-1 text-center" >TAHUN</th>
+                                <th class="col-xs-1" ></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($pekerjaan as $dt)
+                                <tr>
+                                    <td>
+                                        {{$dt->nama}}
+                                    </td>
+                                    <td  class="text-center">
+                                        {{$dt->tahun}}
+                                    </td>
+                                    <td class="text-center" style="font-size: 20px;" >
+                                        <a href="master/customer/edit-pekerjaan/{{$dt->id}}" ><i class="fa fa-edit" ></i></a>
+                                        &nbsp;
+                                        <a href="{{url()->current()}}#section-pekerjaan" data-originalid="{{$dt->id}}" class="text-red btn-del-pekerjaan"><i class="fa fa-trash" ></i></a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
 
         </div>
@@ -104,10 +139,16 @@
 @stop
 
 @section('scripts')
+<script src="plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
 <script src="plugins/jqueryform/jquery.form.min.js" type="text/javascript"></script>
 <script src="plugins/autocomplete/jquery.autocomplete.min.js" type="text/javascript"></script>
 <script type="text/javascript">
 (function ($) {
+
+    var table_pekerjaan = $('.datatable').DataTable({
+        sort:false
+    });
      
     // SAVE 
     $('#btn-save').click(function(){
@@ -235,6 +276,19 @@
 
     });
     // END OF SET AUTOCOMPLETE KECAMATAN
+
+    // DELETTE PEKERJAAN
+    $(document).on('click','.btn-del-pekerjaan',function(){
+        if(confirm('Anda akan menghapus data pekerjaan ini?')){
+            $row = $(this).parent().parent();
+            $data_id = $(this).data('originalid');
+            $.get('master/customer/del-pekerjaan/'+$data_id,function(){
+                $row.fadeOut();
+            }).fail(function(){
+                alert('Data pekerjaan tidak dapat dihapus.');
+            });
+        }
+    });
 
 // alert('pret');
 })(jQuery);

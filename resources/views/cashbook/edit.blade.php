@@ -19,7 +19,7 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        <a href="cashbook" href="cashbook" >Cashbook</a> 
+        <a href="cashbook" href="cashbook" >Buku Kas</a> 
         <i class="fa fa-angle-double-right" ></i> {{$data->cash_number}}
     </h1>
 </section>

@@ -27,142 +27,93 @@
 
 <!-- Main content -->
 <section class="content">
-  {{-- <form method="POST" action="master/alat/insert" > --}}
     <div class="box box-solid" >
         <form name="form-create-dailyhd" method="POST" action="dailyhd/insert" >
         <div class="box-header with-border" style="padding-top:5px;padding-bottom:5px;" >
             {{-- <label> <small>Sales Order</small> <h4 style="font-weight: bolder;margin-top:0;padding-top:0;margin-bottom:0;padding-bottom:0;" >New</h4></label> --}}
             <label><h3 style="margin:0;padding:0;font-weight:bold;" >New</h3></label>
 
-            <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
+            <!-- <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
             <a class="btn  btn-arrow-right pull-right disabled bg-gray" >Validated</a>
 
             <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
             <a class="btn btn-arrow-right pull-right disabled bg-gray" >Open</a>
 
             <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
+            <a class="btn btn-arrow-right pull-right disabled bg-blue" >Draft</a> -->
 
-            <a class="btn btn-arrow-right pull-right disabled bg-blue" >Draft</a>
         </div>
         <div class="box-body" >
-            <table class="table" >
-                <tbody>
-                    <tr>
-                        <td class="col-sm-1 col-md-1 col-lg-1" >
-                            <label>Tanggal</label>
-                        </td>
-                        <td class="col-sm-3 col-md-3 col-lg-3" >
-                            <input type="text" name="tanggal" class="form-control input-date" value="{{date('d-m-Y')}}" required >
-                        </td>
-                        <td class="col-sm-1 col-md-1 col-lg-1" >
-                            <label>Alat</label>
-                        </td>
-                        <td class="col-sm-3 col-md-3 col-lg-3" >
-                            {!! Form::select('alat_id',$selectAlat,null,['class'=>'form-control','required']) !!}
-                            {{-- <input type="text" name="alat" class="form-control" required autofocus > --}}
-                            {{-- <input type="hidden" name="alat_id" class="form-control" required  > --}}
-                        </td>
-                        <td class="col-sm-1 col-md-1 col-lg-1" >
-                            <label>Lokasi Galian</label>
-                        </td>
-                        <td class="col-sm-3 col-md-3 col-lg-3" >
+            <div class="row" >
+                <div class="col-xs-4" >
+                    <div class="form-group">
+                        <label >Tanggal</label>
+                        <input type="text" name="tanggal" class="form-control input-date" value="{{date('d-m-Y')}}" required />                        
+                    </div>
+                    <div class="form-group">
+                        <label >Pengawas</label>
+                        {!! Form::select('pengawas_id',$selectStaff,null,['class'=>'form-control','required']) !!}
+                    </div>
+                    <div class="form-group">
+                        <label >Jam Kerja</label>
+                        <div class='input-group'>
+                            <input type='text'  placeholder="Jam Mulai" class="form-control input-time" name="mulai" required />
+                            <div class='input-group-field' >
+                                <input style="margin-left: 5px;" type='text' placeholder="Jam Selesai"  class="form-control input-time" name="selesai" required />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label >Solar (liter)</label>
+                        <input type="text" name="solar" class="form-control text-right input-liter" />
+                    </div>
+                </div>
+                <div class="col-xs-4" >
+                    <div class="form-group">
+                        <label >Alat</label>
+                        {!! Form::select('alat_id',$selectAlat,null,['class'=>'form-control','required']) !!}
+                    </div>
+                    <div class="form-group">
+                        <label >Operator</label>
+                        {!! Form::select('operator_id',$selectStaff,null,['class'=>'form-control']) !!}
+                    </div>
+                    <div class="form-group">
+                        <label >Istirahat</label>
+                        <div class='input-group'>
+                            <input type='text'  placeholder="Jam Mulai" class="form-control input-time" name="istirahat_mulai"  required />
+                            <div class='input-group-field'>
+                                <input type='text' placeholder="Jam Selesai"  class="form-control input-time" name="istirahat_selesai" required style="margin-left: 5px;" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label >Oli (liter)</label>
+                        <input type="text" name="oli" class="form-control text-right input-liter"/>
+                    </div>
+                </div>
+                <div class="col-xs-4" >
+                    <div class="form-group">
+                        <label >Lokasi Galian</label>
                         {!! Form::select('lokasi_id',$selectGalian,null,['class'=>'form-control','required']) !!}
-                            {{-- <input type="text" name="lokasi" class="form-control" required> --}}
-                            {{-- <input type="hidden" name="lokasi_id" class="form-control" required> --}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label>Pengawas</label>
-                        </td>
-                        <td>
-                            {!! Form::select('pengawas_id',$selectStaff,null,['class'=>'form-control','required']) !!}
-                            {{-- <input type="text" name="pengawas" class="form-control" required> --}}
-                            {{-- <input type="hidden" name="pengawas_id" class="form-control" required> --}}
-                        </td>
-                        <td>
-                            <label>Operator</label>
-                        </td>
-                        <td>
-                            {!! Form::select('operator_id',$selectStaff,null,['class'=>'form-control']) !!}
-                            {{-- <input type="text" name="operator" class="form-control" required> --}}
-                            {{-- <input type="hidden" name="operator_id" class="form-control" required> --}}
-                        </td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label>Jam Kerja</label>
-                        </td>
-                        <td>
-                            <div class='input-group'>
-                                {{-- <input type='text' class='form-control' placeholder="Jam Mulai" name="mulai" /> --}}
-                                {{-- <div class='input-group-field'> --}}
-                                    <input type='text'  placeholder="Jam Mulai" class="form-control input-time" name="mulai" required />
-                                {{-- </div> --}}
-                                <div class='input-group-field'>
-                                    <input type='text' placeholder="Jam Selesai"  class="form-control input-time" name="selesai" required />
-                                </div>
-                            </div>
-                            {{-- <input type="text" name="mulai" class="form-control input-time" required> --}}
-                        </td>
-                        <td>
-                            <label>Istirahat</label>
-                        </td>
-                        <td>
-                            <div class='input-group'>
-                                <input type='text'  placeholder="Jam Mulai" class="form-control input-time" name="istirahat_mulai"  required />
-                                <div class='input-group-field'>
-                                    <input type='text' placeholder="Jam Selesai"  class="form-control input-time" name="istirahat_selesai" required />
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            {{-- <label>Total Jam Kerja</label> --}}
-                            <label>Total Jam Kerja (jam)</label>
-                        </td>
-                        <td>
-                            {{-- <input type="text " name="total_jam_kerja" class="form-control" readonly> --}}
-                            <input type="text " name="total_jam_kerja" class="form-control" readonly>
-                        </td>
-                    </tr>
-                    <tr>
-                        
-                        <td>
-                            <label>Solar (liter)</label>
-                        </td>
-                        <td>
-                            <input type="text" name="solar" class="form-control text-right input-liter" >
-                        </td>
-                        <td>
-                            <label>Oli (liter)</label>
-                        </td>
-                        <td>
-                            <input type="text" name="oli" class="form-control text-right input-liter">
-                        </td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label>Keterangan</label>
-                        </td>
-                        <td colspan="5" >
-                            <textarea name="keterangan" class="form-control" rows="3" ></textarea>
-                        </td>
-                    </tr>
-
-                </tbody>
-            </table>
-        </div>   {{-- Box Body --}}
+                    </div>
+                    <div class="form-group">
+                        <label >Keterangan</label>
+                        <textarea name="keterangan" class="form-control" rows="5" ></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label >Total Jam Kerja (jam)</label>
+                        <input type="text " name="total_jam_kerja" class="form-control" readonly />
+                    </div>
+                </div>
+            </div>
+        </div>   
         <div class="box-footer" >
             <button type="submit" class="btn btn-primary" ><i class="fa fa-save" ></i> Save</button>
-            <a href="dailyhd" class="btn btn-danger"><i class="fa fa-close" ></i> <i class="fa fa-close" ></i> Close</a>
+            <a href="dailyhd" class="btn btn-danger"><i class="fa fa-close" ></i> Close</a>
         </div>
         </form>
-    </div> {{-- Box --}}
-  {{-- </form> --}}
+    </div>
+  
 </section><!-- /.content -->
 
 @stop
