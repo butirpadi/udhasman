@@ -49,7 +49,7 @@ class DailyhdController extends Controller
 			// generate number
 			$dailyhd_counter = \DB::table('appsetting')->whereName('dailyhd_counter')->first()->value;
 			$prefix = Appsetting('operasional_alat_prefix');
-			$dailyhd_number = $prefix . date('Y') . '/000' . $dailyhd_counter++;
+			$dailyhd_number = $prefix .'/'. date('Y') . '/000' . $dailyhd_counter++;
 			\DB::table('appsetting')
 				->whereName('dailyhd_counter')
 				->update(['value'=>$dailyhd_counter]);
@@ -86,12 +86,39 @@ class DailyhdController extends Controller
 	}
 
 	public function edit($id){
-		$data = \DB::table('view_dailyhd')->find($id);
-		if($data->status == 'O'){
-			return view('dailyhd.edit',['data'=>$data]);
-		}else{
-			return view('dailyhd.validated',['data'=>$data]);
+		$alat = \DB::table('alat')->get();
+		$select_alat = [];
+		foreach($alat as $dt){
+			$select_alat[$dt->id] = $dt->kode . ' - ' . $dt->nama;
 		}
+
+		$galian = \DB::table('lokasi_galian')->get();
+		$select_galian = [];
+		foreach($galian as $dt){
+			$select_galian[$dt->id] =  $dt->nama;
+		}
+
+		$staff = \DB::table('view_karyawan')->whereKodeJabatan('ST')->get();
+		$select_staff = [];
+		foreach($staff as $dt){
+			$select_staff[$dt->id] = $dt->nama;
+		}
+
+
+		$data = \DB::table('view_dailyhd')->find($id);
+
+		return view('dailyhd.edit',[
+			'data'=>$data,
+			'selectAlat' => $select_alat,
+			'selectGalian' => $select_galian,
+			'selectStaff' => $select_staff,
+		]);
+		
+		// if($data->status == 'O'){
+		// 	return view('dailyhd.edit',['data'=>$data]);
+		// }else{
+		// 	return view('dailyhd.validated',['data'=>$data]);
+		// }
 		
 	}
 
@@ -108,10 +135,10 @@ class DailyhdController extends Controller
 				->update([
 						// 'ref' => $dailyhd_number,
 						'tanggal' => $tanggal,
-						// 'alat_id' => $req->alat_id,
-						// 'lokasi_galian_id' => $req->lokasi_id,
+						'alat_id' => $req->alat_id,
+						'lokasi_galian_id' => $req->lokasi_id,
 						// 'pengawas_id' => $req->pengawas_id,
-						// 'operator_id' => $req->operator_id,
+						'operator_id' => $req->operator_id,
 						'mulai' => $req->mulai,
 						'selesai' => $req->selesai,
 						'istirahat_mulai' => $req->istirahat_mulai,
@@ -122,8 +149,8 @@ class DailyhdController extends Controller
 						'desc' => $req->keterangan,
 					]);
 				
-			// return redirect('dailyhd');
-			return redirect()->back();
+			return redirect('dailyhd');
+			// return redirect()->back();
 		});
 	}
 

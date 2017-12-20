@@ -32,7 +32,7 @@ class KaryawanController extends Controller
 
 			// generate kode
 		//------------------------------------------------------------------
-		if($req->jabatan == 'DV'){
+		if($req->jabatan == 'driver'){
 			$prefix = \DB::table('appsetting')->whereName('driver_prefix')->first()->value;
 			$counter = \DB::table('appsetting')->whereName('driver_counter')->first()->value;
 		}else{
@@ -54,14 +54,14 @@ class KaryawanController extends Controller
 
 		$kode = $prefix . $zero . $counter++;
 
-		if($req->jabatan == 'DV'){
+		if($req->jabatan == 'driver'){
 			\DB::table('appsetting')->whereName('driver_counter')->update(['value'=>$counter]);
 		}else{
 			\DB::table('appsetting')->whereName('staff_counter')->update(['value'=>$counter]);
 		}	
 		//------------------------------------------------------------------
 
-			$jabatan_id = \DB::table('jabatan')->whereKode($req->jabatan)->first()->id;
+			// $jabatan_id = \DB::table('jabatan')->whereKode($req->jabatan)->first()->id;
 
 			// $fix_tgl_lahir =  $req->tahun . '-' . $req->bulan . '-' . $req->tanggal;
 			// generate tanggal

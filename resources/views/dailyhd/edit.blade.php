@@ -26,140 +26,83 @@
 
 <!-- Main content -->
 <section class="content">
-  {{-- <form method="POST" action="master/alat/insert" > --}}
-    <div class="box box-solid" >        
-        <div class="box-header with-border" style="padding-top:5px;padding-bottom:5px;" >
-            <label><h3 style="margin:0;padding:0;font-weight:bold;" >{{$data->ref}}</h3></label>
-
-            <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
-            <a class="btn  btn-arrow-right pull-right disabled bg-gray" >Validated</a>
-
-            <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
-            <a class="btn btn-arrow-right pull-right disabled bg-blue" >Open</a>
-
-            <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
-            <a class="btn btn-arrow-right pull-right disabled bg-gray" >Draft</a>
-        </div>
+    <div class="box box-solid" >
         <form name="form-create-dailyhd" method="POST" action="dailyhd/update" >
-            <input type="hidden" name="dailyhd_id" value="{{$data->id}}">   
+            <div class="box-header with-border" style="padding-top:5px;padding-bottom:5px;" >
+                <label><h3 style="margin:0;padding:0;font-weight:bold;" >{{$data->ref}}</h3></label>
+            </div>
             <div class="box-body" >
-                <table class="table no-border table-condensed" >
-                    <tbody>
-                        <tr>
-                            <td class="col-sm-1 col-md-1 col-lg-1" >
-                                <label>Tanggal</label>
-                            </td>
-                            <td class="col-sm-3 col-md-3 col-lg-3" >
-                                <input type="text" name="tanggal" class="form-control input-date" value="{{$data->tanggal_formatted}}" required >
-                            </td>
-                            <td class="col-sm-1 col-md-1 col-lg-1" >
-                                <label>Alat</label>
-                            </td>
-                            <td class="col-sm-3 col-md-3 col-lg-3" >
-                                <input type="text" name="alat" class="form-control" required autofocus value="{{'[' . $data->kode_alat . '] ' . $data->alat}}" readonly>
-                                <input type="hidden" name="alat_id" class="form-control" required value="{{$data->alat_id}}" >
-                            </td>
-                            <td class="col-sm-1 col-md-1 col-lg-1" >
-                                <label>Lokasi Galian</label>
-                            </td>
-                            <td class="col-sm-3 col-md-3 col-lg-3" >
-                                <input type="text" name="lokasi" class="form-control"  value="{{'[' . $data->kode_lokasi . '] ' . $data->lokasi}}" required readonly>
-                                <input type="hidden" name="lokasi_id" class="form-control" required  value="{{$data->lokasi_galian_id}}">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label>Pengawas</label>
-                            </td>
-                            <td>
-                                <input type="text" name="pengawas" class="form-control" value="{{'['.$data->kode_pengawas . '] ' . $data->nama_pengawas}}" readonly required>
-                                <input type="hidden" name="pengawas_id" class="form-control" value="{{$data->pengawas_id}}" required>
-                            </td>
-                            <td>
-                                <label>Operator</label>
-                            </td>
-                            <td>
-                                <input type="text" name="operator" class="form-control" value="{{'['.$data->kode_operator .'] ' . $data->nama_operator}}" readonly required>
-                                <input type="hidden" name="operator_id" class="form-control" value="{{$data->operator_id}}" required>
-                            </td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label>Jam Kerja</label>
-                            </td>
-                            <td>
-                                <div class='input-group'>
-                                    {{-- <input type='text' class='form-control' placeholder="Jam Mulai" name="mulai" /> --}}
-                                    {{-- <div class='input-group-field'> --}}
-                                        <input type='text'  placeholder="Jam Mulai" class="form-control input-time" name="mulai" required value="{{$data->mulai}}" />
-                                    {{-- </div> --}}
-                                    <div class='input-group-field'>
-                                        <input type='text' placeholder="Jam Selesai"  class="form-control input-time" name="selesai" required value="{{$data->selesai}}" />
-                                    </div>
+                <div class="row" >
+                    <div class="col-xs-4" >
+                        <div class="form-group">
+                            <label >Tanggal</label>
+                            <input type="text" name="tanggal" class="form-control input-date" value="{{$data->tanggal_formatted}}" required />
+                            <input type="hidden" name="dailyhd_id" value="{{$data->id}}" />
+                        </div>
+                        <div class="form-group">
+                            <label >Pengawas</label>
+                            <input type="text" name="pengawas" class="form-control" value="{{'['.$data->kode_pengawas . '] ' . $data->nama_pengawas}}" readonly required/>
+                            <input type="hidden" name="pengawas_id" class="form-control" value="{{$data->pengawas_id}}" required/>
+                        </div>
+                        <div class="form-group">
+                            <label >Jam Kerja</label>
+                            <div class='input-group'>
+                                    <input type='text'  placeholder="Jam Mulai" class="form-control input-time" name="mulai" required value="{{$data->mulai}}" />
+                                <div class='input-group-field'>
+                                    <input type='text' style="margin-left: 5px;" placeholder="Jam Selesai"  class="form-control input-time" name="selesai" required value="{{$data->selesai}}" />
                                 </div>
-                                {{-- <input type="text" name="mulai" class="form-control input-time" required> --}}
-                            </td>
-                            <td>
-                                <label>Istirahat</label>
-                            </td>
-                            <td>
-                                <div class='input-group'>
-                                    <input type='text'  placeholder="Jam Mulai" class="form-control input-time" name="istirahat_mulai"  required value="{{$data->istirahat_mulai}}" />
-                                    <div class='input-group-field'>
-                                        <input type='text' placeholder="Jam Selesai"  class="form-control input-time" name="istirahat_selesai" required value="{{$data->istirahat_selesai}}" />
-                                    </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label >Solar (liter)</label>
+                            <input type="text" name="solar" class="form-control text-right input-liter" value="{{$data->solar}}" />                        
+                        </div>
+                    </div>
+                    <div class="col-xs-4" >
+                        <div class="form-group">
+                            <label >Alat</label>
+                            {!! Form::select('alat_id',$selectAlat,$data->alat_id,['class'=>'form-control','required']) !!}
+                        </div>
+                        <div class="form-group">
+                            <label >Operator</label>
+                            {!! Form::select('operator_id',$selectStaff,$data->operator_id,['class'=>'form-control']) !!}
+                        </div>
+                        <div class="form-group">
+                            <label >Istirahat</label>
+                            <div class='input-group'>
+                                <input type='text'  placeholder="Jam Mulai" class="form-control input-time" name="istirahat_mulai" value="{{$data->istirahat_mulai}}"  required />
+                                <div class='input-group-field'>
+                                    <input type='text' placeholder="Jam Selesai"  class="form-control input-time" name="istirahat_selesai" value="{{$data->istirahat_selesai}}" required style="margin-left: 5px;" />
                                 </div>
-                            </td>
-                            <td>
-                                {{-- <label>Total Jam Kerja</label> --}}
-                                <label>Total Jam Kerja (jam)</label>
-                            </td>
-                            <td>
-                                {{-- <input type="text " name="total_jam_kerja" class="form-control" readonly> --}}
-                                <input type="text " name="total_jam_kerja" class="form-control" value="{{$data->jam_kerja}}" readonly>
-                            </td>
-                        </tr>   
-                        
-                        <tr>
-                            
-                            <td>
-                                <label>Solar (liter)</label>
-                            </td>
-                            <td>
-                                <input type="text" name="solar" class="form-control text-right input-liter" value="{{$data->solar}}" >
-                            </td>
-                            <td>
-                                <label>Oli (liter)</label>
-                            </td>
-                            <td>
-                                <input type="text" name="oli" class="form-control text-right input-liter" value="{{$data->oli}}" >
-                            </td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label>Keterangan</label>
-                            </td>
-                            <td colspan="5" >
-                                <textarea name="keterangan" class="form-control" rows="3" >{{$data->desc}}</textarea>
-                            </td>
-                        </tr>
-
-                    </tbody>
-                </table>
-            </div>   {{-- Box Body --}}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label >Oli (liter)</label>
+                            <input type="text" name="oli" class="form-control text-right input-liter" value="{{$data->oli}}" />
+                        </div>
+                    </div>
+                    <div class="col-xs-4" >
+                        <div class="form-group">
+                            <label >Lokasi Galian</label>
+                            {!! Form::select('lokasi_id',$selectGalian,null,['class'=>'form-control','required']) !!}
+                        </div>
+                        <div class="form-group">
+                            <label >Keterangan</label>
+                            <textarea name="keterangan" class="form-control" rows="5" >{{$data->desc}}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label >Total Jam Kerja (jam)</label>
+                            <input type="text " name="total_jam_kerja" class="form-control" value="{{$data->jam_kerja}}" readonly />
+                        </div>
+                    </div>
+                </div>
+            </div>   
             <div class="box-footer" >
-                <a id="btn-validate"  class="btn btn-success" ><i class="fa fa-check" ></i> Validate</a>
-
                 <button type="submit" class="btn btn-primary" ><i class="fa fa-save" ></i> Save</button>
                 <a href="dailyhd" class="btn btn-danger"><i class="fa fa-close" ></i> Close</a>
             </div>
         </form>
-    </div> {{-- Box --}}
-  {{-- </form> --}}
+    </div>
 </section><!-- /.content -->
 
 @stop
