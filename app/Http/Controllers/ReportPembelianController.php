@@ -98,12 +98,14 @@ class ReportPembelianController extends Controller
 
 		$group_report = \DB::table('view_pembelian')
 					->whereBetween('tanggal',[$tgl_awal_str,$tgl_akhir_str])
+					->whereRaw($req->supplier != '' ? 'supplier_id = ' . $req->supplier : true)
 					->orderBy('tanggal','asc')
 					->groupBy('supplier_id')
 					->get();
 
 		$sum_total = \DB::table('view_pembelian')
 					->whereBetween('tanggal',[$tgl_awal_str,$tgl_akhir_str])
+					->whereRaw($req->supplier != '' ? 'supplier_id = ' . $req->supplier : true)
 					->sum('total');
 
 		foreach($group_report as $dt){
