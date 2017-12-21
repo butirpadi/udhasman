@@ -475,6 +475,12 @@ Route::group(['middleware' => ['web','auth']], function () {
     });
 
     Route::group(['prefix' => 'report'], function () {
+        // REPORT PEMBELIAN
+        Route::get('pembelian','ReportPembelianController@index');
+        Route::post('pembelian/default-report','ReportPembelianController@defaultReport');
+        Route::post('pembelian/group-report','ReportPembelianController@groupReport');
+
+
         // REPORT PURCHASE
         Route::get('purchase','ReportPurchaseController@index');
         Route::post('purchase/filter-by-date','ReportPurchaseController@filterByDate');
