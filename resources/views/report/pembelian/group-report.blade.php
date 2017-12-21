@@ -1,4 +1,5 @@
 <style>
+
     table.table-product {
         border-collapse: collapse;
     }
@@ -16,13 +17,13 @@
     }
 </style> 
 
-<page orientation="L" format="A4" backtop="20mm" backleft="10mm" backbottom="10mm" backright="10mm" > 
+<page orientation="L" format="A4" backtop="20mm" backleft="10mm" backbottom="10mm" backright="10mm" footer="page" > 
     <page_header > 
         <h4 style="margin:0;padding:0;text-align: center;" >Laporan Pembelian</h4>
 		<p style="text-align: center;margin:0;padding:0;" >Periode : {{$tanggal_awal . ' / ' . $tanggal_akhir}}</p
 >    </page_header> 
-    <page_footer> 
-         Page Footer
+    <page_footer  > 
+         <i style="font-size: 10px;margin-left: 10mm;" >Laporan Pembelian {{$tanggal_awal . ' / ' . $tanggal_akhir}}</i>
     </page_footer> 
     
     	<table class="table-product" >
@@ -30,14 +31,14 @@
 				<tr>
 					<th style="width:10%;" >REF#</th>
 					<th style="width:10%;" >TANGGAL</th>
-					<th style="width:10%;" >NOMOR NOTA</th>
+					<th style="width:10%;" >NOMOR<br/>NOTA</th>
 					<th style="width:35%;" >PRODUCT</th>
 					<th style="width:5%;" >QTY</th>
-					<th style="width:15%;" >HARGA SATUAN</th>
+					<th style="width:15%;" >HARGA<br/>SATUAN</th>
 					<th style="width:15%;" >JUMLAH</th>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody  >
 		    	@foreach($pembelian as $pb)
 		    	<tr>
 		    		<td colspan="7" >

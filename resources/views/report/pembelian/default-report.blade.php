@@ -22,7 +22,7 @@
 		<p style="text-align: center;margin:0;padding:0;" >Periode : {{$tanggal_awal . ' / ' . $tanggal_akhir}}</p
 >    </page_header> 
     <page_footer> 
-         Page Footer
+         [[page_cu]]/[[page_nb]]
     </page_footer> 
     
     
@@ -31,12 +31,12 @@
 					<tr>
 						<th style="width: 15%;" >REF#</th>
 						<th style="width: 15%;" >TANGGAL</th>
-						<th style="width: 15%;" >NOMOR NOTA</th>
+						<th style="width: 15%;" >NOMOR<br/>NOTA</th>
 						<th style="width: 35%;" >SUPPLIER</th>
 						<th style="width: 20%;" >JUMLAH</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody style="font-size: 12px;" >
 					@foreach($pembelian as $dt)
 						<tr>
 							<td align="center" >
