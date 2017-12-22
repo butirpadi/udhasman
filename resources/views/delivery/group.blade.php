@@ -82,6 +82,7 @@
                         <th>Pekerjaan</th>
                         <th>Ref#</th>
                         <th>Tanggal</th>
+                        <th>Material</th>
                         <th>Driver/Nopol</th>
                         <!-- <th>Kalkulasi</th> -->
                         <th>Status</th>
@@ -102,6 +103,7 @@
                                 <strong><i>{{$dt->pekerjaan . ' (' . $dt->jumlah . ')'}}</i></strong>
                             @endif
                         </td>
+                        <td></td>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -231,6 +233,8 @@
                                             $('<td>').text(item.name)
                                         ).append(
                                             $('<td>').addClass('text-center').text(item.order_date_format)
+                                        ).append(
+                                            $('<td>').text(item.material )
                                         ).append(
                                             $('<td>').text(item.karyawan + ' / ' + item.nopol)
                                         ).append(

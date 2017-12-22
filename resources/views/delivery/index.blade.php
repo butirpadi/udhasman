@@ -77,6 +77,7 @@
                         <th>Tanggal</th>
                         <th>Customer</th>
                         <th>Pekerjaan</th>
+                        <th>Material</th>
                         <th>Driver/Nopol</th>
                         <!-- <th>Kalkulasi</th> -->
                         <th>Status</th>
@@ -100,6 +101,9 @@
                         </td>
                         <td>
                             {{$dt->pekerjaan}}
+                        </td>
+                        <td>
+                            {{$dt->material}}
                         </td>
                         <td>
                             {{$dt->karyawan}}
