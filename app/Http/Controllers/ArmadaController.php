@@ -18,7 +18,7 @@ class ArmadaController extends Controller
 	public function create(){
 		$drivers = \DB::select('select id,nama,kode 
 					from view_karyawan  
-					where view_karyawan.kode_jabatan = "DV" and  view_karyawan.id not in (select karyawan_id from armada where karyawan_id is not null )
+					where view_karyawan.driver = 1 and  view_karyawan.id not in (select karyawan_id from armada where karyawan_id is not null )
 					');
 		$selectDriver = [
 				'0' => 'NONE'

@@ -204,8 +204,9 @@ class DeliveryController extends Controller
 	        ->where('id','=',$data_do->id)
 	        ->update([
 				'order_date' => $fix_order_date,
-				'customer_id' => $req->customer,
+				// 'customer_id' => $req->customer,
 				'pekerjaan_id' => $req->pekerjaan,
+				'lokasi_galian_id' => $req->lokasi_galian,
 				'karyawan_id' => $req->driver,
 				'nopol' => $req->nopol,
 				'material_id' => $req->material,
@@ -260,6 +261,11 @@ class DeliveryController extends Controller
 		return redirect('delivery');
 		
 	}	
+
+	public function deleteSingle($id){
+		\DB::table('new_pengiriman')->delete($id);
+		return redirect('delivery');
+	}
 
 	public function toPdf($id){
 		// $pdf = new HtmlPdf();

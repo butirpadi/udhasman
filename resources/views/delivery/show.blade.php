@@ -75,6 +75,7 @@
                             <div class="form-group">
                                 <label for="customerLabel">Customer</label>
                                 <input type="text" name="customer" class="form-control" value="{{$pengiriman->customer}}" readonly/>
+                                <input name="original_id" value="{{$pengiriman->id}}" class="hide" />
                             </div>  
                             <div class="form-group">
                                 <label >Pekerjaan</label>
@@ -231,6 +232,8 @@
             <a class="btn btn-success" target="_blank" href="delivery/topdf/{{$pengiriman->id}}"  ><i class="fa fa-file-pdf-o" ></i> PDF</a>
             <a class="btn btn-danger" id="btn-cancel-save" href="delivery" ><i class="fa fa-close" ></i> Close</a>
             <a class="btn bg-primary pull-right" href="delivery/create" ><i class="fa fa-plus-circle" ></i> Create</a>
+
+            <a class="text-red btn pull-right " id="btn-delete" style="margin-right: 10px;" href="{{url()->current()}}#btn-delete" ><i class="fa fa-close" ></i> Delete
         </div>
         </form>
     </div><!-- /.box -->
@@ -241,3 +244,19 @@
 </div>
 
 @stop
+
+@section('scripts')
+<script type="text/javascript">
+(function ($) {
+
+   // Delete
+   $('#btn-delete').click(function(){
+        if(confirm('Anda akan menghapus data ini?')){
+            location.href="delivery/delete-single/"+$('input[name=original_id]').val();
+        }
+   });
+
+})(jQuery);
+</script>
+@append
+

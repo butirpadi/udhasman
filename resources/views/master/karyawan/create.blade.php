@@ -129,6 +129,8 @@
 <script type="text/javascript">
 (function ($) {
 
+    $('select[name=jabatan]').val([]);
+
     // SET DATEPICKER
      $('.input-tanggal').datepicker({
         format: 'dd-mm-yyyy',

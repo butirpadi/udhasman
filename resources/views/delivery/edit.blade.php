@@ -74,7 +74,7 @@
                         <div class="col-xs-6" >
                             <div class="form-group">
                                 <label for="customerLabel">Customer</label>
-                                {!! Form::select('customer',$select_customer,$pengiriman->customer_id,['class'=>'form-control init_data','required','data-default'=>$pengiriman->customer_id]) !!}
+                                {!! Form::select('customer',$select_customer,$pengiriman->customer_id,['disabled','class'=>'form-control init_data','required','data-default'=>$pengiriman->customer_id]) !!}
                                 <input name="original_id" value="{{$pengiriman->id}}" class="hide" />
                             </div>  
                             <div class="form-group">
@@ -277,6 +277,7 @@
             <a class="btn btn-success" target="_blank" href="delivery/topdf/{{$pengiriman->id}}"  ><i class="fa fa-file-pdf-o" ></i> PDF</a>
             <a class="btn btn-danger" id="btn-cancel-save" href="delivery" ><i class="fa fa-close" ></i> Close</a>
             <a class="btn bg-maroon pull-right {{$pengiriman->state != 'done' ? '' : 'hide'}}" id="btn-validate" ><i class="fa fa-check" ></i> Validate</a>
+            <a class="text-red btn pull-right " id="btn-delete" style="margin-right: 10px;" href="{{url()->current()}}#btn-delete" ><i class="fa fa-close" ></i> Delete</a>
         </div>
         </form>
     </div><!-- /.box -->
@@ -470,6 +471,13 @@
    $('#btn-validate').click(function(){
         if(confirm('Lanjutkan proses validasi?')){
             location.href="delivery/todone/"+$('input[name=original_id]').val();
+        }
+   });
+
+   // Delete
+   $('#btn-delete').click(function(){
+        if(confirm('Anda akan menghapus data ini?')){
+            location.href="delivery/delete-single/"+$('input[name=original_id]').val();
         }
    });
 

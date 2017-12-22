@@ -232,6 +232,7 @@ Route::group(['middleware' => ['web','auth']], function () {
         Route::get('edit/{id}','DeliveryController@edit');
         Route::get('todone/{id}','DeliveryController@toDone');
         Route::post('delete','DeliveryController@delete');
+        Route::get('delete-single/{id}','DeliveryController@deleteSingle');
         Route::get('topdf/{id}','DeliveryController@toPdf');
         Route::get('showpdf/{id}','DeliveryController@showPdf');
         Route::get('filter/{val}','DeliveryController@filter');
