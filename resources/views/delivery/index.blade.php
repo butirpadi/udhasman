@@ -93,7 +93,7 @@
                             {{$dt->name}}
                         </td>
                         <td class="text-center" >
-                            {{$dt->order_date}}
+                            {{$dt->order_date_format}}
                         </td>
                         <td>
                             {{$dt->customer}}

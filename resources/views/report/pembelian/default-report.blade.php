@@ -26,7 +26,7 @@
     </page_footer> 
     
     
-			<table class="table-product" >
+			<table class="table-product" style="font-size:12px;"  >
 				<thead>
 					<tr>
 						<th style="width: 15%;" >REF#</th>

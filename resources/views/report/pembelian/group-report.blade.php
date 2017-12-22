@@ -26,23 +26,23 @@
          <i style="font-size: 10px;margin-left: 10mm;" >Laporan Pembelian {{$tanggal_awal . ' / ' . $tanggal_akhir}}</i>
     </page_footer> 
     
-    	<table class="table-product" >
+    	<table class="table-product" style="font-size:12px;"  >
 			<thead>
 				<tr>
 					<th style="width:10%;" >REF#</th>
-					<th style="width:10%;" >TANGGAL</th>
+					<th style="width:8%;" >TANGGAL</th>
 					<th style="width:10%;" >NOMOR<br/>NOTA</th>
-					<th style="width:35%;" >PRODUCT</th>
-					<th style="width:5%;" >QTY</th>
+					<th style="width:32%;" >PRODUCT</th>
+					<th style="width:10%;" colspan="2"  >QTY</th>
 					<th style="width:15%;" >HARGA<br/>SATUAN</th>
 					<th style="width:15%;" >JUMLAH</th>
 				</tr>
 			</thead>
-			<tbody  >
+			<tbody >
 		    	@foreach($pembelian as $pb)
 		    	<tr>
-		    		<td colspan="7" >
-		    			<strong>Supplier : {{$pb->nama_supplier}}</strong>
+		    		<td colspan="8" >
+		    			<strong>SUPPLIER : {{$pb->nama_supplier}}</strong>
 		    		</td>
 		    	</tr>
 				<!-- <tr>
@@ -68,29 +68,34 @@
 						</td>
 						<td>
 							@foreach($rp->products as $pr)
-								{{$pr->nama_product}}<br/>
+								<p style="margin:0;padding: 2px;" >{{$pr->nama_product}}</p>
 							@endforeach
 						</td>
 						<td align="right" >
 							@foreach($rp->products as $pr)
-								{{$pr->qty}}<br/>
+								<p style="margin:0;padding: 2px;" >{{$pr->qty}}</p>
+							@endforeach
+						</td>
+						<td >
+							@foreach($rp->products as $pr)
+								<p style="margin:0;padding: 2px;" >{{$pr->satuan}}</p>
 							@endforeach
 						</td>
 						<td align="right" >
 							@foreach($rp->products as $pr)
-								{{number_format($pr->unit_price,2,'.',',')}}<br/>
+								<p style="margin:0;padding: 2px;" >{{number_format($pr->unit_price,2,'.',',')}}</p>
 							@endforeach
 						</td>
 						<td align="right" >
 							@foreach($rp->products as $pr)
-								{{number_format($pr->unit_price*$pr->qty,2,'.',',')}}<br/>
+								<p style="margin:0;padding: 2px;" >{{number_format($pr->unit_price*$pr->qty,2,'.',',')}}</p>
 								<?php $total_per_supplier+=$pr->unit_price*$pr->qty; ?>
 							@endforeach
 						</td>
 					</tr>
 				@endforeach
 				<tr>
-					<td colspan="5" align="right" >
+					<td colspan="6" align="right" >
 						<strong>TOTAL {{$pb->nama_supplier}} </strong>
 					</td>
 					<td align="right" colspan="2" >
@@ -99,7 +104,7 @@
 				</tr>
 		    	@endforeach
 		    	<tr style="font-size: 16px;" >
-		    		<td colspan="5" align="center" >
+		    		<td colspan="6" align="center" >
 		    			<strong>TOTAL</strong>
 		    		</td>
 		    		<td colspan="2" align="right" >
