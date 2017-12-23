@@ -36,7 +36,7 @@
 						<th style="width: 20%;" >JUMLAH</th>
 					</tr>
 				</thead>
-				<tbody style="font-size: 12px;" >
+				<tbody  >
 					@foreach($pembelian as $dt)
 						<tr>
 							<td align="center" >

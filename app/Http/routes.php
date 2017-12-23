@@ -481,31 +481,36 @@ Route::group(['middleware' => ['web','auth']], function () {
         Route::post('pembelian/default-report','ReportPembelianController@defaultReport');
         Route::post('pembelian/group-report','ReportPembelianController@groupReport');
 
+        // REPORT PENGIRIMAN
+        Route::get('pengiriman','ReportPengirimanController@index');
+        Route::post('pengiriman/default-report','ReportPengirimanController@defaultReport');
+        // Route::post('pengiriman/group-report','ReportPengirimanController@groupReport');
 
-        // REPORT PURCHASE
-        Route::get('purchase','ReportPurchaseController@index');
-        Route::post('purchase/filter-by-date','ReportPurchaseController@filterByDate');
-        Route::post('purchase/filter-by-date-n-supplier','ReportPurchaseController@filterByDateNSupplier');
-        Route::get('purchase/filter-by-date/pdf/{start}/{end}','ReportPurchaseController@filterByDateToPdf');
 
-        // REPORT SALES
-        Route::get('sales','ReportSalesController@index');
-        Route::get('sales/get-pekerjaan-by-customer/{customer_id}','ReportSalesController@getPekerjaanByCustomer');
-        Route::post('sales/report-by-date','ReportSalesController@reportByDate');
-        Route::post('sales/report-by-date-detail','ReportSalesController@reportByDateDetail');
-        Route::post('sales/report-by-customer','ReportSalesController@reportByCustomer');
-        Route::post('sales/report-by-customer-pekerjaan','ReportSalesController@reportByCustomerPekerjaan');
-        Route::post('sales/report-by-customer-detail','ReportSalesController@reportByCustomerDetail');
-        Route::post('sales/report-by-lokasi-galian','ReportSalesController@reportByLokasiGalian');
-        Route::post('sales/report-by-sales-type','ReportSalesController@reportBySalesType');
-        Route::post('sales/report-by-sales-type-all','ReportSalesController@reportBySalesTypeAll');
+        // // REPORT PURCHASE
+        // Route::get('purchase','ReportPurchaseController@index');
+        // Route::post('purchase/filter-by-date','ReportPurchaseController@filterByDate');
+        // Route::post('purchase/filter-by-date-n-supplier','ReportPurchaseController@filterByDateNSupplier');
+        // Route::get('purchase/filter-by-date/pdf/{start}/{end}','ReportPurchaseController@filterByDateToPdf');
 
-        //  REPORT DELIVERY
-        Route::get('delivery','ReportDeliveryController@index');
-        Route::post('delivery/report-by-date','ReportDeliveryController@reportByDate');
-        Route::post('delivery/report-by-customer','ReportDeliveryController@reportByCustomer');
-        Route::post('delivery/report-by-lokasi-galian','ReportDeliveryController@reportByLokasiGalian');
-        Route::post('delivery/report-by-driver','ReportDeliveryController@reportByDriver');
+        // // REPORT SALES
+        // Route::get('sales','ReportSalesController@index');
+        // Route::get('sales/get-pekerjaan-by-customer/{customer_id}','ReportSalesController@getPekerjaanByCustomer');
+        // Route::post('sales/report-by-date','ReportSalesController@reportByDate');
+        // Route::post('sales/report-by-date-detail','ReportSalesController@reportByDateDetail');
+        // Route::post('sales/report-by-customer','ReportSalesController@reportByCustomer');
+        // Route::post('sales/report-by-customer-pekerjaan','ReportSalesController@reportByCustomerPekerjaan');
+        // Route::post('sales/report-by-customer-detail','ReportSalesController@reportByCustomerDetail');
+        // Route::post('sales/report-by-lokasi-galian','ReportSalesController@reportByLokasiGalian');
+        // Route::post('sales/report-by-sales-type','ReportSalesController@reportBySalesType');
+        // Route::post('sales/report-by-sales-type-all','ReportSalesController@reportBySalesTypeAll');
+
+        // //  REPORT DELIVERY
+        // Route::get('delivery','ReportDeliveryController@index');
+        // Route::post('delivery/report-by-date','ReportDeliveryController@reportByDate');
+        // Route::post('delivery/report-by-customer','ReportDeliveryController@reportByCustomer');
+        // Route::post('delivery/report-by-lokasi-galian','ReportDeliveryController@reportByLokasiGalian');
+        // Route::post('delivery/report-by-driver','ReportDeliveryController@reportByDriver');
     });
 
     Route::get('api/get-auto-complete-provinsi','ApiController@getAutoCompleteProvinsi');
