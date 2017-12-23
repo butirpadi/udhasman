@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Spipu\Html2Pdf\Html2Pdf;
+use Dompdf\Dompdf;
 
 class ReportPengirimanController extends Controller
 {
@@ -68,9 +69,11 @@ class ReportPengirimanController extends Controller
                  'sum_total'=>$sum_total,
                  'dicetak'=>date('d-m-Y H:i:s')
              ]));
+            $html2pdf->output();
             
         }else if($req->tipe_report == 'detail'){
             $html2pdf = new Html2Pdf('L', 'A4', 'en');
+            
             $pengiriman = \DB::table('view_new_pengiriman')
                             ->whereBetween('order_date',[$tgl_awal_str,$tgl_akhir_str])
                             ->whereRaw($req->customer == '' ? 'true' : 'customer_id = ' . $req->customer)
@@ -98,16 +101,29 @@ class ReportPengirimanController extends Controller
             }
 
             
-            $html2pdf->writeHTML($this->defaultDetailReportHtml([
+            // $html2pdf->writeHTML($this->defaultDetailReportHtml([
+            //      'tanggal_awal' => $awal,
+            //      'tanggal_akhir' => $akhir,
+            //      'pengiriman'=>$pengiriman,
+            //      'grand_total'=>$grand_total,
+            //      'dicetak'=>date('d-m-Y H:i:s')
+            //  ]));
+            // $html2pdf->output();
+
+            $dompdf = new Dompdf();
+            $dompdf->set_option('isHtml5ParserEnabled', true);
+            $dompdf->setPaper('A4', 'landscape');
+            $dompdf->loadHtml($this->defaultDetailReportHtml([
                  'tanggal_awal' => $awal,
                  'tanggal_akhir' => $akhir,
                  'pengiriman'=>$pengiriman,
                  'grand_total'=>$grand_total,
                  'dicetak'=>date('d-m-Y H:i:s')
              ]));
+            $dompdf->render();
+            $dompdf->stream("ReportPengiriman.pdf", array("Attachment" => false));
+            exit(0);
         }
-
-        $html2pdf->output();
 
      
 	}

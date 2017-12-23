@@ -10,7 +10,8 @@
         "laravelcollective/html": "^5.2",
         "browner12/helpers": "^1.0",
         "setasign/fpdf": "^1.8",
-        "spipu/html2pdf": "^5.0"
+        "spipu/html2pdf": "^5.0",
+        "dompdf/dompdf": "^0.8.2"
 
     },
     "require-dev": {
