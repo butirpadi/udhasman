@@ -60,9 +60,19 @@ class SupplierController extends Controller
 
 	public function edit($id){
 		$data = \DB::table('view_supplier')->find($id);
+		$next = \DB::table('view_supplier')
+					->where('id','>',$id)
+					->orderBy('id','asc')
+					->first();
+		$prev = \DB::table('view_supplier')
+					->where('id','<',$id)
+					->orderBy('id','desc')
+					->first();
 
 		return view('master.supplier.edit',[
 				'data' => $data,
+				'next' => $next,
+				'prev' => $prev,
 			]);
 	}
 

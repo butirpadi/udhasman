@@ -118,6 +118,15 @@ class KaryawanController extends Controller
 	public function edit($id){
 		$data = \DB::table('view_karyawan')->find($id);
 
+		$next = \DB::table('view_karyawan')
+					->where('id','>',$id)
+					->orderBy('id','asc')
+					->first();
+		$prev = \DB::table('view_karyawan')
+					->where('id','<',$id)
+					->orderBy('id','desc')
+					->first();
+
 		$jabatans = \DB::table('jabatan')->get();
 		$selectJabatan = [];
 		foreach($jabatans as $dt){
@@ -127,7 +136,9 @@ class KaryawanController extends Controller
 
 		return view('master.karyawan.edit',[
 				'data' => $data,
-				'selectJabatan' => $selectJabatan
+				'next' => $next,
+				'prev' => $prev,
+				'selectJabatan' => $selectJabatan,
 			]);
 	}
 

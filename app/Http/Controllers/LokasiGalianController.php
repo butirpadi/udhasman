@@ -58,8 +58,18 @@ class LokasiGalianController extends Controller
 
 	public function edit($id){
 		$data = \DB::table('view_lokasi_galian')->find($id);
+		$next = \DB::table('view_lokasi_galian')
+					->where('id','>',$id)
+					->orderBy('id','asc')
+					->first();
+		$prev = \DB::table('view_lokasi_galian')
+					->where('id','<',$id)
+					->orderBy('id','desc')
+					->first();
 		return view('master.lokasi_galian.edit',[
-				'data' => $data
+				'data' => $data,
+				'prev' => $prev,
+				'next' => $next,
 			]);
 	}
 

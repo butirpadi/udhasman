@@ -2,7 +2,7 @@
 
 @section('styles')
 <link href="plugins/datepicker/datepicker3.css" rel="stylesheet" type="text/css"/>
-<link rel="stylesheet" href="plugins/select2/select2.min.css">
+<link rel="stylesheet" href="plugins/select2/dist/css/select2.min.css">
 <style>
     .autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; }
     .autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
@@ -295,7 +295,7 @@
 <script src="plugins/autocomplete/jquery.autocomplete.min.js" type="text/javascript"></script>
 <script src="plugins/autonumeric/autoNumeric-min.js" type="text/javascript"></script>
 <!-- Select2 -->
-    <script src="plugins/select2/select2.full.min.js"></script>
+    <script src="plugins/select2/dist/js/select2.full.min.js"></script>
 
 
 

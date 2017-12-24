@@ -65,9 +65,19 @@ class CustomerController extends Controller
 	public function edit($id){
 		$data = \DB::table('view_customer')->find($id);
 		$pekerjaan = \DB::table('pekerjaan')->where('customer_id',$id)->orderBy('created_at','desc')->get();
+		$next = \DB::table('view_customer')
+					->where('id','>',$id)
+					->orderBy('id','asc')
+					->first();
+		$prev = \DB::table('view_customer')
+					->where('id','<',$id)
+					->orderBy('id','desc')
+					->first();
 
 		return view('master.customer.edit',[
 				'data' => $data,
+				'next' => $next,
+				'prev' => $prev,
 				'pekerjaan' => $pekerjaan,
 			]);
 	}

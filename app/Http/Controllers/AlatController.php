@@ -58,8 +58,18 @@ class AlatController extends Controller
 
 	public function edit($id){
 		$data = \DB::table('alat')->find($id);
+		$next = \DB::table('alat')
+					->where('id','>',$id)
+					->orderBy('id','asc')
+					->first();
+		$prev = \DB::table('alat')
+					->where('id','<',$id)
+					->orderBy('id','desc')
+					->first();
 		return view('master.alat.edit',[
-				'data' => $data
+				'data' => $data,
+				'next' => $next,
+				'prev' => $prev,
 			]);
 	}
 

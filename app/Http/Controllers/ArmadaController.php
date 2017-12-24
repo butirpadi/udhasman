@@ -67,19 +67,31 @@ class ArmadaController extends Controller
 	}
 
 	public function edit($id){
-		$data = \DB::table('armada')->find($id);
+		$data = \DB::table('view_armada')->find($id);
+
+		$next = \DB::table('view_armada')
+					->where('id','>',$id)
+					->orderBy('id','asc')
+					->first();
+		$prev = \DB::table('view_armada')
+					->where('id','<',$id)
+					->orderBy('id','desc')
+					->first();
+
 		$drivers = \DB::select('select * 
 					from view_karyawan 
-					where view_karyawan.kode_jabatan = "DV" and  view_karyawan.id not in (select karyawan_id from armada where karyawan_id is not null and armada.id != ' . $id . ')
+					where view_karyawan.driver = 1 and  view_karyawan.id not in (select karyawan_id from armada where karyawan_id is not null and armada.id != ' . $id . ')
 					');
 		$selectDriver = [
 				'0' => 'NONE'
 			];
 		foreach($drivers as $dt){
-			$selectDriver[$dt->id] = $dt->nama . ' [' . $dt->jabatan . ']';
+			$selectDriver[$dt->id] = $dt->nama ;
 		}
 		return view('master.armada.edit',[
 				'data' => $data,
+				'next' => $next,
+				'prev' => $prev,
 				'selectDriver' => $selectDriver,
 			]);
 	}

@@ -2,7 +2,7 @@
 
 @section('styles')
 <link href="plugins/datepicker/datepicker3.css" rel="stylesheet" type="text/css"/>
-<link rel="stylesheet" href="plugins/select2/select2.min.css">
+<link rel="stylesheet" href="plugins/select2/dist/css/select2.min.css">
 <style>
     .autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; }
     .autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
@@ -56,20 +56,12 @@
 <section class="content">
     <div class="box box-solid">
         <div class="box-header with-border" style="padding-top:5px;padding-bottom:5px;" >
-            {{-- <label> <small>Sales Order</small> <h4 style="font-weight: bolder;margin-top:0;padding-top:0;margin-bottom:0;padding-bottom:0;" >New</h4></label> --}}
             <label><h3 style="margin:0;padding:0;font-weight:bold;" >{{$data->ref}}</h3></label>
 
-<!--             <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
-            <a class="btn  btn-arrow-right pull-right disabled bg-gray" >DONE</a>
-
-            <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
-            <a class="btn btn-arrow-right pull-right disabled bg-gray" >VALIDATED</a>
-
-            <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
-            <a class="btn btn-arrow-right pull-right disabled bg-blue" >OPEN</a>
-
-            <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
-            <a class="btn btn-arrow-right pull-right disabled bg-gray" >DRAFT</a> -->
+            <div class="pull-right" >
+                <a class="btn btn-default btn-sm {{$prev?'':'disabled'}}" href="{{$prev ? 'pembelian/edit/'.$prev->id : url()->current().'#'}}" ><i class="fa fa-angle-double-left" ></i></a>
+                <a class="btn btn-default btn-sm {{$next?'':'disabled'}}" " href="{{$next ? 'pembelian/edit/'.$next->id : url()->current().'#'}}" ><i class="fa fa-angle-double-right" ></i></a>
+            </div>
         </div>
         <div class="box-body">
             <input type="hidden" name="pembelian_id" value="{{$data->id}}">
@@ -251,7 +243,7 @@
 <script src="plugins/autocomplete/jquery.autocomplete.min.js" type="text/javascript"></script>
 <script src="plugins/autonumeric/autoNumeric-min.js" type="text/javascript"></script>
 <!-- Select2 -->
-    <script src="plugins/select2/select2.full.min.js"></script>
+    <script src="plugins/select2/dist/js/select2.full.min.js"></script>
 
 
 

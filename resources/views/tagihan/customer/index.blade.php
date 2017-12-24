@@ -4,7 +4,7 @@
 <!--Bootsrap Data Table-->
 <link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
 <link href="plugins/datepicker/datepicker3.css" rel="stylesheet" type="text/css"/>
-<link rel="stylesheet" href="plugins/select2/select2.min.css">
+<link rel="stylesheet" href="plugins/select2/dist/css/select2.min.css">
 
 <style>
    /* #table-data > tbody > tr{
@@ -198,7 +198,7 @@
 <script src="plugins/jqueryform/jquery.form.min.js" type="text/javascript"></script>
 <script src="plugins/datepicker/bootstrap-datepicker.js" type="text/javascript"></script>
 <script src="plugins/autonumeric/autoNumeric-min.js" type="text/javascript"></script>
-<script src="plugins/select2/select2.full.min.js"></script>
+<script src="plugins/select2/dist/js/select2.full.min.js"></script>
 
 <script type="text/javascript">
 (function ($) {

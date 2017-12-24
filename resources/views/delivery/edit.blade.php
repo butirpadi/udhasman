@@ -2,7 +2,7 @@
 
 @section('styles')
 <link href="plugins/datepicker/datepicker3.css" rel="stylesheet" type="text/css"/>
-<link rel="stylesheet" href="plugins/select2/select2.min.css">
+<link rel="stylesheet" href="plugins/select2/dist/css/select2.min.css">
 <style>
     .autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; }
     .autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
@@ -58,6 +58,11 @@
         <form role="form" method="POST" action="delivery/update" >
         <div class="box-header with-border" style="padding-top:5px;padding-bottom:5px;" >
             <label><h3 style="margin:0;padding:0;font-weight:bold;" >{{$pengiriman->name}}</h3></label>
+
+            <div class="text-right" >
+                <a class="btn btn-default btn-sm {{$prev?'':'disabled'}}" href="{{$prev ? 'delivery/edit/'.$prev[0]->id : url()->current().'#'}}" ><i class="fa fa-angle-double-left" ></i></a>
+                <a class="btn btn-default btn-sm {{$next?'':'disabled'}}" " href="{{$next ? 'delivery/edit/'.$next[0]->id : url()->current().'#'}}" ><i class="fa fa-angle-double-right" ></i></a>
+            </div>
 
             <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
             <a class="btn  btn-arrow-right pull-right disabled {{$pengiriman->state == 'done' ? 'bg-blue' : 'bg-gray'}}" >DONE</a>
@@ -297,7 +302,7 @@
 <script src="plugins/autocomplete/jquery.autocomplete.min.js" type="text/javascript"></script>
 <script src="plugins/autonumeric/autoNumeric-min.js" type="text/javascript"></script>
 <!-- Select2 -->
-    <script src="plugins/select2/select2.full.min.js"></script>
+    <script src="plugins/select2/dist/js/select2.full.min.js"></script>
 
 
 

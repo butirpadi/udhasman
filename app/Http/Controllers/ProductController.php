@@ -68,9 +68,19 @@ class ProductController extends Controller
 		}
 
 		$data = \DB::table('product')->find($id);
+		$next = \DB::table('product')
+					->where('id','>',$id)
+					->orderBy('id','asc')
+					->first();
+		$prev = \DB::table('product')
+					->where('id','<',$id)
+					->orderBy('id','desc')
+					->first();
 
 		return view('master.product.edit',[
 				'data' => $data,
+				'next' => $next,
+				'prev' => $prev,
 				'select_unit' => $select_unit,
 			]);
 	}

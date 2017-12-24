@@ -2,7 +2,7 @@
 
 @section('styles')
 <link href="plugins/datepicker/datepicker3.css" rel="stylesheet" type="text/css"/>
-<link rel="stylesheet" href="plugins/select2/select2.min.css">
+<link rel="stylesheet" href="plugins/select2/dist/css/select2.min.css">
 <link href="plugins/bootstrap-switch/css/bootstrap3/bootstrap-switch.min.css" rel="stylesheet" type="text/css"/>
 
 <style>
@@ -395,7 +395,7 @@
 <script src="plugins/autocomplete/jquery.autocomplete.min.js" type="text/javascript"></script>
 <script src="plugins/autonumeric/autoNumeric-min.js" type="text/javascript"></script>
 <!-- Select2 -->
-<script src="plugins/select2/select2.full.min.js"></script>
+<script src="plugins/select2/dist/js/select2.full.min.js"></script>
 <script src="plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
 
 

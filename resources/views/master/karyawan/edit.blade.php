@@ -31,6 +31,11 @@
     <div class="box box-solid" >
         <div class="box-header with-border" style="padding-top:5px;padding-bottom:5px;" >
             <label><h3 style="margin:0;padding:0;font-weight:bold;" >{{$data->kode}}</h3></label>
+
+            <div class="pull-right" >
+                <a class="btn btn-default btn-sm {{$prev?'':'disabled'}}" href="{{$prev ? 'master/karyawan/edit/'.$prev->id : url()->current().'#'}}" ><i class="fa fa-angle-double-left" ></i></a>
+                <a class="btn btn-default btn-sm {{$next?'':'disabled'}}" " href="{{$next ? 'master/karyawan/edit/'.$next->id : url()->current().'#'}}" ><i class="fa fa-angle-double-right" ></i></a>
+            </div>
         </div>
         <div class="box-body" >
             <div class="row" >

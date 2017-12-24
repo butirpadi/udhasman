@@ -98,11 +98,21 @@ class PembelianController extends Controller
 
 	public function edit($id){
 		$data = \DB::table('view_pembelian')->find($id);
+		$next = \DB::table('view_pembelian')
+					->where('id','>',$id)
+					->orderBy('id','asc')
+					->first();
+		$prev = \DB::table('view_pembelian')
+					->where('id','<',$id)
+					->orderBy('id','desc')
+					->first();
 		$data->detail = \DB::table('view_pembelian_detail')->wherePembelianId($id)->get();
 
 		if($data->status == 'VALIDATED'){
 			return view('pembelian.validated',[
-					'data' => $data
+					'data' => $data,
+					'next' => $next,
+					'prev' => $prev,
 				]);
 		}elseif($data->status == 'OPEN'){
 			$supplier = \DB::table('supplier')->get();
@@ -120,11 +130,15 @@ class PembelianController extends Controller
 			return view('pembelian.edit',[
 					'select_supplier' => $select_supplier,
 					'product' => $product,
-					'data' => $data
+					'data' => $data,
+					'next' => $next,
+					'prev' => $prev,
 				]);
 		}elseif($data->status == 'CANCELED'){
 			return view('pembelian.canceled',[
-					'data' => $data
+					'data' => $data,					
+					'next' => $next,
+					'prev' => $prev,
 				]);
 		}
 

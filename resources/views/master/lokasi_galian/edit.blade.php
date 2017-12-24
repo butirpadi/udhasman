@@ -27,7 +27,12 @@
 <section class="content">
     <div class="box box-solid" >
         <div class="box-header with-border" style="padding-top:5px;padding-bottom:5px;" >
-            <label><h3 style="margin:0;padding:0;font-weight:bold;" >Edit</h3></label>
+            <label><h3 style="margin:0;padding:0;font-weight:bold;" >{{$data->nama}}</h3></label>
+
+            <div class="pull-right" >
+                <a class="btn btn-default btn-sm {{$prev?'':'disabled'}}" href="{{$prev ? 'master/lokasi/edit/'.$prev->id : url()->current().'#'}}" ><i class="fa fa-angle-double-left" ></i></a>
+                <a class="btn btn-default btn-sm {{$next?'':'disabled'}}" " href="{{$next ? 'master/lokasi/edit/'.$next->id : url()->current().'#'}}" ><i class="fa fa-angle-double-right" ></i></a>
+            </div>
         </div>
         <div class="box-body" >
             <div class="row" >

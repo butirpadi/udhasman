@@ -14,7 +14,8 @@ class DeliveryController extends Controller
 {
 	public function index(){
 		$pengiriman = \DB::table('view_new_pengiriman')
-		->orderBy('order_date')
+		->orderBy('order_date','desc')
+		->orderBy('created_at','desc')
 		->get();
 
 		return view('delivery.index',[
@@ -168,17 +169,35 @@ class DeliveryController extends Controller
 			$select_lokasi[$dt->id] = $dt->nama;
 		}
 
-		if($pengiriman){
-			return view('delivery.edit',[
-				'select_customer' => $select_customer,
-				'lokasi_galian' => $select_lokasi,
-				'material' => $select_material,
-				'driver' => $driver,
-				'pengiriman' => $pengiriman,
-			]);
-		}else{
-			return view('notfound',[]);
+		// $next = \DB::table('view_new_pengiriman')
+		// 			->where('order_date','>=',$pengiriman->order_date)
+		// 			->orderBy('created_at','asc')
+		// 			->first();
+		$next = \DB::select("select * from view_new_pengiriman where order_date >= '". $pengiriman->order_date ."' and id > ". $pengiriman->id ." order by created_at asc limit 1");
+		// $prev = \DB::table('view_new_pengiriman')
+		// 			->where('order_date','<=',$pengiriman->order_date)
+		// 			->orderBy('created_at','desc')
+		// 			->first();
+		$prev = \DB::select("select * from view_new_pengiriman where order_date <= '". $pengiriman->order_date . "' and id < ". $pengiriman->id . " order by created_at desc limit 1");
+
+		$dt = \DB::select('call ordered_new_pengiriman()');
+		foreach($dt as $d){
+			echo $d->num . ' - ' . $d->name . '<br/>';
 		}
+
+		// if($pengiriman){
+		// 	return view('delivery.edit',[
+		// 		'select_customer' => $select_customer,
+		// 		'lokasi_galian' => $select_lokasi,
+		// 		'material' => $select_material,
+		// 		'driver' => $driver,
+		// 		'pengiriman' => $pengiriman,
+		// 		'next' => $next,
+		// 		'prev' => $prev,
+		// 	]);
+		// }else{
+		// 	return view('notfound',[]);
+		// }
 	}
 
 	public function update(Request $req){
@@ -204,24 +223,58 @@ class DeliveryController extends Controller
 	        ->where('id','=',$data_do->id)
 	        ->update([
 				'order_date' => $fix_order_date,
-				// 'customer_id' => $req->customer,
 				'pekerjaan_id' => $req->pekerjaan,
 				'lokasi_galian_id' => $req->lokasi_galian,
 				'karyawan_id' => $req->driver,
 				'nopol' => $req->nopol,
 				'material_id' => $req->material,
-				'kalkulasi' => $req->kalkulasi,
-				'panjang' => $req->panjang,
-				'lebar' => $req->lebar,
-				'tinggi' => $req->tinggi,
-				'volume' => number_format($req->panjang * $req->lebar * $req->tinggi,2),
-				'gross' => $req->gross,
-				'tare' => $req->tare,
-				'netto' => number_format($req->gross - $req->tare,2),
 				'harga_satuan' => str_replace(',', '', $req->harga_satuan),
-				'harga_total' => $harga_total,
 				'nota_timbang' => $req->nota_timbang,
+				'harga_total' => $harga_total,
+				'kalkulasi' => $req->kalkulasi,
 			]);
+
+	        // update data kalkulasi
+			if($req->kalkulasi == 'rit'){
+				\DB::table('new_pengiriman')
+		        ->where('id','=',$data_do->id)
+		        ->update([
+					'qty' => 1,
+					'panjang' => 0,
+					'lebar' => 0,
+					'tinggi' => 0,
+					'volume' => 0,
+					'gross' => 0,
+					'tare' => 0,
+					'netto' => 0,
+				]);
+			}elseif($req->kalkulasi == 'kubik'){
+				\DB::table('new_pengiriman')
+		        ->where('id','=',$data_do->id)
+		        ->update([
+					'qty' => 0,
+					'panjang' => $req->panjang,
+					'lebar' => $req->lebar,
+					'tinggi' => $req->tinggi,
+					'volume' => number_format($req->panjang * $req->lebar * $req->tinggi,2),
+					'gross' => 0,
+					'tare' => 0,
+					'netto' => 0,
+				]);
+			}elseif($req->kalkulasi == 'ton'){
+				\DB::table('new_pengiriman')
+		        ->where('id','=',$data_do->id)
+		        ->update([
+					'qty' => 0,
+					'panjang' => 0,
+					'lebar' => 0,
+					'tinggi' => 0,
+					'volume' => 0,
+					'gross' => $req->gross,
+					'tare' => $req->tare,
+					'netto' => number_format($req->gross - $req->tare,2),
+				]);
+			}
 
 	        if($data_do->state != 'done'){
 				if(($req->kalkulasi != '' || $req->panjang != '' || $req->lebar != '' || $req->tinggi != '' || $req->gross != '' || $req->tare != '' || $req->harga_satuan != '')){

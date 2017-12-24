@@ -36,8 +36,18 @@ class ProductUnitController extends Controller
 
 	public function edit($id){
 		$data = \DB::table('product_unit')->find($id);
+		$next = \DB::table('product_unit')
+					->where('id','>',$id)
+					->orderBy('id','asc')
+					->first();
+		$prev = \DB::table('product_unit')
+					->where('id','<',$id)
+					->orderBy('id','desc')
+					->first();
 		return view('master.product_unit.edit',[
-				'data' => $data
+				'data' => $data,
+				'next' => $next,
+				'prev' => $prev,
 			]);
 	}
 

@@ -58,8 +58,19 @@ class MaterialController extends Controller
 
 	public function edit($id){
 		$data = \DB::table('material')->find($id);
+
+		$next = \DB::table('material')
+					->where('id','>',$id)
+					->orderBy('id','asc')
+					->first();
+		$prev = \DB::table('material')
+					->where('id','<',$id)
+					->orderBy('id','desc')
+					->first();
 		return view('master.material.edit',[
-				'data' => $data
+				'data' => $data,
+				'next' => $next,
+				'prev' => $prev,
 			]);
 	}
 
