@@ -73,54 +73,95 @@
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
                   <li class="active"><a href="#tab_1" data-toggle="tab">Basic</a></li>
-                  <!-- <li><a href="#tab_2" data-toggle="tab">Group Report</a></li> -->
+                  <li><a href="#tab_2" data-toggle="tab">Group Report</a></li>
                 </ul>
                 <div class="tab-content">
-                  <div class="tab-pane active" id="tab_1">
-                    <form method="POST" action="report/pengiriman/default-report" target="_blank">
-                        <div class="row" >
-                            <div class="col-xs-6" >
-                                <div class="form-group">
-                                    <label >Tanggal</label>
-                                    <div class='input-group' style="width: 100%;" >
-                                        <input type="text" name="tanggal_awal" class="input-tanggal form-control" value="{{date('d-m-Y')}}" required>
-                                        <div class='input-group-field' style="padding-left: 5px;" >
-                                            <input  type="text" name="tanggal_akhir" class="input-tanggal form-control" value="{{date('d-m-Y')}}" required>
+                    <div class="tab-pane active" id="tab_1">
+                        <form method="POST" action="report/pengiriman/default-report" target="_blank">
+                            <div class="row" >
+                                <div class="col-xs-6" >
+                                    <div class="form-group">
+                                        <label >Tanggal</label>
+                                        <div class='input-group' style="width: 100%;" >
+                                            <input type="text" name="tanggal_awal" class="input-tanggal form-control" value="{{date('d-m-Y')}}" required>
+                                            <div class='input-group-field' style="padding-left: 5px;" >
+                                                <input  type="text" name="tanggal_akhir" class="input-tanggal form-control" value="{{date('d-m-Y')}}" required>
 
+                                            </div>
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <label >Tipe Report</label>
+                                        <select name="tipe_report" class="form-control">
+                                            <option value="summary" >Summary</option>
+                                            <option value="detail" >Detail</option>
+                                            <!-- <option value="grafik" >Grafik</option> -->
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label >Tipe Report</label>
-                                    <select name="tipe_report" class="form-control">
-                                        <option value="summary" >Summary</option>
-                                        <option value="detail" >Detail</option>
-                                        <!-- <option value="grafik" >Grafik</option> -->
-                                    </select>
+                                <div class="col-xs-6" >
+                                    <div class="form-group">
+                                        <label >Customer</label>
+                                        {!! Form::select('customer',$select_customer,null,['class'=>'form-control select2']) !!}
+                                    </div>
+                                    <div class="form-group">
+                                        <label >Pekerjaan</label>
+                                        {!! Form::select('pekerjaan',[],null,['class'=>'form-control select2']) !!}
+                                    </div>
+                                    <div class="form-group">
+                                        <label >Material</label>
+                                        {!! Form::select('material',$select_material,null,['class'=>'form-control select2']) !!}
+                                    </div>
+                                </div> 
+                                <div class="col-xs-12" >
+                                    <button type="submit" class="btn btn-primary" id="btn-save" ><i class="fa fa-check" ></i> Submit</button>
+                                    <a class="btn btn-danger" id="btn-cancel-save" href="pengiriman" ><i class="fa fa-close" ></i> Close</a>
                                 </div>
                             </div>
-                            <div class="col-xs-6" >
-                                <div class="form-group">
-                                    <label >Customer</label>
-                                    {!! Form::select('customer',$select_customer,null,['class'=>'form-control select2']) !!}
+                        </form>
+                    </div>
+                    <div class="tab-pane" id="tab_2">
+                        <form method="POST" action="report/pengiriman/group-report" target="_blank">
+                            <div class="row" >
+                                <div class="col-xs-6" >
+                                    <div class="form-group">
+                                        <label >Tanggal</label>
+                                        <div class='input-group' style="width: 100%;" >
+                                            <input type="text" name="tanggal_awal" class="input-tanggal form-control" value="{{date('d-m-Y')}}" required>
+                                            <div class='input-group-field' style="padding-left: 5px;" >
+                                                <input  type="text" name="tanggal_akhir" class="input-tanggal form-control" value="{{date('d-m-Y')}}" required>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label >Tipe Report</label>
+                                        <select name="tipe_report" id="tipe_report_group" class="form-control">
+                                            <option value="summary" >Summary</option>
+                                            <option value="detail" >Detail</option>
+                                            <!-- <option value="grafik" >Grafik</option> -->
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label >Pekerjaan</label>
-                                    {!! Form::select('pekerjaan',[],null,['class'=>'form-control select2']) !!}
+                                <div class="col-xs-6" >
+                                    <div class="form-group">
+                                        <label >Group by</label>
+                                        <select name="group_by" class="form-control">
+                                            <option value="customer" >Customer</option>
+                                            <option value="pekerjaan" >Pekerjaan</option>
+                                            <option value="material" >Material</option>
+                                            <option value="lokasi" >Lokasi Galian</option>
+                                            <option value="driver" >Driver</option>
+                                        </select>
+                                    </div>
+                                </div> 
+                                <div class="col-xs-12" >
+                                    <button type="submit" class="btn btn-primary" id="btn-save" ><i class="fa fa-check" ></i> Submit</button>
+                                    <a class="btn btn-danger" id="btn-cancel-save" href="pengiriman" ><i class="fa fa-close" ></i> Close</a>
                                 </div>
-                                <div class="form-group">
-                                    <label >Material</label>
-                                    {!! Form::select('material',$select_material,null,['class'=>'form-control select2']) !!}
-                                </div>
-                            </div> 
-                            <div class="col-xs-12" >
-                                <button type="submit" class="btn btn-primary" id="btn-save" ><i class="fa fa-check" ></i> Submit</button>
-                                <a class="btn btn-danger" id="btn-cancel-save" href="pengiriman" ><i class="fa fa-close" ></i> Close</a>
                             </div>
-                        </div>
-                    </form>
-                  </div>
-                  
+                        </form>
+                    </div>
             </div>
         </div>
     </div>
@@ -177,6 +218,19 @@
             $("select[name=pekerjaan]").val([]);
             $("select[name=pekerjaan]").select2();
         });
+    });
+
+
+    // set form action
+    detail_action = "report/pengiriman/group-detail-report";
+    summary_action = "report/pengiriman/group-report";
+    $('#tipe_report_group').change(function(){
+        if($(this).val() == 'detail'){
+            $(this).parents('form').last().attr('action',detail_action);
+        }else{
+            $(this).parents('form').last().attr('action',summary_action);
+
+        }
     });
 
 

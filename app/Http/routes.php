@@ -484,6 +484,8 @@ Route::group(['middleware' => ['web','auth']], function () {
         // REPORT PENGIRIMAN
         Route::get('pengiriman','ReportPengirimanController@index');
         Route::post('pengiriman/default-report','ReportPengirimanController@defaultReport');
+        Route::post('pengiriman/group-report','ReportPengirimanController@groupReport');
+        Route::post('pengiriman/group-detail-report','ReportPengirimanController@groupDetailReport');
         // Route::post('pengiriman/group-report','ReportPengirimanController@groupReport');
 
 
