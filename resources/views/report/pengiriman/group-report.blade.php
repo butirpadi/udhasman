@@ -70,6 +70,8 @@
 								{{'LOKASI GALIAN'}}
 							@elseif($group_by == 'driver')
 								{{'DRIVER'}}
+							@elseif($group_by == 'pekerjaan')
+								{{'PEKERJAAN'}}
 							@endif
 						</th>
 						<th style="width: 10%;" >RIT</th>
@@ -94,6 +96,8 @@
 								{{$dt->lokasi_galian}}
 							@elseif($group_by == 'driver')
 								{{$dt->karyawan}}
+							@elseif($group_by == 'pekerjaan')
+								{{$dt->pekerjaan}}
 							@endif
 						</td>
 						<td style="text-align:right;" >

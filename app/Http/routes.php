@@ -335,6 +335,11 @@ Route::group(['middleware' => ['web','auth']], function () {
         
     });
 
+    Route::group(['prefix' => 'presensi'], function () {
+        Route::get('/','PresensiController@index');
+        Route::get('get-presensi-by-bulan/{bulan}','PresensiController@getPresensiByBulan');
+    });
+
     Route::group(['prefix' => 'attendance'], function () {
         // SETTING
         Route::get('setting','AttendanceController@setting');
@@ -343,6 +348,7 @@ Route::group(['middleware' => ['web','auth']], function () {
         Route::get('setting/delete-holiday/{holiday_id}','AttendanceController@deleteHoliday');
         // ATTENDANCE
         Route::get('attend','AttendanceController@attend');
+        Route::get('attend/{val}','AttendanceController@attend');
         Route::post('attend/insert','AttendanceController@insertAttend');
         Route::post('get-attendance-table','AttendanceController@getAttendanceTable');
     });

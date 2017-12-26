@@ -84,12 +84,13 @@ class AttendanceController extends Controller
 	}
 
 	// TAMPILKAN FORM ABSENSI
-	public function attend(){
+	public function attend($openTime=null){
 		$libur_sabtu = \DB::table('appsetting')->where('name','attendance_libur_sabtu')->first()->value;
 		$libur_minggu = \DB::table('appsetting')->where('name','attendance_libur_minggu')->first()->value;
 		return view('attendance/attend/index',[
 			'libur_sabtu' => $libur_sabtu,
 			'libur_minggu' => $libur_minggu,
+			'openTime' => $openTime
 		]);
 	}
 

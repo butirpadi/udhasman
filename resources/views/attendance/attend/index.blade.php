@@ -24,7 +24,8 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Presensi
+        <a href="presensi" >Presensi Karyawan</a> 
+        <i class="fa fa-angle-double-right" ></i> Input Presensi
     </h1>
 </section>
 
@@ -32,40 +33,28 @@
 <section class="content">
   <div class="box box-solid" >
     <div class="box-header with-border" style="padding-top:5px;padding-bottom:5px;" >
-        <label><h3 style="margin:0;padding:0;font-weight:bold;" >Presensi</h3></label>
-{{-- 
-        <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
-        <a class="btn  btn-arrow-right pull-right disabled bg-gray" id="label-status-posted" >Posted</a>
+        <label><h3 style="margin:0;padding:0;font-weight:bold;" >Input Presensi</h3></label>
+
+        <!-- <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
+        <a class="btn  btn-arrow-right pull-right disabled bg-gray" id="label-status-posted" >POSTED</a>
 
         <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
-        <a class="btn  btn-arrow-right pull-right disabled bg-blue" id="label-status-draft" >Draft</a> --}}
-
+        <a class="btn  btn-arrow-right pull-right disabled bg-blue" id="label-status-draft" >DRAFT</a>  -->
     </div>
     <div class="box-body" >
       <div class="row" >
         <div class="col-sm-4 col-md-4 col-lg-4" >
-          <table class="table" >
-            <tr>
-              <td class="col-sm-2 col-md-2 col-lg-2" >Tanggal</td>
-              <td>
-                  <form name="form_presensi" method="POST" action="attendance/get-attendance-table" >
-                    <div class="input-group" >
-                        <input class="form-control input-tanggal" name="tanggal" required />
-                        <div class="input-group-btn" >
-                          <button class="btn btn-primary" id="btn-show-data-presensi" type="submit" ><i class="fa fa-search" ></i></button>
-                        </div>
-                    </div>
-                  </form>
-                {{-- <input class="form-control input-tanggal" name="tanggal" /> --}}
-              </td>
-            </tr>
-            {{-- <tr>
-              <td></td>
-              <td>
-                <button id="btn-show-data-presensi" class="btn btn-primary btn-sm" >Show</button>
-              </td>
-            </tr> --}}
-          </table>
+          <div class="form-group">
+            <label>Tanggal</label>
+            <form name="form_presensi" method="POST" action="attendance/get-attendance-table" >
+              <div class="input-group" >
+                  <input class="form-control input-tanggal" name="tanggal" value="{{$openTime!=null?$openTime:''}}" required />
+                  <div class="input-group-btn" >
+                    <button class="btn btn-primary" id="btn-show-data-presensi" type="submit" ><i class="fa fa-search" ></i></button>
+                  </div>
+              </div>
+            </form>
+          </div>
         </div>
         <div class="col-sm-4 col-md-4 col-lg-4" ></div>
       </div>
@@ -93,14 +82,13 @@
             </tbody>
           </table>
 
-          <button class="btn btn-primary" id="btn-save-presensi" ><i class="fa fa-save" ></i> Save</button>
-
         </div>
       </div>
 
     </div>
     <div class="box-footer" >
-
+      <button class="btn btn-primary hide" id="btn-save-presensi" ><i class="fa fa-save" ></i> Save</button>
+          <a class="btn btn-danger" href="presensi" ><i class="fa fa-close" ></i> Close</a>
     </div>
   </div>
 </section><!-- /.content -->
@@ -257,6 +245,8 @@
                                             .attr('data-karyawanid',data.id)
                                             .addClass('ck-row ck-row-pagi')
                                             .attr('type','checkbox')
+                                            .attr('data-size','mini')
+                                            .attr('data-on-color','success')
                                             .attr('name','ck_hadir_pagi_' + data.id)
                                             .prop('checked',(data.presensi ? data.presensi.pagi : 'N') == 'Y' && true)
                                         ))
@@ -265,6 +255,8 @@
                             .attr('data-karyawanid',data.id)
                             .addClass('ck-row ck-row-siang')
                             .attr('type','checkbox')
+                            .attr('data-size','mini')
+                            .attr('data-on-color','success')
                             .attr('name','ck_hadir_siang_' + data.id)
                             .prop('checked',(data.presensi ? data.presensi.siang : 'N') == 'Y' && true)
                           ))
@@ -279,24 +271,28 @@
         $('.data-presensi').removeClass('hide');
         $('.data-presensi').fadeIn(250);
 
-        // tampilkan status data
-        if(data_presensi.status == 'P'){
-          $('#label-status-posted').removeClass('bg-gray');
-          $('#label-status-posted').removeClass('bg-blue');
-          $('#label-status-posted').addClass('bg-blue');
+        // tampilkan button save
+        $('#btn-save-presensi').removeClass('hide');
+        $('#btn-save-presensi').fadeIn(250);
 
-          $('#label-status-draft').removeClass('bg-gray');
-          $('#label-status-draft').removeClass('bg-blue');
-          $('#label-status-draft').addClass('bg-gray');
-        }else{
-          $('#label-status-posted').removeClass('bg-gray');
-          $('#label-status-posted').removeClass('bg-blue');
-          $('#label-status-posted').addClass('bg-gray');
+        // // tampilkan status data
+        // if(data_presensi.status == 'Y'){
+        //   $('#label-status-posted').removeClass('bg-gray');
+        //   $('#label-status-posted').removeClass('bg-blue');
+        //   $('#label-status-posted').addClass('bg-blue');
 
-          $('#label-status-draft').removeClass('bg-gray');
-          $('#label-status-draft').removeClass('bg-blue');
-          $('#label-status-draft').addClass('bg-blue');
-        }
+        //   $('#label-status-draft').removeClass('bg-gray');
+        //   $('#label-status-draft').removeClass('bg-blue');
+        //   $('#label-status-draft').addClass('bg-gray');
+        // }else{
+        //   $('#label-status-posted').removeClass('bg-gray');
+        //   $('#label-status-posted').removeClass('bg-blue');
+        //   $('#label-status-posted').addClass('bg-gray');
+
+        //   $('#label-status-draft').removeClass('bg-gray');
+        //   $('#label-status-draft').removeClass('bg-blue');
+        //   $('#label-status-draft').addClass('bg-blue');
+        // }
 
         // format checkbox to switch
           $(".ck-row").bootstrapSwitch({
@@ -352,6 +348,16 @@
     });
 
   });
+
+  // Open default time
+  function openDefault(){
+    $openTime = $('input[name=tanggal]').val();
+    if($openTime!=''){
+      $('#btn-show-data-presensi').trigger('click');
+    }
+
+  }
+  openDefault();
 
 // alert('pret');
 })(jQuery);

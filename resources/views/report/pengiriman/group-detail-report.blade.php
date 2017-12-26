@@ -64,6 +64,8 @@
 				<strong>
 					@if($group_by == 'customer')
 						{{'CUSTOMER'}}
+					@elseif($group_by == 'pekerjaan')
+						{{'PEKERJAAN'}}
 					@elseif($group_by == 'material')
 						{{'MATERIAL'}}
 					@elseif($group_by == 'lokasi')
@@ -75,6 +77,8 @@
 				</strong>
 				@if($group_by == 'customer')
 					{{$pg->customer}}
+				@elseif($group_by == 'pekerjaan')
+					{{$pg->pekerjaan}}
 				@elseif($group_by == 'material')
 					{{$pg->material}}
 				@elseif($group_by == 'lokasi')
@@ -91,6 +95,9 @@
 						<th>TANGGAL</th>
 						@if($group_by!='customer')
 						<th>CUSTOMER</th>
+						@endif
+						@if($group_by!='pekerjaan')
+						<th>PEKERJAAN</th>
 						@endif
 						@if($group_by!='material')
 						<th>MATERIAL</th>
@@ -120,6 +127,9 @@
 						</td>
 						@if($group_by!='customer')
 							<td>{{$dt->customer}}</td>
+						@endif
+						@if($group_by!='pekerjaan')
+							<td>{{$dt->pekerjaan}}</td>
 						@endif
 						@if($group_by!='material')
 							<td>{{$dt->material}}</td>
@@ -153,7 +163,7 @@
 					@endforeach
 				</tbody>
 				<tfoot>
-					<td colspan="4" style="text-align: center;" >
+					<td colspan="5" style="text-align: center;" >
 						<strong>TOTAL</strong>
 					</td>
 					<td style="text-align: right;" >
