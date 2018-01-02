@@ -70,6 +70,15 @@
 
             <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
             <a class="btn btn-arrow-right pull-right disabled bg-blue" >DRAFT</a> -->
+
+            <div class="pull-right" >
+                <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
+                <a class="btn  btn-arrow-right pull-right disabled bg-gray" >DONE</a>
+                <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
+                <a class="btn btn-arrow-right pull-right disabled bg-gray" >OPEN</a>
+                <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
+                <a class="btn btn-arrow-right pull-right disabled bg-blue" >DRAFT</a>
+            </div>
         </div>
         <div class="box-body">
             <div class="row" >

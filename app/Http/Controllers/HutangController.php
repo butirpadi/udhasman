@@ -205,7 +205,8 @@ class HutangController extends Controller
 					\DB::table('pembelian')
 						->where('id',$pembelian->id)
 						->update([
-							'status' => 'OPEN'
+							'status' => 'OPEN',
+							'bill_state' => NULL
 						]);
 				}else{
 					// delete hutang
