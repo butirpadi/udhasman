@@ -58,12 +58,6 @@
         <form role="form" method="POST" action="delivery/update" >
         <div class="box-header with-border" style="padding-top:5px;padding-bottom:5px;" >
             <label><h3 style="margin:0;padding:0;font-weight:bold;" >{{$pengiriman->name}}</h3></label>
-
-            <div class="text-right" >
-                <a class="btn btn-default btn-sm {{$prev?'':'disabled'}}" href="{{$prev ? 'delivery/edit/'.$prev[0]->id : url()->current().'#'}}" ><i class="fa fa-angle-double-left" ></i></a>
-                <a class="btn btn-default btn-sm {{$next?'':'disabled'}}" " href="{{$next ? 'delivery/edit/'.$next[0]->id : url()->current().'#'}}" ><i class="fa fa-angle-double-right" ></i></a>
-            </div>
-
             <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
             <a class="btn  btn-arrow-right pull-right disabled {{$pengiriman->state == 'done' ? 'bg-blue' : 'bg-gray'}}" >DONE</a>
 

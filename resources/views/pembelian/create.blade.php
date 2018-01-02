@@ -21,7 +21,7 @@
         margin: 0;
         border: 0;
         width: 100%;
-        background-color:#EEF0F0;
+        background-color:#e8f0ff;
         float:right;
         padding-right: 5px;
         padding-left: 5px;

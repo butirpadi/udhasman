@@ -80,13 +80,28 @@ Route::group(['middleware' => ['web','auth']], function () {
         Route::post('validate','DailyhdController@toValidate');
     });
     
-    Route::group(['prefix' => 'cashbook'], function () {
+    Route::group(['prefix' => 'finance/cashbook'], function () {
         Route::get('/', 'CashbookController@index');
         Route::get('create', 'CashbookController@create');
         Route::post('insert', 'CashbookController@insert');
         Route::post('update', 'CashbookController@update');
         Route::get('edit/{cashbook_id}', 'CashbookController@edit');
         Route::get('delete/{cashbook_id}', 'CashbookController@delete');
+    });
+
+    Route::group(['prefix' => 'finance/hutang'], function () {
+        Route::get('/', 'HutangController@index');
+        Route::get('create', 'HutangController@create');
+        Route::post('insert', 'HutangController@insert');
+        Route::get('edit/{id}', 'HutangController@edit');
+        Route::post('update', 'HutangController@update');
+        Route::get('show-po/{hutangid}/{id}', 'HutangController@showPo');
+        Route::get('reg-payment/{id}', 'HutangController@regPayment');
+        Route::post('insert-payment', 'HutangController@insertPayment');
+        Route::get('validate/{id}', 'HutangController@validateHutang');
+        Route::get('get-payment-info/{id}', 'HutangController@getPaymentInfo');
+        Route::get('del-payment/{id}', 'HutangController@delPayment');
+        Route::get('cancel-hutang/{id}', 'HutangController@cancelHutang');
     });
 
     Route::group(['prefix' => 'master'], function () {
@@ -277,7 +292,6 @@ Route::group(['middleware' => ['web','auth']], function () {
     });
 
     Route::group(['prefix' => 'pengiriman'], function () {
-        // ORDERS
         Route::get('/','PengirimanController@index');
         Route::get('edit/{id}','PengirimanController@edit');
         Route::post('update','PengirimanController@update');
@@ -355,7 +369,9 @@ Route::group(['middleware' => ['web','auth']], function () {
 
     Route::group(['prefix' => 'payroll'], function () {
         // Default Payroll System
-        Route::get('payroll','PayrollController@index');
+        Route::get('/','PayrollController@index');
+        Route::get('/{val}','PayrollController@index');
+        Route::get('addnew','PayrollController@addnew');
         Route::get('payroll/show-payroll-table/{tanggal}/{kode_jabatan}','PayrollController@showPayrollTable');
         Route::post('payroll/get-pay-day','PayrollController@getPayDay');
         
@@ -374,16 +390,16 @@ Route::group(['middleware' => ['web','auth']], function () {
 
 
         // PAYROLL DRIVER
-        Route::get('payroll-driver/show-payroll-table/{tanggal}','PayrollDriverController@showPayrollTable');
-        Route::get('payroll-driver/pay/{karyawan_id}/{tanggal}','PayrollDriverController@addPay');
-        Route::get('payroll-driver/edit-pay/{payroll_id}','PayrollDriverController@editPay');
-        Route::post('payroll-driver/insert-pay','PayrollDriverController@insertPay');
-        Route::post('payroll-driver/update-pay','PayrollDriverController@updatePay');
-        Route::get('payroll-driver/validate-pay/{payroll_id}','PayrollDriverController@validatePay');
-        Route::get('payroll-driver/reset/{payroll_id}','PayrollDriverController@resetPay');
-        Route::get('payroll-driver/print-pdf/{payroll_id}','PayrollDriverController@printPdf');
-        Route::get('payroll-driver/print-copy/{payroll_id}','PayrollDriverController@printCopy');
-        Route::get('payroll-driver/print-direct/{payroll_id}','PayrollDriverController@printDirect');
+        Route::get('driver/show-payroll-table/{tanggal}','PayrollDriverController@showPayrollTable');
+        Route::get('driver/pay/{karyawan_id}/{tanggal}','PayrollDriverController@addPay');
+        Route::get('driver/edit-pay/{payroll_id}','PayrollDriverController@editPay');
+        Route::post('driver/insert-pay','PayrollDriverController@insertPay');
+        Route::post('driver/update-pay','PayrollDriverController@updatePay');
+        Route::get('driver/validate-pay/{payroll_id}','PayrollDriverController@validatePay');
+        Route::get('driver/reset/{payroll_id}','PayrollDriverController@resetPay');
+        Route::get('driver/print-pdf/{payroll_id}','PayrollDriverController@printPdf');
+        Route::get('driver/print-copy/{payroll_id}','PayrollDriverController@printCopy');
+        Route::get('driver/print-direct/{payroll_id}','PayrollDriverController@printDirect');
 
         // // PAYROLL STAFF
         // // Route::get('staff','PayrollDriverController@staff');
@@ -586,4 +602,19 @@ Route::group(['middleware' => ['web','auth']], function () {
             $provinsi_id++;
         }
     });
+
+
+    Route::group(['prefix'=>'gaji'],function(){
+        Route::get('driver','GajiController@indexDriver');
+        Route::get('driver/add','GajiController@driverAdd');
+        Route::get('driver/show-payroll-table/{tanggal}','GajiController@showPayrollTable');
+        Route::post('driver/get-pay-day','GajiController@getPayDay');
+        Route::get('driver/edit-pay/{payroll_id}','GajiController@editPay');
+        Route::get('driver/pay/{karyawan_id}/{tanggal}','GajiController@addPay');
+        Route::get('driver/get-payroll-at-month/{bulan}','GajiController@getPayrollAtMonth');
+        Route::get('driver/get-pengiriman/{karyawanid}/{tanggal_awal}/{tanggal_akhir}','GajiController@getPengiriman');
+    });
+
+
+
 });

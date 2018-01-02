@@ -211,12 +211,35 @@ class PembelianController extends Controller
 	// ================================================================================================
 
 	public function validateIt($id){
-		// update status pembelian ke validated
-		\DB::table('pembelian')
-			->where('id',$id)
-			->update([
-				'status' => 'VALIDATED'
+		\DB::transaction(function()use($id){
+			// update status pembelian ke validated
+			\DB::table('pembelian')
+				->where('id',$id)
+				->update([
+					'status' => 'VALIDATED'
+				]);
+			$pembelian = \DB::table('view_pembelian')->find($id);
+
+			// add to hutang
+			// generate nomor hutang
+	        $prefix = Appsetting('hutang_prefix');
+	        $counter = Appsetting('hutang_counter');
+	        $nomor_inv = $prefix.'/'.date('Y/m').$counter++;
+	        // update counter
+	        // update counter
+	        UpdateAppsetting('hutang_counter',$counter);
+			\DB::table('hutang')->insert([
+				'name' => $nomor_inv,
+				'tanggal' => date('Y-m-d'),
+				'state' => 'V',
+				'source' => $pembelian->ref,
+				'po_id' => $pembelian->id,
+				'desc' => 'Hutang Pembelian ' . $pembelian->nama_supplier,
+				'type' => 'pembelian',
+				'jumlah' => $pembelian->total,
 			]);
+			
+		});
 
 		return redirect()->back();
 	}
@@ -243,6 +266,8 @@ class PembelianController extends Controller
 
 		});
 	}
+
+	
 
 
 //. END OF CODE

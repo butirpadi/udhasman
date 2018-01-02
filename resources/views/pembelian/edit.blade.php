@@ -21,7 +21,8 @@
         margin: 0;
         border: 0;
         width: 100%;
-        background-color:#EEF0F0;
+        /*background-color:#EEF0F0;*/
+        background-color:#e8f0ff;
         float:right;
         padding-right: 5px;
         padding-left: 5px;
@@ -59,9 +60,19 @@
             <label><h3 style="margin:0;padding:0;font-weight:bold;" >{{$data->ref}}</h3></label>
 
             <div class="pull-right" >
+                <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
+                <a class="btn  btn-arrow-right pull-right disabled bg-gray" >DONE</a>
+                <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
+                <a class="btn btn-arrow-right pull-right disabled bg-blue" >OPEN</a>
+                <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
+                <a class="btn btn-arrow-right pull-right disabled bg-gray" >DRAFT</a>
+            </div>
+
+            <div class="text-center hide" >
                 <a class="btn btn-default btn-sm {{$prev?'':'disabled'}}" href="{{$prev ? 'pembelian/edit/'.$prev->id : url()->current().'#'}}" ><i class="fa fa-angle-double-left" ></i></a>
                 <a class="btn btn-default btn-sm {{$next?'':'disabled'}}" " href="{{$next ? 'pembelian/edit/'.$next->id : url()->current().'#'}}" ><i class="fa fa-angle-double-right" ></i></a>
             </div>
+
         </div>
         <div class="box-body">
             <input type="hidden" name="pembelian_id" value="{{$data->id}}">
@@ -212,9 +223,9 @@
             </div>
         </div><!-- /.box-body -->
         <div class="box-footer" >
-            <!-- <a id="btn-validate" class="btn btn-success" href="pembelian/validate/{{$data->id}}" ><i class="fa fa-check" ></i> Validate</a> -->
             <button type="submit" class="btn btn-primary" id="btn-save" ><i class="fa fa-save" ></i> Save</button>
             <a class="btn btn-danger" id="btn-cancel-save" href="pembelian" ><i class="fa fa-close" ></i> Close</a>
+            <a id="btn-validate" class="btn bg-maroon pull-right" href="pembelian/validate/{{$data->id}}" ><i class="fa fa-check" ></i> Validate</a>
         </div>
     </div><!-- /.box -->
 
@@ -393,8 +404,8 @@
     $('.uang').autoNumeric('init',{
             vMin:'0.00',
             vMax:'9999999999.00',
-            aSep: '.',
-            aDec: ','
+            aSep: ',',
+            aDec: '.'
         });
     $('.uang').each(function(){
         $(this).autoNumeric('set',$(this).autoNumeric('get'));
@@ -639,7 +650,12 @@
     // END OF CEK INPUT CUSTOMER APAKAH KOSONG ATAU TIDAK
 
    
-
+    // Validate 
+    $('#btn-validate').click(function(){
+        if(!confirm('Anda akan mem-validasi data ini?')){
+            return false;
+        }
+    });
 
 })(jQuery);
 </script>

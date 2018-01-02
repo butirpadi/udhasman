@@ -107,9 +107,7 @@
                     </div>
                 </div>
             <!-- <h4 class="page-header" style="font-size:14px;color:#3C8DBC"><strong>DETIL BARANG</strong></h4> -->
-
-            
-
+           
             <!-- Total -->
             <div class="row hide" >
                 <div class="col-lg-8" >

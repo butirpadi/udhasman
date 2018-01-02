@@ -52,15 +52,12 @@
                                 <select name="payday" class="form-control"></select>
                             </td>
                         </tr>
-                        <tr>
+                        <tr class="hide" >
                             <td>
                                 <label>Jabatan</label>
                             </td>
                             <td>
-                                <select name="jabatan" class="form-control" required>
-                                    <option value="ST" >Staff</option>
-                                    <option value="DV" >Driver</option>
-                                </select>
+                                {{Form::select('jabatan',['driver'=>'DRIVER','staff'=>'STAFF'],$defaultVal,['class'=>'form-control'])}}
                             </td>
                         </tr>
                         <tr>
@@ -88,21 +85,6 @@
 
 <script type="text/javascript">
 (function ($) {
-
-    // var TBL_KATEGORI = $('#table-data').DataTable({
-    //     "columns": [
-    //         {className: "text-center","orderable": false},
-    //         {className: "text-right"},
-    //         null,
-    //         null,
-    //         {className: "text-center"},
-    //         // {className: "text-center"}
-    //     ],
-    //     order: [[ 1, 'asc' ]],
-    // });
-
-    $('select').val([]);
-
 
     // FORMAT TANGGAL
     $('input[name=bulan]').datepicker({

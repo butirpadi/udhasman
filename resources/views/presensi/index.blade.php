@@ -149,13 +149,14 @@ deleteForm.submit();
             if ($('tr.row-child:first').prev().is(parent_row) ){
                 $('tr.row-child').remove();                
             }else{
+                $('tr.row-child').remove();                
                 var url = 'presensi/get-presensi-by-bulan/'+$(this).data('bulan');
                 $.get(url,function(res){
                 var data = JSON.parse(res);
                 $.each(data,function(i,item){
                     parent_row.after($('<tr>').addClass('row-child')
                                         .append($('<td>').css('padding-left','50px').text(item.tgl_format))
-                                        .append($('<td>').text('test'))
+                                        .append($('<td>').attr('align','center').append($('<a>').attr('href','attendance/attend/'+item.tgl_format).addClass('btn btn-success btn-xs').append($('<i>').addClass('fa fa-edit'))))
                                         
                         );
                 });

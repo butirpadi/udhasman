@@ -5,12 +5,6 @@
 <link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
 <link href="plugins/datepicker/datepicker3.css" rel="stylesheet" type="text/css"/>
 
-<style>
-    #table-data > tbody > tr{
-        cursor:pointer;
-    }
-</style>
-
 @append
 
 @section('content')
@@ -79,8 +73,8 @@
                         <th>Pekerjaan</th>
                         <th>Material</th>
                         <th>Driver/Nopol</th>
-                        <!-- <th>Kalkulasi</th> -->
-                        <th>Status</th>
+                        <th>state</th>
+                        <th>Invoice State</th>
                         <th class="col-sm-1 col-md-1 col-lg-1" ></th>
                     </tr>
                 </thead>
@@ -112,9 +106,6 @@
                             @endif
                             {{$dt->nopol}}
                         </td>
-                        <!-- <td>
-                            {{$dt->kalkulasi}}
-                        </td> -->
                         <td class="text-center" >
                             @if($dt->state == 'open')
                                 <label class="label label-warning">OPEN</label>
@@ -123,6 +114,9 @@
                             @elseif($dt->state == 'done')
                                 <label class="label label-success">DONE</label>
                             @endif
+                        </td>
+                        <td class="text-center">
+                            -
                         </td>
                         <td class="text-center" >
                             <a class="btn btn-success btn-xs" href="delivery/show/{{$dt->id}}" ><i class="fa fa-edit" ></i></a>
@@ -161,8 +155,8 @@
     $('.uang').autoNumeric('init',{
             vMin:'0.00',
             vMax:'9999999999.00',
-            aSep: '.',
-            aDec: ','
+            aSep: ',',
+            aDec: '.'
         });
     $('.uang').each(function(){
         $(this).autoNumeric('set',$(this).autoNumeric('get'));

@@ -40,7 +40,7 @@
     <!-- Default box -->
     <div class="box box-solid">
         <div class="box-header with-border">
-            <a class="btn btn-primary" id="btn-add" href="cashbook/create" ><i class="fa fa-plus-circle" ></i> Create</a>
+            <a class="btn btn-primary" id="btn-add" href="finance/cashbook/create" ><i class="fa fa-plus-circle" ></i> Create</a>
             <button class="btn btn-danger hide" id="btn-delete" href="#" ><i class="fa fa-trash" ></i> Delete</button>
             
             <div class="pull-right" >
@@ -128,8 +128,8 @@
                             {{number_format($balance,0,'.',',' )}}
                         </td> -->
                         <td class="text-center" >
-                            <a class="btn btn-success btn-xs" href="cashbook/edit/{{$dt->id}}" ><i class="fa fa-edit" ></i></a>
-                            {{-- <a class="btn btn-danger btn-xs btn-delete-cashbook" href="cashbook/delete/{{$dt->id}}" ><i class="fa fa-trash" ></i></a> --}}
+                            <a class="btn btn-success btn-xs" href="finance/cashbook/edit/{{$dt->id}}" ><i class="fa fa-edit" ></i></a>
+                            {{-- <a class="btn btn-danger btn-xs btn-delete-cashbook" href="finance/cashbook/delete/{{$dt->id}}" ><i class="fa fa-trash" ></i></a> --}}
                         </td>
                     </tr>
                     @endforeach
@@ -204,7 +204,7 @@
             $('.ck_row:checked').each(function(){
                 var row = $(this).parent().parent();
                 var cash_id = row.data('id');
-                var url="cashbook/delete/"+cash_id;
+                var url="finance/cashbook/delete/"+cash_id;
                 // alert(url);
                 $.get(url,null,function(){
                     row.fadeOut(100,function(){

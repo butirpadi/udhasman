@@ -119,7 +119,7 @@
                             @endif
                         </td>
                         <td class="text-center" >
-                            <a class="btn btn-success btn-xs" href="delivery/show/{{$dt->id}}" ><i class="fa fa-edit" ></i></a>
+                            <a target="_blank" class="btn btn-success btn-xs" href="delivery/show/{{$dt->id}}" ><i class="fa fa-edit" ></i></a>
                         </td>
                     </tr>
                     @endforeach
@@ -155,8 +155,8 @@
     $('.uang').autoNumeric('init',{
             vMin:'0.00',
             vMax:'9999999999.00',
-            aSep: '.',
-            aDec: ','
+            aSep: ',',
+            aDec: '.'
         });
     $('.uang').each(function(){
         $(this).autoNumeric('set',$(this).autoNumeric('get'));

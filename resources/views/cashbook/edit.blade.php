@@ -19,14 +19,14 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        <a href="cashbook" href="cashbook" >Buku Kas</a> 
+        <a href="finance/cashbook" >Buku Kas</a> 
         <i class="fa fa-angle-double-right" ></i> {{$data->cash_number}}
     </h1>
 </section>
 
 <!-- Main content -->
 <section class="content">
-  <form method="POST" action="cashbook/update" >
+  <form method="POST" action="finance/cashbook/update" >
     <input type="hidden" name="cashbook_id" value="{{$data->id}}">
     <div class="box box-solid" >
         <div class="box-header with-border" >
@@ -70,7 +70,7 @@
                     <td></td>
                     <td>
                         <button type="submit" class="btn btn-primary" id="btn-save" >Save</button>
-                        <a class="btn btn-danger" href="cashbook" >Cancel</a>
+                        <a class="btn btn-danger" href="finance/cashbook" >Cancel</a>
                     </td>
                 </tr>
             </tbody>

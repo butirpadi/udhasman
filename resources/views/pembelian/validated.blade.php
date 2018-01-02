@@ -59,10 +59,10 @@
             <label><h3 style="margin:0;padding:0;font-weight:bold;" >{{$data->ref}}</h3></label>
 
             <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
-            <a class="btn  btn-arrow-right pull-right disabled bg-gray" >DONE</a>
+            <a class="btn  btn-arrow-right pull-right disabled bg-blue" >DONE</a>
 
-            <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
-            <a class="btn btn-arrow-right pull-right disabled bg-blue" >VALIDATED</a>
+            <!-- <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label> -->
+            <!-- <a class="btn btn-arrow-right pull-right disabled bg-blue" >VALIDATED</a> -->
 
             <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
             <a class="btn btn-arrow-right pull-right disabled bg-gray" >OPEN</a>
@@ -72,36 +72,25 @@
         </div>
         <div class="box-body">
             <input type="hidden" name="pembelian_id" value="{{$data->id}}">
-            <table class="table table-condensed no-border" >
-                <tbody>
-                    <tr>
-                        <td class="col-lg-2">
-                            <label>Supplier</label>
-                        </td>
-                        <td class="col-lg-4" >
-                            <input type="text" name="supplier" disabled value="{{$data->nama_supplier}}" class="form-control" >
-                        </td>
-                        <td class="col-lg-2" ></td>
-                        <td class="col-lg-2" >
-                            <label>Tanggal</label>
-                        </td>
-                        <td class="col-lg-2" >
-                            <input type="text" name="tanggal" class="input-tanggal form-control" value="{{$data->tanggal_format}}" disabled>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label>Nomor Nota</label>
-                        </td>
-                        <td>
-                            <input type="text" name="supplier_ref" class="form-control" value="{{$data->supplier_ref}}" disabled>
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="row" >
+                <div class="col-xs-6" >
+                    <div class="form-group">
+                        <label >Supplier</label>
+                        <input type="text" name="supplier" disabled value="{{$data->nama_supplier}}" class="form-control" >
+                    </div>  
+                    <div class="form-group">
+                        <label >Nomor Nota</label>
+                        <input type="text" name="supplier_ref" class="form-control" value="{{$data->supplier_ref}}" disabled>                        
+                    </div>  
+                </div>
+                <div class="col-xs-6" >
+                    <div class="form-group" >
+                        <label>Tanggal</label>
+                        <input type="text" name="tanggal" class="input-tanggal form-control" value="{{$data->tanggal_format}}" disabled>
+
+                    </div>
+                </div>
+            </div>
 
             <h4 class="page-header" style="font-size:14px;color:#3C8DBC"><strong>DETIL BARANG</strong></h4>
 
@@ -110,8 +99,7 @@
                     <tr>
                         <th style="width:25px;" >NO</th>
                         <th>BARANG</th>
-                        <th class="col-lg-1" >SATUAN</th>
-                        <th class="col-lg-1" >JUMLAH</th>
+                        <th colspan="2" >JUMLAH</th>
                         <th class="col-lg-2" >UNIT PRICE</th>
                         {{-- <th class="col-lg-2" >S.U.P</th> --}}
                         <th class="col-lg-2" >SUBTOTAL</th>
@@ -127,11 +115,11 @@
                             <td>
                                 {{$dt->nama_product}}
                             </td>
-                            <td class="label-satuan" >
-                                {{$dt->satuan}}
-                            </td>
                             <td class="text-right" >
                                 {{$dt->qty}}
+                            </td>
+                            <td class="label-satuan" >
+                                {{$dt->satuan}}
                             </td>
                             <td class="text-right uang" >
                                 {{$dt->unit_price}}
@@ -184,7 +172,7 @@
         <div class="box-footer" >
             {{-- <button type="submit" class="btn btn-primary" id="btn-save" ><i class="fa fa-save" ></i> Save</button> --}}
             <a class="btn btn-danger" id="btn-cancel-save" href="pembelian" ><i class="fa fa-close" ></i> Close</a>
-            <a id="btn-cancel-pembelian" class="btn btn-warning pull-right" href="pembelian/cancel/{{$data->id}}" ><i class="fa fa-reply" ></i> Cancel Pembelian</a>
+            <!-- <a id="btn-cancel-pembelian" class="btn btn-warning pull-right" href="pembelian/cancel/{{$data->id}}" ><i class="fa fa-reply" ></i> Cancel Pembelian</a> -->
         </div>
     </div><!-- /.box -->
 
@@ -213,8 +201,8 @@
     $('.uang').autoNumeric('init',{
             vMin:'0.00',
             vMax:'9999999999.00',
-            aSep: '.',
-            aDec: ','
+            aSep: ',',
+            aDec: '.'
         });
 
     $('.uang').each(function(){

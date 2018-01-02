@@ -19,14 +19,14 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        <a href="cashbook" >Buku Kas</a> 
+        <a href="finance/cashbook" >Buku Kas</a> 
         <i class="fa fa-angle-double-right" ></i> Create
     </h1>
 </section>
 
 <!-- Main content -->
 <section class="content">
-  <form method="POST" action="cashbook/insert" >
+  <form method="POST" action="finance/cashbook/insert" >
     <div class="box box-solid" >
         <div class="box-header with-border" >
             <label><h3 style="margin:0;padding:0;font-weight:bold;" >New</h3></label>
@@ -68,7 +68,7 @@
         </div>
         <div class="box-footer" >
             <button type="submit" class="btn btn-primary" id="btn-save" >Save</button>
-            <a class="btn btn-danger" href="cashbook" >Cancel</a>
+            <a class="btn btn-danger" href="finance/cashbook" >Cancel</a>
         </div>
 
 

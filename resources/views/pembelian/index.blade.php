@@ -58,7 +58,8 @@
                         <th>Nomor Nota</th>
                         <th>Supplier</th>
                         <th>Total</th>
-                        <!-- <th>Status</th> -->
+                        <th>state</th>
+                        <th>bill state</th>
                         <th class="col-sm-1 col-md-1 col-lg-1" ></th>
                     </tr>
                 </thead>
@@ -85,17 +86,26 @@
                         <td class="uang text-right" >
                             {{$dt->total}}
                         </td>
-                        <!-- <td class="text-center" >
+                        <td class="text-center" >
                             @if($dt->status == 'OPEN')
                                 <label class="label label-warning" >OPEN</label>
                             @elseif($dt->status =='VALIDATED')
-                                <label class="label label-primary" >VALIDATED</label>
-                            @elseif($dt->status =='DONE')
                                 <label class="label label-success" >DONE</label>
-                            @elseif($dt->status =='CANCELED')
-                                <label class="label label-danger" >CANCELED</label>
                             @endif
-                        </td> -->
+                        </td>
+                        <td class="text-center" >
+                            @if($dt->bill_state == 'D')
+                                <label class="label label-danger" >DRAFT</label>
+                            @elseif($dt->bill_state == 'O')
+                                <label class="label label-warning" >OPEN</label>
+                            @elseif($dt->bill_state == 'V')
+                                <label class="label label-info" >VALIDATED</label>
+                            @elseif($dt->bill_state == 'P')
+                                <label class="label label-success" >DONE</label>
+                            @else
+                            -
+                            @endif
+                        </td>
                         <td class="text-center" >
                             <a class="btn btn-primary btn-xs" href="pembelian/edit/{{$dt->id}}" ><i class="fa fa-edit" ></i></a>
                         </td>
@@ -177,8 +187,8 @@
     $('.uang').autoNumeric('init',{
             vMin:'0.00',
             vMax:'9999999999.00',
-            aSep: '.',
-            aDec: ','
+            aSep: ',',
+            aDec: '.'
         });
     $('.uang').each(function(){
         $(this).autoNumeric('set',$(this).autoNumeric('get'));

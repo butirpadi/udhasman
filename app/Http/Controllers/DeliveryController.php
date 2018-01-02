@@ -73,7 +73,7 @@ class DeliveryController extends Controller
 	        $prefix = \DB::table('appsetting')->where('name','pengiriman_prefix')->first()->value;
 	        $counter = \DB::table('appsetting')->where('name','pengiriman_counter')->first()->value;
 	        // $new_number = $prefix . '/'.$year.'/'.$month.'/'. $counter;
-	        $new_number = $prefix . '/'.$year.'/'. $counter;
+	        $new_number = $prefix . '/'.$year.'/'.$month. $counter;
 	        // update counter
 	        \DB::table('appsetting')
 	        		->where('name','pengiriman_counter')
@@ -173,31 +173,29 @@ class DeliveryController extends Controller
 		// 			->where('order_date','>=',$pengiriman->order_date)
 		// 			->orderBy('created_at','asc')
 		// 			->first();
-		$next = \DB::select("select * from view_new_pengiriman where order_date >= '". $pengiriman->order_date ."' and id > ". $pengiriman->id ." order by created_at asc limit 1");
+		// $next = \DB::select("select * from view_new_pengiriman where order_date >= '". $pengiriman->order_date ."' and id > ". $pengiriman->id ." order by created_at asc limit 1");
 		// $prev = \DB::table('view_new_pengiriman')
 		// 			->where('order_date','<=',$pengiriman->order_date)
 		// 			->orderBy('created_at','desc')
 		// 			->first();
-		$prev = \DB::select("select * from view_new_pengiriman where order_date <= '". $pengiriman->order_date . "' and id < ". $pengiriman->id . " order by created_at desc limit 1");
+		// $prev = \DB::select("select * from view_new_pengiriman where order_date <= '". $pengiriman->order_date . "' and id < ". $pengiriman->id . " order by created_at desc limit 1");
 
-		$dt = \DB::select('call ordered_new_pengiriman()');
-		foreach($dt as $d){
-			echo $d->num . ' - ' . $d->name . '<br/>';
-		}
-
-		// if($pengiriman){
-		// 	return view('delivery.edit',[
-		// 		'select_customer' => $select_customer,
-		// 		'lokasi_galian' => $select_lokasi,
-		// 		'material' => $select_material,
-		// 		'driver' => $driver,
-		// 		'pengiriman' => $pengiriman,
-		// 		'next' => $next,
-		// 		'prev' => $prev,
-		// 	]);
-		// }else{
-		// 	return view('notfound',[]);
+		// $dt = \DB::select('call ordered_new_pengiriman()');
+		// foreach($dt as $d){
+		// 	echo $d->num . ' - ' . $d->name . '<br/>';
 		// }
+
+		if($pengiriman){
+			return view('delivery.edit',[
+				'select_customer' => $select_customer,
+				'lokasi_galian' => $select_lokasi,
+				'material' => $select_material,
+				'driver' => $driver,
+				'pengiriman' => $pengiriman,
+			]);
+		}else{
+			return view('notfound',[]);
+		}
 	}
 
 	public function update(Request $req){
