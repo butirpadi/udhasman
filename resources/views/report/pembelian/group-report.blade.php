@@ -32,16 +32,17 @@
 					<th style="width:10%;" >REF#</th>
 					<th style="width:8%;" >TANGGAL</th>
 					<th style="width:10%;" >NOMOR<br/>NOTA</th>
-					<th style="width:32%;" >PRODUCT</th>
-					<th style="width:10%;" colspan="2"  >QTY</th>
+					<th style="width:28%;" >PRODUCT</th>
+					<th style="width:9%;" colspan="2"  >QTY</th>
 					<th style="width:15%;" >HARGA<br/>SATUAN</th>
 					<th style="width:15%;" >JUMLAH</th>
+					<th style="width:5%;" >PAID</th>
 				</tr>
 			</thead>
 			<tbody >
 		    	@foreach($pembelian as $pb)
 		    	<tr>
-		    		<td colspan="8" >
+		    		<td colspan="9" >
 		    			<strong>SUPPLIER : {{$pb->nama_supplier}}</strong>
 		    		</td>
 		    	</tr>
@@ -92,6 +93,13 @@
 								<?php $total_per_supplier+=$pr->unit_price*$pr->qty; ?>
 							@endforeach
 						</td>
+						<td align="center" valign="middle" >
+							@if($rp->bill_state == 'P')
+							PAID
+							@else
+							-
+							@endif
+						</td>
 					</tr>
 				@endforeach
 				<tr>
@@ -101,6 +109,7 @@
 					<td align="right" colspan="2" >
 						<strong>{{number_format($total_per_supplier,2,'.',',')}}</strong>
 					</td>
+					<td></td>
 				</tr>
 		    	@endforeach
 		    	<tr style="font-size: 16px;" >
@@ -110,6 +119,7 @@
 		    		<td colspan="2" align="right" >
 		    			<strong>{{number_format($sum_total,2,'.',',')}}</strong>
 		    		</td>
+		    		<td></td>
 		    	</tr>
 		    </tbody>
 		</table>

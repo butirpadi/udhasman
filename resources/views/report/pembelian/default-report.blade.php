@@ -32,7 +32,8 @@
 						<th style="width: 15%;" >REF#</th>
 						<th style="width: 15%;" >TANGGAL</th>
 						<th style="width: 15%;" >NOMOR<br/>NOTA</th>
-						<th style="width: 35%;" >SUPPLIER</th>
+						<th style="width: 25%;" >SUPPLIER</th>
+						<th style="width: 10%;" >PAID</th>
 						<th style="width: 20%;" >JUMLAH</th>
 					</tr>
 				</thead>
@@ -51,6 +52,13 @@
 							<td>
 								{{$dt->nama_supplier}}
 							</td>
+							<td align="center" >
+								@if($dt->bill_state == 'P')
+									PAID
+								@else
+									-
+								@endif
+							</td>
 							<td align="right" >
 								{{number_format($dt->total,2,'.',',')}}
 							</td>
@@ -59,7 +67,7 @@
 				</tbody>
 				<tfoot>
 					<tr>
-						<td colspan="4" align="center" >
+						<td colspan="5" align="center" >
 							<strong>TOTAL</strong>
 						</td>
 						<td style="text-align: right;" >

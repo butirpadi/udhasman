@@ -37,40 +37,43 @@ class ReportPembelianController extends Controller
         
 
         $html2pdf = new Html2Pdf('P', 'A4', 'en');
-        if($req->supplier != '' && $req->supplier != null){
-        	// echo 'inside single supplier';
-        	$pembelian = \DB::table('view_pembelian')
-        			->whereBetween('tanggal',[$tgl_awal_str,$tgl_akhir_str])
-        			->where('supplier_id',$req->supplier)
-        			->orderBy('tanggal','asc')
-        			->get();
-	        $sum_total = \DB::table('view_pembelian')
-	        			->whereBetween('tanggal',[$tgl_awal_str,$tgl_akhir_str])
-	        			->where('supplier_id',$req->supplier)
-	        			->sum('total');
-        	$html2pdf->writeHTML($this->defaultReportHtml([
-				'tanggal_awal' => $awal,
-				'tanggal_akhir' => $akhir,
-        		'pembelian'=>$pembelian,
-        		'sum_total'=>$sum_total,
-        	]));
-        }else{
-        	// echo 'inside multi supplier';
-        	$pembelian = \DB::table('view_pembelian')
-        					->whereBetween('tanggal',[$tgl_awal_str,$tgl_akhir_str])
-        					->orderBy('tanggal','asc')
-        					->get();
-	        $sum_total = \DB::table('view_pembelian')->whereBetween('tanggal',[$tgl_awal_str,$tgl_akhir_str])->sum('total');
-        	$html2pdf->writeHTML($this->defaultReportHtml([
-				'tanggal_awal' => $awal,
-				'tanggal_akhir' => $akhir,
-        		'pembelian'=>$pembelian,
-        		'sum_total'=>$sum_total,
-        	]));	
+
+        $where_supplier = 'true';
+        if($req->supplier != '' ){
+        	$where_supplier = 'supplier_id = ' . $req->supplier;
         }
 
-		// echo $req->supplier;
+        $where_paid = 'true';
+        if($req->bill_state != ''){
+        	$where_paid = 'bill_state = "' . $req->bill_state . '"';
+        	if($req->bill_state !='P'){
+        		$where_paid = '(bill_state != "P" or bill_state is null)';
+        	}
+        }
+
+        // echo 'inside single supplier';
+    	$pembelian = \DB::table('view_pembelian')
+    			->whereBetween('tanggal',[$tgl_awal_str,$tgl_akhir_str])
+    			->whereRaw($where_supplier)
+    			->whereRaw($where_paid)
+    			->orderBy('tanggal','asc')
+    			->get();
+
+        $sum_total = \DB::table('view_pembelian')
+        			->whereBetween('tanggal',[$tgl_awal_str,$tgl_akhir_str])
+        			->whereRaw($where_supplier)
+        			->whereRaw($where_paid)
+        			->sum('total');
+
+    	$html2pdf->writeHTML($this->defaultReportHtml([
+			'tanggal_awal' => $awal,
+			'tanggal_akhir' => $akhir,
+    		'pembelian'=>$pembelian,
+    		'sum_total'=>$sum_total,
+    	]));
+
 		$html2pdf->output();
+		// echo count($pembelian);
 
 	}
 
@@ -96,31 +99,46 @@ class ReportPembelianController extends Controller
         $tgl_akhir->setDate($arr_tgl[2],$arr_tgl[1],$arr_tgl[0]); 
         $tgl_akhir_str = $arr_tgl[2].'-'.$arr_tgl[1].'-'.$arr_tgl[0];
 
+        $where_supplier = 'true';
+        if($req->supplier != '' ){
+        	$where_supplier = 'supplier_id = ' . $req->supplier;
+        }
+
+        $where_paid = 'true';
+        if($req->bill_state != ''){
+        	$where_paid = 'bill_state = "' . $req->bill_state . '"';
+        	if($req->bill_state !='P'){
+        		$where_paid = '(bill_state != "P" or bill_state is null)';
+        	}
+        }
+
+
 		$group_report = \DB::table('view_pembelian')
 					->whereBetween('tanggal',[$tgl_awal_str,$tgl_akhir_str])
-					->whereRaw($req->supplier != '' ? 'supplier_id = ' . $req->supplier : true)
+					->whereRaw($where_supplier)
+					->whereRaw($where_paid)
 					->orderBy('tanggal','asc')
 					->groupBy('supplier_id')
 					->get();
 
 		$sum_total = \DB::table('view_pembelian')
 					->whereBetween('tanggal',[$tgl_awal_str,$tgl_akhir_str])
-					->whereRaw($req->supplier != '' ? 'supplier_id = ' . $req->supplier : true)
+					->whereRaw($where_supplier)
+					->whereRaw($where_paid)
 					->sum('total');
 
 		foreach($group_report as $dt){
 			$dt->reports = \DB::table('view_pembelian')
 							->whereBetween('tanggal',[$tgl_awal_str,$tgl_akhir_str])
 							->whereSupplierId($dt->supplier_id)
-							->get();			
-		}
+							->whereRaw($where_paid)
+							->get();	
 
-		foreach($group_report as $dt){
 			foreach($dt->reports as $rp){
 				$rp->products = \DB::table('view_pembelian_detail')
 								->where('pembelian_id',$rp->id)
 								->get();
-			}
+			}		
 		}
 
 		$html2pdf = new Html2Pdf('L', 'A4', 'en');

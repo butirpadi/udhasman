@@ -96,7 +96,10 @@
                                 </div>
                             </div>
                             <div class="col-xs-6" >
-                                
+                                <div class="form-group">
+                                    <label >Bill Paid</label>
+                                    {!! Form::select('bill_state',['V'=>'Open','P'=>'Paid'],null,['class'=>'form-control select2']) !!}
+                                </div>
                             </div> 
                             <div class="col-xs-12" >
                                 <button type="submit" class="btn btn-primary" id="btn-save" ><i class="fa fa-check" ></i> Submit</button>
@@ -126,7 +129,10 @@
                                 </div>
                             </div>
                             <div class="col-xs-6" >
-                                
+                                <div class="form-group">
+                                    <label >Bill Paid</label>
+                                    {!! Form::select('bill_state',['V'=>'Open','P'=>'Paid'],null,['class'=>'form-control select2']) !!}
+                                </div>
                             </div> 
                             <div class="col-xs-12" >
                                 <button type="submit" class="btn btn-primary" id="btn-save" ><i class="fa fa-check" ></i> Submit</button>
@@ -164,6 +170,7 @@
 
     //Initialize Select2 Elements
     $("select[name=supplier]").val([]);
+    $("select[name=bill_state]").val([]);
     $(".select2").select2();
 
 
