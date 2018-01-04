@@ -27,7 +27,7 @@
                     <tr>
                         <td class="bg-green text-center" rowspan="2" style="width: 50px;" ><i class="fa fa-tags" ></i></td>
                         <td style="padding-left: 10px;padding-right: 5px;">
-                            TOTAL PIUTANG
+                            SALDO PIUTANG
                         </td>
                     </tr>
                     <tr>

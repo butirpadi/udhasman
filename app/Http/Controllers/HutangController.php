@@ -13,7 +13,7 @@ class HutangController extends Controller
 				->orderBy('created_at','desc')
 				->get();
 		$sum_jumlah = \DB::table('view_hutang')
-						->where('state','!=','P')
+						->where('state','!=','paid')
 						->sum('jumlah');
 		return view('hutang.index',[
 				'data' => $data,
@@ -43,38 +43,54 @@ class HutangController extends Controller
 			'tanggal' => $tanggal,
 			'desc' => $req->desc,
 			'type' => 'lain',
-			'state' => 'O',
+			'state' => 'draft',
 			'jumlah' => str_replace(',', '', str_replace('.00','',$req->jumlah))
 		]);
 
-		return redirect('finance/hutang');
+		return redirect('finance/hutang/edit/'.$id);
 	}
 
 	public function edit($id){
 		$data = \DB::table('view_hutang')->find($id);
 
-		if($data->state == 'V' || $data->state == 'P'){
-			if($data->type == 'pembelian'){
+		// if($data->state == 'V' || $data->state == 'P'){
+		// 	if($data->type == 'pembelian'){
+		// 		$data->po = \DB::table('view_pembelian')
+		// 					->where('ref',$data->source)
+		// 					->first();
+		// 	}
+
+		// 	// get data payment
+		// 	$payments = \DB::table('view_hutang_payment')
+		// 					->where('hutang_id',$id)
+		// 					->get();
+
+		// 	return view('hutang.validated',[
+		// 		'data' => $data,
+		// 		'payments' => $payments,
+		// 	]);
+			
+		// }else{
+		// 	return view('hutang.edit',[
+		// 		'data' => $data
+		// 	]);			
+		// }
+
+		if($data->type == 'pembelian'){
 				$data->po = \DB::table('view_pembelian')
 							->where('ref',$data->source)
 							->first();
 			}
 
-			// get data payment
-			$payments = \DB::table('view_hutang_payment')
-							->where('hutang_id',$id)
-							->get();
 
-			return view('hutang.validated',[
+		// get data payment
+		$payments = \DB::table('view_hutang_payment')
+						->where('hutang_id',$id)
+						->get();
+		return view('hutang.edit',[
 				'data' => $data,
 				'payments' => $payments,
 			]);
-			
-		}else{
-			return view('hutang.edit',[
-				'data' => $data
-			]);			
-		}
 	}
 
 	public function update(Request $req){
@@ -157,7 +173,7 @@ class HutangController extends Controller
 				\DB::table('hutang')
 					->where('id',$req->hutang_id)
 					->update([
-						'state' => 'P'
+						'state' => 'paid'
 					]);
 			}
 		});
@@ -183,7 +199,7 @@ class HutangController extends Controller
 			\DB::table('hutang')
 			->where('id',$hutang->id)
 			->update([
-				'state' => ($hutang->payment_amount + $payment->jumlah == $hutang->jumlah ? ($hutang->type == 'pembelian' ? 'V' :'O') : 'V'),
+				'state' => 'open',
 				'payment_amount' => $hutang->payment_amount + $payment->jumlah
 			]);
 		});
@@ -217,5 +233,56 @@ class HutangController extends Controller
 
 		return redirect('finance/hutang');
 	}
+
+
+	public function toDelete($id){
+		\DB::table('hutang')->delete($id);
+		return redirect('finance/hutang');
+	}
+
+	public function toConfirm($id){
+		\DB::table('hutang')
+			->whereId($id)
+			->update([
+				'state' => 'open'
+			]);
+
+		return redirect('finance/hutang/edit/'.$id);
+	}
+
+	public function toCancel($id){
+		$hutang = \DB::table('hutang')->find($id);
+		$url = '';
+
+		\DB::transaction(function()use($id,$hutang,&$url){
+			if($hutang->type == 'pembelian'){
+				$pembelian = \DB::table('pembelian')->find($hutang->po_id);
+				
+				// delete hutang
+				\DB::table('hutang')->delete($id);
+
+				\DB::table('pembelian')
+					->whereId($hutang->po_id)
+					->update([
+							'status' => 'OPEN',
+							'bill_state' => null
+						]);
+
+				$url = 'finance/hutang';
+				
+			}else{
+				\DB::table('hutang')
+					->whereId($id)
+					->update([
+						'state' => 'draft'
+					]);
+
+				$url = 'finance/hutang/edit/'.$id;
+			}
+		});
+
+		return redirect($url);
+	}
+
 
 }

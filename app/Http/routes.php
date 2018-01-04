@@ -102,6 +102,9 @@ Route::group(['middleware' => ['web','auth']], function () {
         Route::get('get-payment-info/{id}', 'HutangController@getPaymentInfo');
         Route::get('del-payment/{id}', 'HutangController@delPayment');
         Route::get('cancel-hutang/{id}', 'HutangController@cancelHutang');
+        Route::get('delete/{id}', 'HutangController@toDelete');
+        Route::get('confirm/{id}', 'HutangController@toConfirm');
+        Route::get('cancel/{id}', 'HutangController@toCancel');
     });
 
     Route::group(['prefix' => 'finance/piutang'], function () {

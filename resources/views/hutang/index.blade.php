@@ -27,7 +27,7 @@
                     <tr>
                         <td class="bg-green text-center" rowspan="2" style="width: 50px;" ><i class="fa fa-tags" ></i></td>
                         <td style="padding-left: 10px;padding-right: 5px;">
-                            TOTAL HUTANG
+                            SALDO HUTANG
                         </td>
                     </tr>
                     <tr>
@@ -93,13 +93,11 @@
                             {{number_format($dt->payment_amount,2,'.',',')}}
                         </td>
                         <td class="text-center" >
-                            @if($dt->state == 'D')
+                            @if($dt->state == 'draft')
                                 <label class="label label-danger">DRAFT</label>
-                            @elseif($dt->state == 'O')
+                            @elseif($dt->state == 'open')
                                 <label class="label label-warning">OPEN</label>
-                            @elseif($dt->state == 'V')
-                                <label class="label label-info">VALIDATED</label>
-                            @elseif($dt->state == 'P')
+                            @elseif($dt->state == 'paid')
                                 <label class="label label-success">PAID</label>
                             @endif
                         </td>

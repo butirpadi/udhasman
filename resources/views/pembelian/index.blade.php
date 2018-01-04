@@ -94,14 +94,12 @@
                             @endif
                         </td>
                         <td class="text-center" >
-                            @if($dt->bill_state == 'D')
+                            @if($dt->bill_state == 'draft')
                                 <label class="label label-danger" >DRAFT</label>
-                            @elseif($dt->bill_state == 'O')
+                            @elseif($dt->bill_state == 'open')
                                 <label class="label label-warning" >OPEN</label>
-                            @elseif($dt->bill_state == 'V')
-                                <label class="label label-info" >VALIDATED</label>
-                            @elseif($dt->bill_state == 'P')
-                                <label class="label label-success" >DONE</label>
+                            @elseif($dt->bill_state == 'paid')
+                                <label class="label label-success" >PAID</label>
                             @else
                             -
                             @endif

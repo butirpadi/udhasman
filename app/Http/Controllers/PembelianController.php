@@ -231,7 +231,7 @@ class PembelianController extends Controller
 			\DB::table('hutang')->insert([
 				'name' => $nomor_inv,
 				'tanggal' => date('Y-m-d'),
-				'state' => 'V',
+				'state' => 'open',
 				'source' => $pembelian->ref,
 				'po_id' => $pembelian->id,
 				'desc' => 'Hutang Dagang ' . $pembelian->nama_supplier,
