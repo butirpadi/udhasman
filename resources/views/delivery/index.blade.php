@@ -116,7 +116,15 @@
                             @endif
                         </td>
                         <td class="text-center">
+                            @if($dt->invoice_state == 'draft')
+                                <label class="label label-warning">DRAFT</label>
+                            @elseif($dt->invoice_state == 'open')
+                                <label class="label label-info">OPEN</label>
+                            @elseif($dt->invoice_state == 'paid')
+                                <label class="label label-success">PAID</label>
+                            @else
                             -
+                            @endif
                         </td>
                         <td class="text-center" >
                             <a class="btn btn-success btn-xs" href="delivery/show/{{$dt->id}}" ><i class="fa fa-edit" ></i></a>

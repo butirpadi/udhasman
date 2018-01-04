@@ -48,8 +48,8 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        <a href="finance/hutang" >Hutang</a> <i class="fa fa-angle-double-right" ></i> 
-        <a href="finance/hutang/edit/{{$data->id}}" >{{$data->name}}</a> <i class="fa fa-angle-double-right" ></i> 
+        <a href="finance/piutang" >Piutang</a> <i class="fa fa-angle-double-right" ></i> 
+        <a href="finance/piutang/edit/{{$data->id}}" >{{$data->name}}</a> <i class="fa fa-angle-double-right" ></i> 
         Register Payment
     </h1>
 </section>
@@ -57,22 +57,10 @@
 <!-- Main content -->
 <section class="content">
     <div class="box box-solid">
-        <form name="form_payment" role="form" method="POST" action="finance/hutang/insert-payment" >
+        <form name="form_payment" role="form" method="POST" action="finance/piutang/add-pay" >
             <input type="hidden" name="original_id" value="{{$data->id}}">
             <div class="box-header with-border" style="padding-top:5px;padding-bottom:5px;" >
                 <label><h3 style="margin:0;padding:0;font-weight:bold;" >Register Payment</h3></label>
-
-                <!-- <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label> -->
-                <!-- <a class="btn  btn-arrow-right pull-right disabled bg-blue" >DONE</a> -->
-
-                <!-- <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label> -->
-                <!-- <a class="btn btn-arrow-right pull-right disabled bg-blue" >VALIDATED</a> -->
-
-                <!-- <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label> -->
-                <!-- <a class="btn btn-arrow-right pull-right disabled bg-gray" >OPEN</a> -->
-
-                <!-- <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label> -->
-                <!-- <a class="btn btn-arrow-right pull-right disabled bg-gray" >DRAFT</a> -->
             </div>
             <div class="box-body">
                     <input type="hidden" name="pembelian_id" value="{{$data->id}}">
@@ -80,12 +68,12 @@
                         <div class="col-xs-6" >
                             <div class="form-group">
                                 <label >Jumlah Tagihan</label>
-                                <input type="text" name="jumlah_tagihan" class="form-control text-right" value="{{$data->payment_amount}}" readonly/>
-                                <input type="hidden" name="hutang_id" value="{{$data->id}}" />
+                                <input type="text" name="jumlah_tagihan" class="form-control text-right" value="{{$data->amount_due}}" readonly/>
+                                <input type="hidden" name="piutang_id" value="{{$data->id}}" />
                             </div>  
                             <div class="form-group">
                                 <label >Jumlah Bayar</label>
-                                <input type="text" name="jumlah_bayar" class="form-control text-right" value="{{$data->payment_amount}}" required >    
+                                <input type="text" name="jumlah_bayar" class="form-control text-right" value="{{$data->amount_due}}" required >    
                             </div>  
                         </div>
                         <div class="col-xs-6" >
@@ -102,7 +90,7 @@
             </div><!-- /.box-body -->
             <div class="box-footer" >
                 <button type="submit" class="btn btn-primary" id="btn-save" ><i class="fa fa-save" ></i> Save</button> 
-                <a class="btn btn-danger" id="btn-cancel-save" href="finance/hutang/edit/{{$data->id}}" ><i class="fa fa-close" ></i> Close</a>
+                <a class="btn btn-danger" id="btn-cancel-save" href="finance/piutang/edit/{{$data->id}}" ><i class="fa fa-close" ></i> Close</a>
                 
             </div>
         </form>         

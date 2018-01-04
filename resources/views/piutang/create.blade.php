@@ -48,14 +48,14 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        <a href="finance/hutang" >Hutang</a> <i class="fa fa-angle-double-right" ></i> New
+        <a href="finance/piutang" >Piutang</a> <i class="fa fa-angle-double-right" ></i> New
     </h1>
 </section>
 
 <!-- Main content -->
 <section class="content">
     <div class="box box-solid">
-        <form role="form" method="POST" action="finance/hutang/insert" >
+        <form role="form" method="POST" action="finance/piutang/insert" >
         <div class="box-header with-border" style="padding-top:5px;padding-bottom:5px;" >
             {{-- <label> <small>Sales Order</small> <h4 style="font-weight: bolder;margin-top:0;padding-top:0;margin-bottom:0;padding-bottom:0;" >New</h4></label> --}}
             <label><h3 style="margin:0;padding:0;font-weight:bold;" >New</h3></label>
@@ -78,14 +78,25 @@
                                 <input type="text" name="tanggal" class="input-tanggal form-control" value="{{date('d-m-Y')}}" required>    
                             </div>  
                             <div class="form-group">
-                                <label >Jumlah</label>
-                                <input name="jumlah" class="form-control text-right" required>
+                                <label >Jenis Piutang</label>
+                                <select name="type" class="form-control" required >
+                                    <option value="pk">Piutang Karyawan</option>
+                                    <option value="pl">Piutang Lain</option>
+                                </select>
                             </div>
                         </div>
-                        <div class="col-xs-6" >
-                            <div class="form-group">
+                        <div class="col-xs-6 " >
+                            <div class="form-group " id="input-karyawan" >
+                                <label >Karyawan</label>
+                                {!! Form::select('karyawan',$karyawans,null,['class'=>'form-control','required']) !!}
+                            </div>
+                            <div class="form-group hide" id="input-lain" >
                                 <label >Desc</label>
-                                <textarea name="desc" class="form-control" rows="4" maxlength="250" ></textarea>
+                                <textarea name="desc" class="form-control" rows="2" maxlength="250" ></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label >Jumlah</label>
+                                <input name="jumlah" class="form-control text-right" required>
                             </div>
                         </div>
                     </div>
@@ -94,7 +105,7 @@
         </div><!-- /.box-body -->
         <div class="box-footer" >
             <button type="submit" class="btn btn-primary" id="btn-save" ><i class="fa fa-save" ></i> Save</button>
-            <a class="btn btn-danger" id="btn-cancel-save" href="finance/hutang" ><i class="fa fa-close" ></i> Close</a>
+            <a class="btn btn-danger" id="btn-cancel-save" href="finance/piutang" ><i class="fa fa-close" ></i> Close</a>
         </div>
         </form>
     </div><!-- /.box -->
@@ -121,6 +132,10 @@
 <script type="text/javascript">
 (function ($) {
 
+    // $('select[name=type]').val([]);
+    $("select[name=karyawan]").select2();
+    $("select[name=karyawan]").select2('val',[]);
+
     // SET DATEPICKER
     $('.input-tanggal').datepicker({
         format: 'dd-mm-yyyy',
@@ -134,6 +149,27 @@
             aSep: ',',
             aDec: '.'
         });
+
+    $('select[name=type]').change(function(){
+        $('#input-karyawan').removeClass('hide');
+        $('#input-karyawan').hide();
+        $('#input-lain').removeClass('hide');
+        $('#input-lain').hide();
+
+        if($(this).val() == 'pk'){
+            $('#input-karyawan').fadeIn();
+            $('#input-lain').hide();
+
+            // add required to input karuyawan
+            $('select[name=karyawan]').attr('required','required');
+        }else{
+            $('#input-karyawan').hide();
+            $('#input-lain').fadeIn();
+
+            // remove required karyawan
+            $('select[name=karyawan]').removeAttr('required');
+        }
+    });
 
 })(jQuery);
 </script>

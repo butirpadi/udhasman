@@ -48,26 +48,25 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        <a href="finance/hutang" >Hutang</a> <i class="fa fa-angle-double-right" ></i> New
+        <a href="finance/hutang" >Hutang</a> <i class="fa fa-angle-double-right" ></i> {{$data->name}}
     </h1>
 </section>
 
 <!-- Main content -->
 <section class="content">
     <div class="box box-solid">
-        <form role="form" method="POST" action="finance/hutang/insert" >
+        <form role="form" method="POST" action="finance/hutang/update" >
         <div class="box-header with-border" style="padding-top:5px;padding-bottom:5px;" >
-            {{-- <label> <small>Sales Order</small> <h4 style="font-weight: bolder;margin-top:0;padding-top:0;margin-bottom:0;padding-bottom:0;" >New</h4></label> --}}
-            <label><h3 style="margin:0;padding:0;font-weight:bold;" >New</h3></label>
+            <label><h3 style="margin:0;padding:0;font-weight:bold;" >{{$data->name}}</h3></label>
 
             <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
             <a class="btn  btn-arrow-right pull-right disabled bg-gray" >DONE</a>
 
             <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
-            <a class="btn btn-arrow-right pull-right disabled bg-gray" >OPEN</a>
+            <a class="btn btn-arrow-right pull-right disabled bg-blue" >OPEN</a>
 
             <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
-            <a class="btn btn-arrow-right pull-right disabled bg-blue" >DRAFT</a>
+            <a class="btn btn-arrow-right pull-right disabled bg-gray" >DRAFT</a>
         </div>
         <div class="box-body">
                 <div class="box-body">
@@ -75,17 +74,22 @@
                         <div class="col-xs-6" >
                             <div class="form-group">
                                 <label for="customerLabel">Tanggal</label>
-                                <input type="text" name="tanggal" class="input-tanggal form-control" value="{{date('d-m-Y')}}" required>    
+                                <input type="text" name="tanggal" class="input-tanggal form-control" value="{{$data->tanggal_format}}" required readonly />
+                                <input type="hidden" name="original_id" value="{{$data->id}}" required readonly />    
                             </div>  
                             <div class="form-group">
                                 <label >Jumlah</label>
-                                <input name="jumlah" class="form-control text-right" required>
+                                <input name="jumlah" class="form-control text-right" value="{{$data->jumlah}}" required readonly />
                             </div>
                         </div>
                         <div class="col-xs-6" >
                             <div class="form-group">
+                                <label >Source Document</label>
+                                <p><a target="_blank" href="finance/hutang/show-po/{{$data->id}}/{{$data->po->id}}" >{{$data->source}}</a></p>
+                            </div>
+                            <div class="form-group">
                                 <label >Desc</label>
-                                <textarea name="desc" class="form-control" rows="4" maxlength="250" ></textarea>
+                                <textarea name="desc" class="form-control" rows="2" maxlength="250" readonly >{{$data->desc}}</textarea>
                             </div>
                         </div>
                     </div>
@@ -114,9 +118,7 @@
 <script src="plugins/autocomplete/jquery.autocomplete.min.js" type="text/javascript"></script>
 <script src="plugins/autonumeric/autoNumeric-min.js" type="text/javascript"></script>
 <!-- Select2 -->
-    <script src="plugins/select2/dist/js/select2.full.min.js"></script>
-
-
+<script src="plugins/select2/dist/js/select2.full.min.js"></script>
 
 <script type="text/javascript">
 (function ($) {

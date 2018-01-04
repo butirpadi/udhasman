@@ -44,7 +44,7 @@ class HutangController extends Controller
 			'desc' => $req->desc,
 			'type' => 'lain',
 			'state' => 'O',
-			'jumlah' => str_replace(',', '', $req->jumlah)
+			'jumlah' => str_replace(',', '', str_replace('.00','',$req->jumlah))
 		]);
 
 		return redirect('finance/hutang');
@@ -91,7 +91,7 @@ class HutangController extends Controller
 						->update([
 							'tanggal' => $tanggal,
 							'desc' => $req->desc,
-							'jumlah' => str_replace(',', '', $req->jumlah)
+							'jumlah' => str_replace(',', '', str_replace('.00','',$req->jumlah))
 						]);        	
         }
 
@@ -133,27 +133,27 @@ class HutangController extends Controller
         	$tanggal->setDate($arr_tgl[2],$arr_tgl[1],$arr_tgl[0]);
 
 			// Generate Payment Reference
-			$prefix = Appsetting('payment_in_prefix');
-	        $counter = Appsetting('payment_in_counter');
+			$prefix = Appsetting('payment_out_prefix');
+	        $counter = Appsetting('payment_out_counter');
 	        $ref = $prefix.'/'.date('Y/m').$counter++;
-	        UpdateAppsetting('payment_in_counter',$counter);
+	        UpdateAppsetting('payment_out_counter',$counter);
 
 			\DB::table('hutang_payment')
 					->insert([
 						'hutang_id' => $req->hutang_id,
 						'tanggal' => $tanggal,
 						'name' => $ref,
-						'jumlah' => str_replace(',', '', $req->jumlah_bayar),
+						'jumlah' => str_replace(',', '', str_replace('.00','',$req->jumlah_bayar)),
 					]);			
 			// update payment amount
 			$payment_amount = \DB::table('hutang')->find($req->hutang_id)->payment_amount;
 			\DB::table('hutang')
 					->where('id',$req->hutang_id)
 					->update([
-						'payment_amount' => $payment_amount - str_replace(',', '', $req->jumlah_bayar)
+						'payment_amount' => $payment_amount - str_replace(',', '', str_replace('.00','',$req->jumlah_bayar))
 					]);
 			// set paid
-			if($payment_amount - str_replace(',', '', $req->jumlah_bayar) == 0){
+			if($payment_amount - str_replace(',', '', str_replace('.00','',$req->jumlah_bayar)) == 0){
 				\DB::table('hutang')
 					->where('id',$req->hutang_id)
 					->update([

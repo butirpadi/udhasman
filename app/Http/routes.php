@@ -104,6 +104,22 @@ Route::group(['middleware' => ['web','auth']], function () {
         Route::get('cancel-hutang/{id}', 'HutangController@cancelHutang');
     });
 
+    Route::group(['prefix' => 'finance/piutang'], function () {
+        Route::get('/', 'PiutangController@index');
+        Route::get('create', 'PiutangController@create');
+        Route::post('insert', 'PiutangController@insert');
+        Route::post('update', 'PiutangController@update');
+        Route::get('edit/{id}', 'PiutangController@edit');
+        Route::get('delete/{id}', 'PiutangController@toDelete');
+        Route::get('confirm/{id}', 'PiutangController@toConfirm');
+        Route::get('cancel/{id}', 'PiutangController@toCancel');
+        Route::get('pay/{id}', 'PiutangController@toPay');
+        Route::post('add-pay', 'PiutangController@addPay');
+        Route::get('get-payment-info/{id}', 'PiutangController@getPaymentInfo');
+        Route::get('del-payment/{id}', 'PiutangController@delPayment');
+        
+    });
+
     Route::group(['prefix' => 'master'], function () {
         // LOKASI GALIAN
         Route::get('lokasi','LokasiGalianController@index');
@@ -246,6 +262,8 @@ Route::group(['middleware' => ['web','auth']], function () {
         Route::get('show/{id}','DeliveryController@show');
         Route::get('edit/{id}','DeliveryController@edit');
         Route::get('todone/{id}','DeliveryController@toDone');
+        Route::get('validate/{id}','DeliveryController@toValidate');
+        Route::get('confirm/{id}','DeliveryController@toConfirm');
         Route::post('delete','DeliveryController@delete');
         Route::get('delete-single/{id}','DeliveryController@deleteSingle');
         Route::get('topdf/{id}','DeliveryController@toPdf');

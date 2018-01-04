@@ -9,7 +9,7 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Hutang
+        Piutang
     </h1>
 </section>
 
@@ -19,7 +19,7 @@
     <!-- Default box -->
     <div class="box box-solid">
         <div class="box-header with-border" >
-            <a class="btn btn-primary " id="btn-add" href="finance/hutang/create" ><i class="fa fa-plus-circle" ></i> Create</a>
+            <a class="btn btn-primary " id="btn-add" href="finance/piutang/create" ><i class="fa fa-plus-circle" ></i> Create</a>
             <a class="btn btn-danger hide" id="btn-delete" href="#" ><i class="fa fa-trash" ></i> Delete</a>
             
             <div class="pull-right" >
@@ -27,7 +27,7 @@
                     <tr>
                         <td class="bg-green text-center" rowspan="2" style="width: 50px;" ><i class="fa fa-tags" ></i></td>
                         <td style="padding-left: 10px;padding-right: 5px;">
-                            TOTAL HUTANG
+                            TOTAL PIUTANG
                         </td>
                     </tr>
                     <tr>
@@ -69,11 +69,13 @@
                         <td class="text-center" >
                             {{$dt->tanggal_format}}
                         </td>
-                        <td class="text-center" >
-                            @if($dt->type == 'pembelian')
-                                Hutang Dagang
+                        <td class="" >
+                            @if($dt->type == 'so')
+                                Piutang Dagang
+                            @elseif($dt->type == 'pk')
+                                Piutang Karyawan
                             @else
-                                Hutang Lain-lain
+                                Piutang Lain-lain
                             @endif
                         </td>
                         <td class="text-center" >
@@ -90,21 +92,19 @@
                             {{number_format($dt->jumlah,2,'.',',')}}
                         </td>
                         <td class="text-right" >
-                            {{number_format($dt->payment_amount,2,'.',',')}}
+                            {{number_format($dt->amount_due,2,'.',',')}}
                         </td>
                         <td class="text-center" >
-                            @if($dt->state == 'D')
+                            @if($dt->state == 'draft')
                                 <label class="label label-danger">DRAFT</label>
-                            @elseif($dt->state == 'O')
+                            @elseif($dt->state == 'open')
                                 <label class="label label-warning">OPEN</label>
-                            @elseif($dt->state == 'V')
-                                <label class="label label-info">VALIDATED</label>
-                            @elseif($dt->state == 'P')
+                            @elseif($dt->state == 'paid')
                                 <label class="label label-success">PAID</label>
                             @endif
                         </td>
                         <td class="text-center" >
-                            <a class="btn btn-primary btn-xs" href="finance/hutang/edit/{{$dt->id}}" ><i class="fa fa-edit" ></i></a>
+                            <a class="btn btn-primary btn-xs" href="finance/piutang/edit/{{$dt->id}}" ><i class="fa fa-edit" ></i></a>
                         </td>
                     </tr>
                     @endforeach
@@ -167,7 +167,7 @@
                 dataid.push(newdata);
             });
 
-            var deleteForm = $('<form>').attr('method','POST').attr('action','finance/hutang/delete');
+            var deleteForm = $('<form>').attr('method','POST').attr('action','finance/piutang/delete');
             deleteForm.append($('<input>').attr('type','hidden').attr('name','dataid').attr('value',JSON.stringify(dataid)));
             $('body').append(deleteForm);
             deleteForm.submit();

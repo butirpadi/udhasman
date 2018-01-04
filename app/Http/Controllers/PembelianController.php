@@ -234,7 +234,7 @@ class PembelianController extends Controller
 				'state' => 'V',
 				'source' => $pembelian->ref,
 				'po_id' => $pembelian->id,
-				'desc' => 'Hutang Pembelian ' . $pembelian->nama_supplier,
+				'desc' => 'Hutang Dagang ' . $pembelian->nama_supplier,
 				'type' => 'pembelian',
 				'jumlah' => $pembelian->total,
 			]);

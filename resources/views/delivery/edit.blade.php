@@ -73,99 +73,105 @@
                         <div class="col-xs-6" >
                             <div class="form-group">
                                 <label for="customerLabel">Customer</label>
-                                {!! Form::select('customer',$select_customer,$pengiriman->customer_id,['disabled','class'=>'form-control init_data','required','data-default'=>$pengiriman->customer_id]) !!}
+                                @if($pengiriman->state == 'draft')
+                                    {!! Form::select('customer',$select_customer,$pengiriman->customer_id,['class'=>'form-control init_data','required','data-default'=>$pengiriman->customer_id]) !!}
+                                @else
+                                    <div class="hide" >
+                                        {!! Form::select('customer',$select_customer,$pengiriman->customer_id,['class'=>'form-control init_data','required','data-default'=>$pengiriman->customer_id]) !!}
+                                    </div>
+                                    <input type="text" name="show_customer" class="form-control" value="{{$pengiriman->customer}}" readonly />
+                                @endif
                                 <input name="original_id" value="{{$pengiriman->id}}" class="hide" />
                             </div>  
                             <div class="form-group">
                                 <label >Pekerjaan</label>
-                                <select name="pekerjaan" class="form-control init_data" data-default="{{$pengiriman->pekerjaan_id}}" ></select>
+                                @if($pengiriman->state == 'draft')
+                                    <select name="pekerjaan" class="form-control init_data" data-default="{{$pengiriman->pekerjaan_id}}" {{$pengiriman->state == 'open' ? 'readonly' : ''}} ></select>
+                                @else
+                                    <div class="hide" >
+                                        <select name="pekerjaan" class="form-control init_data" data-default="{{$pengiriman->pekerjaan_id}}" {{$pengiriman->state == 'open' ? 'readonly' : ''}} ></select>
+                                    </div>
+                                    <input type="text" name="show_pekerjaan" class="form-control" value="{{$pengiriman->pekerjaan}}" readonly />
+                                @endif
                             </div>
                             <div class="form-group">
                                 <label >Material</label>
-                                {!! Form::select('material',$material,null,['class'=>'form-control init_data','required','data-default'=>$pengiriman->material_id]) !!}
+                                @if($pengiriman->state == 'draft')
+                                    {!! Form::select('material',$material,null,['class'=>'form-control init_data','required',$pengiriman->state == 'open' ? 'readonly' : '','data-default'=>$pengiriman->material_id]) !!}
+                                @else
+                                    <div class="hide" >
+                                        {!! Form::select('material',$material,null,['class'=>'form-control init_data','required',$pengiriman->state == 'open' ? 'readonly' : '','data-default'=>$pengiriman->material_id]) !!}
+                                    </div>
+                                    <input type="text" name="show_material" class="form-control" value="{{$pengiriman->material}}" readonly />
+                                @endif
                             </div>
                             <div class="form-group">
                                 <label >Lokasi Galian</label>
-                                {!! Form::select('lokasi_galian',$lokasi_galian,$pengiriman->lokasi_galian_id,['class'=>'form-control init_data','required','data-default'=>$pengiriman->lokasi_galian_id]) !!}
+                                @if($pengiriman->state == 'draft')
+                                    {!! Form::select('lokasi_galian',$lokasi_galian,$pengiriman->lokasi_galian_id,['class'=>'form-control init_data','required',$pengiriman->state == 'open' ? 'readonly' : '','data-default'=>$pengiriman->lokasi_galian_id]) !!}
+                                @else
+                                    <div class="hide" >
+                                        {!! Form::select('lokasi_galian',$lokasi_galian,$pengiriman->lokasi_galian_id,['class'=>'form-control init_data','required',$pengiriman->state == 'open' ? 'readonly' : '','data-default'=>$pengiriman->lokasi_galian_id]) !!}
+                                    </div>
+                                    <input type="text" name="show_lokasi_galian" class="form-control" value="{{$pengiriman->lokasi_galian}}" readonly />
+                                @endif
+                                
                             </div>
-                            <!-- <div class="form-group">
-                                <label >Kalkulasi</label>
-                                <select name="kalkulasi" class="form-control init_data" data-default="{{$pengiriman->kalkulasi}}" >
-                                    <option value="rit">Rit</option>
-                                    <option value="kubik">Kubikasi</option>
-                                    <option value="ton">Tonase</option>
-                                </select>
-                            </div>
-                            <div class="form-group hide group-rit">
-                              <label >Quantity</label>
-                              <input type="text" name="qty" class="form-control" value="1" readonly />
-                            </div>
-                            
-                            <div class="form-group hide group-kubik">
-                              <label >Panjang</label>
-                              <input type="text" name="panjang" class="form-control" data-default="{{$pengiriman->panjang}}" />
-                            </div>
-                            <div class="form-group hide group-kubik">
-                              <label >Lebar</label>
-                              <input type="text" name="lebar" class="form-control" data-default="{{$pengiriman->lebar}}" />
-                            </div>
-                            <div class="form-group hide group-kubik">
-                              <label >Tinggi</label>
-                              <input type="text" name="tinggi" class="form-control" data-default="{{$pengiriman->tinggi}}" />
-                            </div>
-                            <div class="form-group hide group-kubik">
-                              <label >Volume</label>
-                              <input type="text" name="volume" class="form-control" readonly data-default="{{$pengiriman->volume}}" />
-                            </div>
-
-                            <div class="form-group hide group-ton">
-                              <label >Gross</label>
-                              <input type="text" name="gross" class="form-control" data-default="{{$pengiriman->gross}}" />
-                            </div>
-                            <div class="form-group hide group-ton">
-                              <label >Tare</label>
-                              <input type="text" name="tare" class="form-control" data-default="{{$pengiriman->tare}}" />
-                            </div>
-                            <div class="form-group hide group-ton">
-                              <label >Netto</label>
-                              <input type="text" name="netto" class="form-control" readonly data-default="{{$pengiriman->netto}}" />
-                            </div> -->
                         </div>
                         <div class="col-xs-6" >
                             <div class="form-group">
-                                <label for="tanggalLabel">Tanggal</label>
-                                <input type="text" name="tanggal" class="input-tanggal form-control" value="{{$pengiriman->order_date_format}}" required>    
+                                <label for="tanggalLabel">Tanggal</label>                                    
+                                @if($pengiriman->state == 'draft')
+                                    <input type="text" name="tanggal" class="input-tanggal form-control" value="{{$pengiriman->order_date_format}}" required />
+                                @else
+                                    <div class="hide" >
+                                        <input type="text" name="tanggal" class="input-tanggal form-control" value="{{$pengiriman->order_date_format}}" required />
+                                    </div>
+                                    <input type="text" name="show_tanggal" class="form-control" value="{{$pengiriman->order_date_format}}" readonly />
+                                @endif
                             </div>
                             <div class="form-group">
                                 <label >Driver</label>
-                                {!! Form::select('driver',$driver,null,['class'=>'form-control init_data','data-default'=>$pengiriman->karyawan_id]) !!}
+                                @if($pengiriman->state == 'draft')
+                                    {!! Form::select('driver',$driver,null,['class'=>'form-control init_data','data-default'=>$pengiriman->karyawan_id,$pengiriman->state == 'open' ? 'readonly' : '']) !!}
+                                @else
+                                    <div class="hide" >
+                                        {!! Form::select('driver',$driver,null,['class'=>'form-control init_data','data-default'=>$pengiriman->karyawan_id,$pengiriman->state == 'open' ? 'readonly' : '']) !!}
+                                    </div>
+                                    <input type="text" name="show_driver" class="form-control" value="{{$pengiriman->karyawan}}" readonly />
+                                @endif
+                                
                             </div>
                             <div class="form-group">
                               <label >Nopol</label>
-                              <input type="text" name="nopol" class="form-control" value="{{$pengiriman->nopol}}" required>    
+                                @if($pengiriman->state == 'draft')
+                                    <input type="text" name="nopol" class="form-control" value="{{$pengiriman->nopol}}" required  />
+                                @else
+                                    <div class="hide" >
+                                        <input type="text" name="nopol" class="form-control" value="{{$pengiriman->nopol}}" required  />    
+                                    </div>
+                                    <input type="text" name="show_nopol" class="form-control" value="{{$pengiriman->nopol}}" readonly />
+                                @endif
+                              
                             </div>
                             <div class="form-group">
-                              <label >Nota Timbang</label>
-                              <input type="text" name="nota_timbang" class="form-control" value="{{$pengiriman->nota_timbang}}" >    
+                                <label >Nota Timbang</label>
+                                @if($pengiriman->state == 'done')
+                                    <input type="text" name="nota_timbang" class="form-control" value="{{$pengiriman->nota_timbang}}" readonly> 
+                                @else
+                                    <input type="text" name="nota_timbang" class="form-control" value="{{$pengiriman->nota_timbang}}" > 
+                                @endif
+                                 
                             </div>
-                            <!-- <div class="form-group ">
-                              <label >Harga Satuan</label>
-                              <input type="text" name="harga_satuan" class="form-control" value="{{$pengiriman->harga_satuan}}" />
-                            </div>
-                            <div class="form-group ">
-                              <label >Total</label>
-                              <input type="text" name="harga_total" class="form-control" value="{{$pengiriman->harga_total}}" readonly />
-                            </div> -->
 
                         </div>
 
 
-                        <div class="col-xs-12" >
+                        <div class="col-xs-12 {{$pengiriman->state == 'draft' ? 'hide':''}} "   >
                             <h4 class="page-header" style="font-size:14px;color:#3C8DBC"><strong>KALKULASI</strong></h4> 
                             <table class="table table-bordered table-condensed" >
                                 <thead>
                                     <tr>
-                                        <!-- <th class="text-center" rowspan="2">MATERIAL</th> -->
                                         <th class="text-center" rowspan="2" >KALKULASI</th>
                                         <th class="text-center hide group-kubik" colspan="4" >KUBIKASI</th>
                                         <th class="text-center hide group-ton" colspan="3" >TONASE</th>
@@ -185,15 +191,20 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <!-- <td>
-                                            {!! Form::select('material',$material,null,['class'=>'form-control init_data','required','data-default'=>$pengiriman->material_id]) !!}
-                                        </td> -->
                                         <td>
-                                            <select name="kalkulasi" class="form-control" data-default="{{$pengiriman->kalkulasi}}" >
-                                                <option value="rit">Rit</option>
-                                                <option value="kubik">Kubikasi</option>
-                                                <option value="ton">Tonase</option>
-                                            </select>
+                                            @if($pengiriman->state == 'done')
+                                                <select name="kalkulasi" class="form-control" data-default="{{$pengiriman->kalkulasi}}" disabled>
+                                                    <option value="rit">Rit</option>
+                                                    <option value="kubik">Kubikasi</option>
+                                                    <option value="ton">Tonase</option>
+                                                </select>
+                                            @else
+                                                <select name="kalkulasi" class="form-control" data-default="{{$pengiriman->kalkulasi}}" >
+                                                    <option value="rit">Rit</option>
+                                                    <option value="kubik">Kubikasi</option>
+                                                    <option value="ton">Tonase</option>
+                                                </select>
+                                            @endif
                                         </td>
                                         <td class="hide group-kubik">
                                             <input type="text" name="panjang" class="form-control text-right input-volume" data-default="{{$pengiriman->panjang}}" />
@@ -220,7 +231,11 @@
                                             <input type="text" name="qty" class="form-control  text-right" data-default="{{$pengiriman->qty}}" value="1" readonly />
                                         </td>
                                         <td>
-                                            <input type="text" name="harga_satuan" class="form-control text-right" value="{{$pengiriman->harga_satuan}}" />
+                                            @if($pengiriman->state == 'done')
+                                                <input type="text" name="harga_satuan" class="form-control text-right" value="{{$pengiriman->harga_satuan}}" readonly />
+                                            @else
+                                                <input type="text" name="harga_satuan" class="form-control text-right" value="{{$pengiriman->harga_satuan}}" />
+                                            @endif
                                         </td>
                                         <td>
                                             <input type="text" name="harga_total" class="form-control  text-right" value="{{$pengiriman->harga_total}}" readonly />
@@ -271,12 +286,15 @@
 
         </div><!-- /.box-body -->
         <div class="box-footer" >
-            <button type="submit" class="btn btn-primary" id="btn-save" ><i class="fa fa-save" ></i> Save</button>
+            @if($pengiriman->state != 'done')
+                <button type="submit" class="btn btn-primary" id="btn-save" ><i class="fa fa-save" ></i> Save</button>
+            @endif
             <a class="btn btn-success"  ><i class="fa fa-print" ></i> Print</a>
             <a class="btn btn-success" target="_blank" href="delivery/topdf/{{$pengiriman->id}}"  ><i class="fa fa-file-pdf-o" ></i> PDF</a>
             <a class="btn btn-danger" id="btn-cancel-save" href="delivery" ><i class="fa fa-close" ></i> Close</a>
-            <a class="btn bg-maroon pull-right {{$pengiriman->state != 'done' ? '' : 'hide'}}" id="btn-validate" ><i class="fa fa-check" ></i> Validate</a>
-            <a class="text-red btn pull-right " id="btn-delete" style="margin-right: 10px;" href="{{url()->current()}}#btn-delete" ><i class="fa fa-close" ></i> Delete</a>
+            <a class="btn bg-maroon pull-right {{$pengiriman->state == 'draft' ? '' : 'hide'}}" id="btn-confirm"  ><i class="fa fa-check" ></i> Confirm</a>
+            <a class="btn bg-purple pull-right {{$pengiriman->state == 'open' ? '' : 'hide'}}" id="btn-validate"  ><i class="fa fa-check" ></i> Validate</a>
+            <a class="text-red btn pull-right {{$pengiriman->state == 'done' ? 'hide' : ''}}" id="btn-delete" style="margin-right: 10px;" href="{{url()->current()}}#btn-delete" ><i class="fa fa-close" ></i> Delete</a>
         </div>
         </form>
     </div><!-- /.box -->
@@ -466,10 +484,17 @@
         }
     });
    
-   // Validate
+   // Confirm
+   $('#btn-confirm').click(function(){
+        // if(confirm('Lanjutkan proses validasi?')){
+        location.href="delivery/confirm/"+$('input[name=original_id]').val();
+        // }
+   });
+
+   // Confirm
    $('#btn-validate').click(function(){
-        if(confirm('Lanjutkan proses validasi?')){
-            location.href="delivery/todone/"+$('input[name=original_id]').val();
+        if(confirm('Anda akan mem-validasi data ini?')){
+        location.href="delivery/validate/"+$('input[name=original_id]').val();
         }
    });
 

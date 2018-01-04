@@ -215,7 +215,7 @@ class DeliveryController extends Controller
 	        }elseif($req->kalkulasi == 'kubik'){
 	        	$qty = number_format($req->panjang * $req->lebar * $req->tinggi,2);
 	        }
-	        $harga_total = $qty * str_replace(',', '', $req->harga_satuan);
+	        $harga_total = $qty * str_replace(',', '', str_replace('.00','',$req->harga_satuan));
 
 	        \DB::table('new_pengiriman')
 	        ->where('id','=',$data_do->id)
@@ -226,7 +226,7 @@ class DeliveryController extends Controller
 				'karyawan_id' => $req->driver,
 				'nopol' => $req->nopol,
 				'material_id' => $req->material,
-				'harga_satuan' => str_replace(',', '', $req->harga_satuan),
+				'harga_satuan' => str_replace(',', '', str_replace('.00','',$req->harga_satuan)),
 				'nota_timbang' => $req->nota_timbang,
 				'harga_total' => $harga_total,
 				'kalkulasi' => $req->kalkulasi,
@@ -288,15 +288,34 @@ class DeliveryController extends Controller
 
 		});
 
-		return redirect('delivery/show/'.$req->original_id);
+		return redirect('delivery/edit/'.$req->original_id);
 	}
 
-	public function toDone($id){
+	public function toConfirm($id){
 		\DB::table('new_pengiriman')
 			->where('id',$id)
 			->update([
-				'state' => 'done'
+				'state' => 'open'
 			]);
+
+		return redirect('delivery/edit/'.$id);
+	}
+
+	public function toValidate($id){
+		\DB::transaction(function()use($id){
+
+			$pengiriman = \DB::table('new_pengiriman')
+							->find($id);
+
+			\DB::table('new_pengiriman')
+				->where('id',$id)
+				->update([
+					'state' => 'done'
+				]);
+
+				// GENERATE PIUTANG TELAH DI HANDLE OLEH TRIGGER DATATBASE
+			
+		});
 
 		return redirect('delivery/show/'.$id);
 	}
