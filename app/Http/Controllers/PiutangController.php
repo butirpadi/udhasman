@@ -279,6 +279,38 @@ class PiutangController extends Controller
         ]);
     }
 
+    public function showSo($id){
+        $piutang = \DB::table('view_piutang')->find($id);
+        $piutang->so = \DB::table('view_new_pengiriman')->find($piutang->so_id);
+
+        $drivers = \DB::table('karyawan')->where('driver',1)->get();
+        $driver = [];
+        foreach($drivers as $dt){
+            $nopol = \DB::table('armada')->where('karyawan_id',$dt->id)->first();
+            $driver[$dt->id] = $dt->nama . ' - ' . $nopol->nopol;
+        }
+
+        $customer = \DB::table('customer')->get();
+        $select_customer = [];
+        foreach($customer as $dt){
+            $select_customer[$dt->id] = $dt->nama;
+        }
+
+        $material = \DB::table('material')->get();
+        $select_material = [];
+        foreach($material as $dt){
+            $select_material[$dt->id] = $dt->nama;
+        }
+
+        return view('piutang.show-so',[
+                'select_customer' => $select_customer,
+                'material' => $select_material,
+                'driver' => $driver,
+                'data' => $piutang
+            ]);
+
+    }
+
 
 
 }

@@ -124,6 +124,7 @@ Route::group(['middleware' => ['web','auth']], function () {
         Route::get('view-pdf/{id}', 'PiutangController@viewPdf');
         Route::get('print/{id}', 'PiutangController@toPrint');
         Route::get('payment-to-print/{id}', 'PiutangController@paymentToPrint');
+        Route::get('show-so/{id}', 'PiutangController@showSo');
         
     });
 
