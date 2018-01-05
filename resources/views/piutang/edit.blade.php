@@ -101,8 +101,6 @@
                                     @endif
                                 @endif
                             </div>
-                        </div>
-                        <div class="col-xs-6 " >
                             <div class="form-group {{$data->type == 'pk' ? '' : 'hide'}}" id="input-karyawan" >
                                 <label >Karyawan</label>
                                 @if($data->state == 'draft')
@@ -114,7 +112,13 @@
                                     <input type="text" name="show_karyawan" value="{{$data->karyawan . ' - ' . $data->kode_karyawan}}" class="form-control" readonly /> 
                                 @endif
                             </div>
-                            <div class="form-group {{$data->type == 'pk' ? 'hide' : ''}}" id="input-lain" >
+                            <div class="form-group {{$data->type == 'pl' ? '':'hide'}}" id="input-lain" >
+                                <label >Penerima</label>
+                                <input type="text" name="penerima" class="form-control" {{$data->state == 'draft' ? '':'readonly'}} value="{{$data->penerima}}" />
+                            </div>
+                        </div>
+                        <div class="col-xs-6 " >
+                            <div class="form-group" id="input-lain" >
                                 <label >Desc</label>
                                 <textarea name="desc" class="form-control" rows="2" maxlength="250" {{$data->state == 'draft' ? '':'readonly'}} >{{$data->desc}}</textarea>
                             </div>
@@ -160,8 +164,13 @@
         </div><!-- /.box-body -->
         <div class="box-footer" >
             <button type="submit" class="btn btn-primary {{$data->state == 'draft' ? '' : 'hide'}}" id="btn-save"  ><i class="fa fa-save" ></i> Save</button>
-
+            
             <a class="btn btn-warning {{$data->state == 'open' ? '':'hide' }}" id="btn-cancel" href="finance/piutang/cancel/{{$data->id}}" ><i class="fa fa-reply" ></i> Cancel</a>
+
+            @if($data->state != 'draft' && $data->type != 'so')
+                <!-- <a target="_blank" class="btn btn-success " id="btn-print" href="finance/piutang/print/{{$data->id}}"  ><i class="fa fa-print" ></i> Print</a> -->
+                <a target="_blank" class="btn btn-primary" id="btn-pdf" href="finance/piutang/pdf/{{$data->id}}" ><i class="fa fa-print" ></i> Print</a>
+            @endif
             
             <a class="btn btn-danger" id="btn-close" href="finance/piutang" ><i class="fa fa-close" ></i> Close</a>
             

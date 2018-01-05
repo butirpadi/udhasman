@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Spipu\Html2Pdf\Html2Pdf;
 
 class PiutangController extends Controller
 {
@@ -57,6 +58,7 @@ class PiutangController extends Controller
                     'tanggal' => $tgl,
                     'type' => $req->type,
                     'karyawan_id' => $req->karyawan,
+                    'penerima' => $req->penerima,
                     'desc' => $req->desc,
                     'jumlah' => str_replace(',', '', str_replace('.00','',$req->jumlah)),
                     'amount_due' => str_replace(',', '', str_replace('.00','',$req->jumlah)),
@@ -79,13 +81,13 @@ class PiutangController extends Controller
     }
 
     public function insert(Request $req){
-        $id = $this->insertPiutang($req->tanggal,$req->type,'draft',null,null,$req->karyawan,$req->desc, $req->jumlah);
+        $id = $this->insertPiutang($req->tanggal,$req->type,'draft',null,null,$req->karyawan,$req->penerima,$req->desc, $req->jumlah);
         return redirect('finance/piutang/edit/' . $id);
     }
 
 
 
-	public function insertPiutang($tanggal, $type, $state, $source=null, $soId=null, $karyawanId=null, $desc, $jumlah){
+	public function insertPiutang($tanggal, $type, $state, $source=null, $soId=null, $karyawanId=null, $penerima, $desc, $jumlah){
 		// generate nomor hutang
         $prefix = Appsetting('piutang_prefix');
         $counter = Appsetting('piutang_counter') + 1;
@@ -102,10 +104,10 @@ class PiutangController extends Controller
         $tgl->setDate($arr_tgl[2],$arr_tgl[1],$arr_tgl[0]);
 
         // set desc
-        if($type == 'pk'){
-            $karyawan = \DB::table('karyawan')->find($karyawanId);
-            $desc = $karyawan->nama . ' - ' . $karyawan->kode;
-        }
+        // if($type == 'pk'){
+        //     $karyawan = \DB::table('karyawan')->find($karyawanId);
+        //     $desc = $karyawan->nama . ' - ' . $karyawan->kode;
+        // }
 
         $id = \DB::table('piutang')
         	->insertGetId([
@@ -116,6 +118,7 @@ class PiutangController extends Controller
         		'source' => $source,
         		'so_id' => $soId,
         		'karyawan_id' => $karyawanId,
+                'penerima' => $penerima,
                 'desc' => $desc,
                 'jumlah' => str_replace(',', '', str_replace('.00','',$jumlah)),
         		'amount_due' => str_replace(',', '', str_replace('.00','',$jumlah)),
@@ -247,6 +250,33 @@ class PiutangController extends Controller
         });
 
         return redirect('finance/piutang/edit/'.$piutang->id);
+    }
+
+    public function paymentToPrint($id){
+        $payment = \DB::table('view_piutang_payment')
+                    ->find($id);
+        $payment->piutang = \DB::table('view_piutang')
+                            ->find($payment->piutang_id);
+        $html2pdf = new Html2Pdf('P', 'A5', 'en');
+        $html2pdf->writeHTML(view('piutang.payment-pdf',[
+            'data' => $payment
+        ])->__toString());
+        $html2pdf->output();
+        
+    }
+
+    public function toPdf($id){
+        $html2pdf = new Html2Pdf('P', 'A5', 'en');
+        $html2pdf->writeHTML($this->viewPdf($id)->__toString());
+        $html2pdf->output();
+    }
+
+    public function viewPdf($id){
+        $piutang = \DB::table('view_piutang')
+                    ->find($id);
+        return view('piutang.pdf',[
+            'data' => $piutang
+        ]);
     }
 
 

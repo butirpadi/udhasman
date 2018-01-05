@@ -120,6 +120,10 @@ Route::group(['middleware' => ['web','auth']], function () {
         Route::post('add-pay', 'PiutangController@addPay');
         Route::get('get-payment-info/{id}', 'PiutangController@getPaymentInfo');
         Route::get('del-payment/{id}', 'PiutangController@delPayment');
+        Route::get('pdf/{id}', 'PiutangController@toPdf');
+        Route::get('view-pdf/{id}', 'PiutangController@viewPdf');
+        Route::get('print/{id}', 'PiutangController@toPrint');
+        Route::get('payment-to-print/{id}', 'PiutangController@paymentToPrint');
         
     });
 

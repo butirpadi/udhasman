@@ -50,7 +50,7 @@
                         <th>Tanggal</th>
                         <th>tipe</th>
                         <th>source</th>
-                        <th>desc</th>
+                        <th>penerima</th>
                         <th>jumlah</th>
                         <th>amount due</th>
                         <th>status</th>
@@ -86,7 +86,13 @@
                             @endif
                         </td>
                         <td class="" >
-                            {{$dt->desc}}
+                            @if($dt->type == 'pk')
+                                {{$dt->karyawan}}
+                            @elseif($dt->type == 'pl')
+                                {{$dt->penerima}}
+                            @else
+                                {{$dt->customer}}
+                            @endif
                         </td>
                         <td class="text-right" >
                             {{number_format($dt->jumlah,2,'.',',')}}
@@ -126,7 +132,7 @@
 (function ($) {
 
     var TBL_KATEGORI = $('#table-data').DataTable({
-        sort:false
+        sort:false,
     });
 
     // check all checkbox

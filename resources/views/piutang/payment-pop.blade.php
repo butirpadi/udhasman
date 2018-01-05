@@ -35,8 +35,8 @@
 		<tr>
 			<td colspan="2" >
 				<a class="btn btn-danger btn-xs pull-right btn-delete-payment" style="margin-bottom: 0;" href="finance/piutang/del-payment/{{$data->id}}" data-paymentid="{{$data->id}}" >Delete</a>
-				<a class="btn btn-success btn-xs pull-left" style="margin-bottom: 0;" >Print</a>
-				<a class="btn bg-maroon btn-xs pull-left" style="margin-bottom: 0;margin-left: 5px;" >PDF</a>
+				<a target="_blank" href="finance/piutang/payment-to-print/{{$data->id}}" class="btn btn-success btn-xs pull-left" style="margin-bottom: 0;" >Print</a>
+				<!-- <a target="_blank" href="finance/piutang/payment-to-pdf/{{$data->id}}" class="btn bg-maroon btn-xs pull-left" style="margin-bottom: 0;margin-left: 5px;" >PDF</a> -->
 			</td>
 		</tr>
 	</tbody>

@@ -84,13 +84,17 @@
                                     <option value="pl">Piutang Lain</option>
                                 </select>
                             </div>
-                        </div>
-                        <div class="col-xs-6 " >
                             <div class="form-group " id="input-karyawan" >
                                 <label >Karyawan</label>
                                 {!! Form::select('karyawan',$karyawans,null,['class'=>'form-control','required']) !!}
                             </div>
                             <div class="form-group hide" id="input-lain" >
+                                <label >Penerima</label>
+                                <input type="text" name="penerima" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-xs-6 " >                            
+                            <div class="form-group "  >
                                 <label >Desc</label>
                                 <textarea name="desc" class="form-control" rows="2" maxlength="250" ></textarea>
                             </div>
@@ -162,10 +166,14 @@
 
             // add required to input karuyawan
             $('select[name=karyawan]').attr('required','required');
+            //remove required to penerima
+            $('input[name=penerima]').removeAttr('required');
         }else{
             $('#input-karyawan').hide();
             $('#input-lain').fadeIn();
 
+            // add required to penerima
+            $('input[name=penerima]').attr('required','required');
             // remove required karyawan
             $('select[name=karyawan]').removeAttr('required');
         }
