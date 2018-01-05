@@ -116,6 +116,8 @@
             </tbody>
         </table>
         <br/>
+
+
         <!-- Invoice Copy -->
         <div style="width: 100%;text-align: center;border: solid thin black;padding: 5px;" >
             <strong style="margin: 0;padding: 0;font-size: 11px;" >UD. HASIL MANCING</strong>
@@ -125,7 +127,7 @@
             <tbody>
                 <tr>
                     <td style="vertical-align: top;width: 20%;" >
-                        <strong>Dibayar Kepada</strong>
+                        <strong>Diterima dari</strong>
                     </td>
                     <td style="width:2%;vertical-align: top;" >:</td>
                     <td style="width:38%;vertical-align: top;" >
@@ -153,7 +155,7 @@
                     <td style="vertical-align: top;" >:</td>
                     <td style="vertical-align: top;" rowspan="2" >
                         @if($data->piutang->type == 'pk')
-                            Piutang Karyawan<br/> 
+                            Pembayaran Piutang Karyawan<br/> 
                         @elseif($data->piutang->type == 'pl')
                             Pembayaran Piutang Lain-lain <br/>
                         @else
@@ -210,5 +212,7 @@
                 </tr>
             </tbody>
         </table>
+
+
     </body>
 </html>
