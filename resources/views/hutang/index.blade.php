@@ -18,26 +18,7 @@
 
     <!-- Default box -->
     <div class="box box-solid">
-        <div class="box-header with-border" >
-            <a class="btn btn-primary " id="btn-add" href="finance/hutang/create" ><i class="fa fa-plus-circle" ></i> Create</a>
-            <a class="btn btn-danger hide" id="btn-delete" href="#" ><i class="fa fa-trash" ></i> Delete</a>
-            
-            <div class="pull-right" >
-                <table style="background-color: #ECF0F5;" >
-                    <tr>
-                        <td class="bg-green text-center" rowspan="2" style="width: 50px;" ><i class="fa fa-tags" ></i></td>
-                        <td style="padding-left: 10px;padding-right: 5px;">
-                            SALDO HUTANG
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-right"  style="padding-right: 5px;" >
-                            <label class="uang">{{number_format($sum_jumlah,2,'.',',')}}</label>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </div>
+        @include('hutang.box-header')
         <div class="box-body">
             <?php $rownum=1; ?>
             <table class="table table-bordered table-condensed table-striped " id="table-data" >
@@ -48,9 +29,9 @@
                         </th> -->
                         <th>ref#</th>
                         <th>Tanggal</th>
-                        <th>tipe</th>
+                        <!-- <th>tipe</th> -->
                         <th>source</th>
-                        <th>desc</th>
+                        <th>partner</th>
                         <th>jumlah</th>
                         <th>amount due</th>
                         <th>status</th>
@@ -59,7 +40,7 @@
                 </thead>
                 <tbody>
                     @foreach($data as $dt)
-                    <tr data-rowid="{{$rownum}}" data-id="{{$dt->id}}">
+                    <tr data-rowid="{{$rownum}}" data-id="{{$dt->id}}" class="{{$dt->state=='draft'?'text-maroon':''}}">
                         <!-- <td class="text-center" >
                                 <input type="checkbox" class="ck_row" >
                         </td> -->
@@ -69,13 +50,13 @@
                         <td class="text-center" >
                             {{$dt->tanggal_format}}
                         </td>
-                        <td class="text-center" >
+                        <!-- <td class="text-center" >
                             @if($dt->type == 'pembelian')
                                 Hutang Dagang
                             @else
                                 Hutang Lain-lain
                             @endif
-                        </td>
+                        </td> -->
                         <td class="text-center" >
                             @if($dt->source != '')
                                 {{$dt->source}}
@@ -84,13 +65,13 @@
                             @endif
                         </td>
                         <td class="" >
-                            {{$dt->desc}}
+                            {{$dt->partner}}
                         </td>
                         <td class="text-right" >
                             {{number_format($dt->jumlah,2,'.',',')}}
                         </td>
                         <td class="text-right" >
-                            {{number_format($dt->payment_amount,2,'.',',')}}
+                            {{number_format($dt->amount_due,2,'.',',')}}
                         </td>
                         <td class="text-center" >
                             @if($dt->state == 'draft')
@@ -109,6 +90,7 @@
                 </tbody>
             </table>
         </div><!-- /.box-body -->
+        @include('hutang.box-footer')
     </div><!-- /.box -->
 
 </section><!-- /.content -->
@@ -123,9 +105,12 @@
 <script type="text/javascript">
 (function ($) {
 
-    var TBL_KATEGORI = $('#table-data').DataTable({
-        sort:false
-    });
+    // var TBL_KATEGORI = $('#table-data').DataTable({
+    //     sort:false
+    // });
+
+    // add class to pagination
+    $('ul.pagination').addClass('pagination-sm no-margin');
 
     // check all checkbox
     $('input[name=ck_all]').change(function(){

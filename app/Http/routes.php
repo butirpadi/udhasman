@@ -105,10 +105,18 @@ Route::group(['middleware' => ['web','auth']], function () {
         Route::get('delete/{id}', 'HutangController@toDelete');
         Route::get('confirm/{id}', 'HutangController@toConfirm');
         Route::get('cancel/{id}', 'HutangController@toCancel');
+        Route::get('filter/{state}', 'HutangController@toFilter');
+        Route::get('filter/{filterby}/{val}', 'HutangController@filter');
+        Route::get('groupby/{groupby}', 'HutangController@toGroupBy');
+        Route::get('get-by-partner/{partnerid}', 'HutangController@getByPartner');
+        Route::get('search', 'HutangController@getSearch');
     });
 
     Route::group(['prefix' => 'finance/piutang'], function () {
         Route::get('/', 'PiutangController@index');
+        Route::get('search/{val}', 'PiutangController@index');
+        Route::get('search', 'PiutangController@getSearch');
+        Route::get('form-view', 'PiutangController@formView');
         Route::get('create', 'PiutangController@create');
         Route::post('insert', 'PiutangController@insert');
         Route::post('update', 'PiutangController@update');
@@ -125,7 +133,30 @@ Route::group(['middleware' => ['web','auth']], function () {
         Route::get('print/{id}', 'PiutangController@toPrint');
         Route::get('payment-to-print/{id}', 'PiutangController@paymentToPrint');
         Route::get('show-so/{id}', 'PiutangController@showSo');
+        Route::get('receive-pay', 'PiutangController@receivePay');
+        Route::get('filter/{filterby}/{val}','PiutangController@filter');
+        Route::get('groupby/{val}','PiutangController@groupby');
+        Route::get('groupdetail/{groupby}/{id}','PiutangController@groupdetail');
         
+    });
+
+    Route::group(['prefix' => 'finance/payment'], function () {
+        Route::get('/', 'PaymentController@index');
+        Route::get('create', 'PaymentController@create');
+        Route::post('insert', 'PaymentController@insert');
+        Route::get('edit/{id}', 'PaymentController@edit');
+        Route::post('update', 'PaymentController@update');
+        Route::get('confirm/{id}', 'PaymentController@toConfirm');
+        Route::get('reconcile/{id}', 'PaymentController@toReconcile');
+        Route::get('unreconcile/{id}', 'PaymentController@toUnreconcile');
+        Route::get('cancel/{id}', 'PaymentController@toCancel');
+        Route::get('delete/{id}', 'PaymentController@toDelete');
+        Route::get('print/{id}', 'PaymentController@toPrint');
+        Route::get('get-amount-due/{customer_id}', 'PaymentController@getAmountDue');
+        Route::get('filter/{filterby}/{val}','PaymentController@filter');
+        Route::get('groupby/{val}','PaymentController@groupby');
+        Route::get('groupdetail/{groupby}/{id}','PaymentController@groupdetail');
+        Route::get('search', 'PaymentController@getSearch');
     });
 
     Route::group(['prefix' => 'master'], function () {
@@ -153,22 +184,32 @@ Route::group(['middleware' => ['web','auth']], function () {
         Route::post('jabatan/update','JabatanController@update');
         Route::post('jabatan/delete','JabatanController@delete');
 
-        // KARYAWAN
-        Route::get('karyawan','KaryawanController@index');
-        Route::get('karyawan/create','KaryawanController@create');
-        Route::post('karyawan/insert','KaryawanController@insert');
-        Route::get('karyawan/edit/{id}','KaryawanController@edit');
-        Route::post('karyawan/update','KaryawanController@update');
-        Route::post('karyawan/delete','KaryawanController@delete');
-        Route::get('karyawan-get-driver-by-id/{id}','KaryawanController@getDriverById');
+        // Partner
+        Route::get('partner','PartnerController@index');
+        Route::get('partner/create','PartnerController@create');
+        Route::post('partner/insert','PartnerController@insert');
+        Route::get('partner/edit/{id}','PartnerController@edit');
+        Route::post('partner/update','PartnerController@update');
+        Route::get('partner/filter/{val}','PartnerController@filter');
+        Route::get('partner/search','PartnerController@search');
+        Route::post('partner/delete','PartnerController@delete');
 
-        // SUPPLIER
-        Route::get('supplier','SupplierController@index');
-        Route::get('supplier/create','SupplierController@create');
-        Route::post('supplier/insert','SupplierController@insert');
-        Route::get('supplier/edit/{id}','SupplierController@edit');
-        Route::post('supplier/update','SupplierController@update');
-        Route::post('supplier/delete','SupplierController@delete');
+        // STAFF
+        Route::get('staff','StaffController@index');
+        Route::get('staff/create','StaffController@create');
+        Route::post('staff/insert','StaffController@insert');
+        Route::get('staff/edit/{id}','StaffController@edit');
+        Route::post('staff/update','StaffController@update');
+        Route::post('staff/delete','StaffController@delete');
+
+        // DRIVER
+        Route::get('driver','DriverController@index');
+        Route::get('driver/create','DriverController@create');
+        Route::post('driver/insert','DriverController@insert');
+        Route::get('driver/edit/{id}','DriverController@edit');
+        Route::post('driver/update','DriverController@update');
+        Route::post('driver/delete','DriverController@delete');
+        Route::get('driver/get-by-id/{id}','DriverController@getById');
 
         // CUSTOMER
         Route::get('customer','CustomerController@index');
@@ -177,11 +218,49 @@ Route::group(['middleware' => ['web','auth']], function () {
         Route::get('customer/edit/{id}','CustomerController@edit');
         Route::post('customer/update','CustomerController@update');
         Route::post('customer/delete','CustomerController@delete');
-        Route::get('customer/edit-pekerjaan/{id}','CustomerController@editPekerjaan');
         Route::get('customer/create-pekerjaan/{id}','CustomerController@createPekerjaan');
         Route::post('customer/update-pekerjaan','CustomerController@updatePekerjaan');
         Route::post('customer/insert-pekerjaan','CustomerController@insertPekerjaan');
         Route::get('customer/del-pekerjaan/{id}','CustomerController@delPekerjaan');
+
+        // SUPPLIER
+        Route::get('supplier','SupplierController@index');
+        Route::get('supplier/create','SupplierController@create');
+        Route::post('supplier/insert','SupplierController@insert');
+        Route::get('supplier/edit/{id}','SupplierController@edit');
+        Route::post('supplier/update','SupplierController@update');
+        Route::post('supplier/delete','SupplierController@delete');
+        Route::get('customer/edit-pekerjaan/{id}','CustomerController@editPekerjaan');
+
+        // // KARYAWAN
+        // Route::get('karyawan','KaryawanController@index');
+        // Route::get('karyawan/create','KaryawanController@create');
+        // Route::post('karyawan/insert','KaryawanController@insert');
+        // Route::get('karyawan/edit/{id}','KaryawanController@edit');
+        // Route::post('karyawan/update','KaryawanController@update');
+        // Route::post('karyawan/delete','KaryawanController@delete');
+        // Route::get('karyawan-get-driver-by-id/{id}','KaryawanController@getDriverById');
+
+        // // SUPPLIER
+        // Route::get('supplier','SupplierController@index');
+        // Route::get('supplier/create','SupplierController@create');
+        // Route::post('supplier/insert','SupplierController@insert');
+        // Route::get('supplier/edit/{id}','SupplierController@edit');
+        // Route::post('supplier/update','SupplierController@update');
+        // Route::post('supplier/delete','SupplierController@delete');
+
+        // // CUSTOMER
+        // Route::get('customer','CustomerController@index');
+        // Route::get('customer/create','CustomerController@create');
+        // Route::post('customer/insert','CustomerController@insert');
+        // Route::get('customer/edit/{id}','CustomerController@edit');
+        // Route::post('customer/update','CustomerController@update');
+        // Route::post('customer/delete','CustomerController@delete');
+        // Route::get('customer/edit-pekerjaan/{id}','CustomerController@editPekerjaan');
+        // Route::get('customer/create-pekerjaan/{id}','CustomerController@createPekerjaan');
+        // Route::post('customer/update-pekerjaan','CustomerController@updatePekerjaan');
+        // Route::post('customer/insert-pekerjaan','CustomerController@insertPekerjaan');
+        // Route::get('customer/del-pekerjaan/{id}','CustomerController@delPekerjaan');
 
         // MATERIAL
         Route::get('material','MaterialController@index');
@@ -222,7 +301,7 @@ Route::group(['middleware' => ['web','auth']], function () {
         Route::get('pekerjaan/edit/{id}','PekerjaanController@edit');
         Route::post('pekerjaan/update','PekerjaanController@update');
         Route::post('pekerjaan/delete','PekerjaanController@delete');
-        Route::get('pekerjaan-get-by-id/{id}','PekerjaanController@getPekerjaanById');
+        Route::get('pekerjaan/get-by-customer-id/{id}','PekerjaanController@getPekerjaanByPartnerId');
 
     });
 
@@ -257,6 +336,10 @@ Route::group(['middleware' => ['web','auth']], function () {
         Route::get('validate/{id}','PembelianController@validateIt');
         Route::get('cancel/{id}','PembelianController@cancelIt');
         Route::post('delete','PembelianController@delete');
+        Route::post('search','PembelianController@search');
+        Route::get('filter/{filterby}/{val}','PembelianController@filter');
+        Route::get('groupby/{val}','PembelianController@groupby');
+        Route::get('groupdetail/{groupby}/{id}','PembelianController@groupdetail');
         // Route::get('index','PembelianController@index');
         
     });
@@ -276,10 +359,11 @@ Route::group(['middleware' => ['web','auth']], function () {
         Route::get('delete-single/{id}','DeliveryController@deleteSingle');
         Route::get('topdf/{id}','DeliveryController@toPdf');
         Route::get('showpdf/{id}','DeliveryController@showPdf');
-        Route::get('filter/{val}','DeliveryController@filter');
         Route::get('groupby/{val}','DeliveryController@groupby');
         Route::get('groupdetail/{groupby}/{id}','DeliveryController@groupdetail');
-        // Route::post('insert','PembelianController@insert');
+        Route::post('search','DeliveryController@search');
+        Route::get('search','DeliveryController@getSearch');
+        Route::get('filter/{filterby}/{val}','DeliveryController@filter');
         // Route::get('edit/{id}','PembelianController@edit');
         // Route::post('update','PembelianController@update');
         // Route::get('validate/{id}','PembelianController@validateIt');

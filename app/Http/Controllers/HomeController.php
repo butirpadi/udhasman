@@ -22,7 +22,7 @@ class HomeController extends Controller
 		// 					->count();
 		$open_so_count = 0;
 
-		$open_do_count = 0;
+		$open_do_count = \DB::table('new_pengiriman')->where('state','draft')->count();
 
 		$open_ci_count = 0;
 

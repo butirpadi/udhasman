@@ -56,17 +56,7 @@
 <section class="content">
     <div class="box box-solid">
         <form role="form" method="POST" action="delivery/update" >
-        <div class="box-header with-border" style="padding-top:5px;padding-bottom:5px;" >
-            <label><h3 style="margin:0;padding:0;font-weight:bold;" >{{$pengiriman->name}}</h3></label>
-            <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
-            <a class="btn  btn-arrow-right pull-right disabled {{$pengiriman->state == 'done' ? 'bg-blue' : 'bg-gray'}}" >DONE</a>
-
-            <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
-            <a class="btn btn-arrow-right pull-right disabled {{$pengiriman->state == 'open' ? 'bg-blue' : 'bg-gray'}}  " >OPEN</a>
-
-            <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
-            <a class="btn btn-arrow-right pull-right disabled {{$pengiriman->state == 'draft' ? 'bg-blue' : 'bg-gray'}}" >DRAFT</a>
-        </div>
+        @include('delivery.edit-header')
         <div class="box-body">
                 <div class="box-body">
                     <div class="row" >
@@ -84,7 +74,7 @@
                                 <input name="original_id" value="{{$pengiriman->id}}" class="hide" />
                             </div>  
                             <div class="form-group">
-                                <label >Pekerjaan</label>
+                                <label >Pekerjaan </label>
                                 @if($pengiriman->state == 'draft')
                                     <select name="pekerjaan" class="form-control init_data" data-default="{{$pengiriman->pekerjaan_id}}" {{$pengiriman->state == 'open' ? 'readonly' : ''}} ></select>
                                 @else
@@ -207,22 +197,22 @@
                                             @endif
                                         </td>
                                         <td class="hide group-kubik">
-                                            <input type="text" name="panjang" class="form-control text-right input-volume" data-default="{{$pengiriman->panjang}}" />
+                                            <input type="text" name="panjang" class="form-control text-right input-volume" data-default="{{$pengiriman->panjang}}" {{$pengiriman->state == 'done' ? 'readonly':''}} />
                                         </td>
                                         <td class="hide group-kubik">
-                                            <input type="text" name="lebar" class="form-control text-right input-volume" data-default="{{$pengiriman->lebar}}" />
+                                            <input type="text" name="lebar" class="form-control text-right input-volume" data-default="{{$pengiriman->lebar}}" {{$pengiriman->state == 'done' ? 'readonly':''}} />
                                         </td>
                                         <td class="hide group-kubik">
-                                            <input type="text" name="tinggi" class="form-control text-right input-volume" data-default="{{$pengiriman->tinggi}}" />
+                                            <input type="text" name="tinggi" class="form-control text-right input-volume" data-default="{{$pengiriman->tinggi}}" {{$pengiriman->state == 'done' ? 'readonly':''}} />
                                         </td>
                                         <td class="hide group-kubik">
-                                            <input type="text" name="volume" class="form-control  text-right" data-default="{{$pengiriman->volume}}" readonly />
+                                            <input type="text" name="volume" class="form-control  text-right" data-default="{{$pengiriman->volume}}" readonly  />
                                         </td>
                                         <td class="hide group-ton">
-                                            <input type="text" name="gross" class="form-control text-right input-ton" data-default="{{$pengiriman->gross}}" />
+                                            <input type="text" name="gross" class="form-control text-right input-ton" data-default="{{$pengiriman->gross}}" {{$pengiriman->state == 'done' ? 'readonly':''}} />
                                         </td>
                                         <td class="hide group-ton">
-                                            <input type="text" name="tare" class="form-control text-right input-ton" data-default="{{$pengiriman->tare}}" />
+                                            <input type="text" name="tare" class="form-control text-right input-ton" data-default="{{$pengiriman->tare}}"  {{$pengiriman->state == 'done' ? 'readonly':''}} />
                                         </td>
                                         <td class="hide group-ton">
                                             <input type="text" name="netto" class="form-control  text-right" data-default="{{$pengiriman->netto}}" readonly />
@@ -333,6 +323,7 @@
     $('select[name=lokasi_galian]').select2('val',$('select[name=lokasi_galian]').data('default'));
     // $('select[name=kalkulasi]').select2('val',$('select[name=kalkulasi]').data('default'));
     $('select[name=kalkulasi]').val($('select[name=kalkulasi]').data('default'));
+    $('select[name=pekerjaan]').val($('select[name=pekerjaan]').data('default'));
     changeKalkulasi();
     $('input[name=panjang]').val($('input[name=panjang]').data('default'));
     $('input[name=lebar]').val($('input[name=lebar]').data('default'));
@@ -363,15 +354,15 @@
     // END OF SET DATEPICKER
 
     function fillPekerjaan(){
-        $.get('master/pekerjaan-get-by-id/'+$('select[name=customer]').val(),function(data){
-            data_pekerjaan = JSON.parse(data);
+        $.get('master/pekerjaan/get-by-customer-id/' + $('select[name=customer]').val(),function(data){
+            // data_pekerjaan = JSON.parse(data);
             // $("select[name=pekerjaan]").val([]).trigger('change');
             $('select[name=pekerjaan]').empty();
-            $.each(data_pekerjaan,function(dt){
+            $.each(data,function(dt){
                 // alert(data_pekerjaan[dt].nama + ' -- ' + data_pekerjaan[dt].id);
                 $('select[name=pekerjaan]').append($('<option>', { 
-                    value: data_pekerjaan[dt].id,
-                    text : data_pekerjaan[dt].text 
+                    value: data[dt].id,
+                    text : data[dt].text 
                 }));
             });
             // $("select[name=pekerjaan]").reset();
@@ -388,7 +379,7 @@
 
     // Gewt data Nopol
     $('select[name=driver]').change(function(){
-        $.get('master/karyawan-get-driver-by-id/'+$(this).val(),function(data){
+        $.get('master/driver/get-by-id/' + $(this).val(),function(data){
             data_karyawan = JSON.parse(data);
             $('input[name=nopol]').val(data_karyawan.nopol);
         });

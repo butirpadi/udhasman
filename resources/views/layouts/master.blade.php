@@ -201,6 +201,10 @@
                 padding-left: 10px;
 
             }
+
+            .text-darkred{
+                color:#720000;
+            }
         </style>
 
         @yield('styles')
@@ -252,6 +256,7 @@
         <script src="plugins/fastclick/fastclick.min.js"></script>
         <!-- AdminLTE App -->
         <script src="js/app.min.js"></script>
+        <script src="plugins/spinjs/phpjs/numberformat.js"></script>
         <!-- AdminLTE for demo purposes -->
         <!--<script src="js/demo.js"></script>-->
         @yield('scripts')

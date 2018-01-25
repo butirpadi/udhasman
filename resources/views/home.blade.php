@@ -49,7 +49,7 @@
                 <div class="icon">
                   <i class="fa fa-truck"></i>
                 </div>
-                <a href="delivery/order/filter?filter_by=D" class="small-box-footer">
+                <a href="delivery/filter/state/draft" class="small-box-footer">
                   More info <i class="fa fa-arrow-circle-right"></i>
                 </a>
               </div>

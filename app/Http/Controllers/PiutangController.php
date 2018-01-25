@@ -11,23 +11,81 @@ class PiutangController extends Controller
 {
 	public function index(){
         $data = \DB::table('view_piutang')
+                // ->where('state','!=','paid')
                 ->orderBy('tanggal','desc')
-                ->get();
-        $sum_jumlah = \DB::table('piutang')
-                        ->where('state','!=','paid')
+                ->orderBy('id','desc')
+                ->paginate(Appsetting('paging_item_number'));
+                
+         $sum_jumlah = \DB::table('piutang')
+                        ->where('state','open')
                         ->sum('jumlah');
+        $sum_amount_due = \DB::table('piutang')
+                        ->where('state','open')
+                        ->sum('amount_due');
 
         return view('piutang.index',[
                 'data' => $data,
-                'sum_jumlah' => $sum_jumlah
-        ]);
+                'sum_jumlah' => $sum_jumlah,
+                'sum_amount_due' => $sum_amount_due,
+            ]);
 	}
+
+    public function getSearch(){
+        $val = trim(\Input::get('val'));
+        $piutang = \DB::table('view_piutang')
+                        ->where('name','like','%' . trim($val) . '%')
+                        ->orWhere('state','like','%' . $val . '%')
+                        ->orWhere('source','like','%' . $val . '%')
+                        ->orWhere('partner','like','%' . $val . '%')
+                        ->orWhere('pekerjaan','like','%' . $val . '%')
+                        ->paginate(Appsetting('paging_item_number'));
+                        // ->get();
+        $piutang->appends(['val'=>$val]);
+
+        $sum_jumlah = \DB::table('piutang')
+                        ->where('state','open')
+                        ->sum('jumlah');
+
+        return view('piutang.search',[
+                'data' => $piutang,
+                'search_val' => $val,
+                'sum_jumlah' => $sum_jumlah
+            ]);
+    }
+
+    public function formView(){
+        $data = \DB::table('view_piutang')
+                // ->where('state','!=','paid')
+                ->orderBy('tanggal','desc')
+                ->simplePaginate(1);
+
+        $karyawans = \DB::table('karyawan')
+                    ->get();
+        $karyawanArr = [];
+        foreach($karyawans as $dt){
+            $karyawanArr[$dt->id] = $dt->nama . ' - ' . $dt->kode;
+        }
+
+        // foreach($data as $dt){
+        //     $payments = \DB::table('piutang_payment')
+        //                     ->select('*',\DB::raw("date_format(tanggal,'%d-%m-%Y') as tanggal_format"))
+        //                     ->where('piutang_id',$dt->id)
+        //                     ->get();
+            
+        // }
+
+        return view('piutang.form-view',[
+                'datas' => $data,
+                'karyawans' => $karyawanArr,
+                // 'payments' => $payments,
+        ]);
+    }
 
     public function edit($id){
         $data = \DB::table('view_piutang')
                 ->find($id);
 
-        $karyawans = \DB::table('karyawan')
+        $karyawans = \DB::table('res_partner')
                     ->get();
         $karyawanArr = [];
         foreach($karyawans as $dt){
@@ -46,6 +104,7 @@ class PiutangController extends Controller
         ]);
     }
 
+
     public function update(Request $req){
         // generate tanggal
         $arr_tgl = explode('-',$req->tanggal);
@@ -57,18 +116,17 @@ class PiutangController extends Controller
                 ->update([
                     'tanggal' => $tgl,
                     'type' => $req->type,
-                    'karyawan_id' => $req->karyawan,
+                    'partner_id' => $req->karyawan,
                     'penerima' => $req->penerima,
                     'desc' => $req->desc,
                     'jumlah' => str_replace(',', '', str_replace('.00','',$req->jumlah)),
-                    'amount_due' => str_replace(',', '', str_replace('.00','',$req->jumlah)),
                 ]);
 
         return redirect('finance/piutang/edit/'.$req->original_id);
     }
 
     public function create(){
-        $karyawans = \DB::table('karyawan')
+        $karyawans = \DB::table('res_partner')
                     ->get();
         $karyawanArr = [];
         foreach($karyawans as $dt){
@@ -81,7 +139,7 @@ class PiutangController extends Controller
     }
 
     public function insert(Request $req){
-        $id = $this->insertPiutang($req->tanggal,$req->type,'draft',null,null,$req->karyawan,$req->penerima,$req->desc, $req->jumlah);
+        $id = $this->insertPiutang($req->tanggal,'pl','draft',null,null,$req->karyawan,$req->penerima,$req->desc, $req->jumlah);
         return redirect('finance/piutang/edit/' . $id);
     }
 
@@ -89,42 +147,47 @@ class PiutangController extends Controller
 
 	public function insertPiutang($tanggal, $type, $state, $source=null, $soId=null, $karyawanId=null, $penerima, $desc, $jumlah){
 		// generate nomor hutang
-        $prefix = Appsetting('piutang_prefix');
-        $counter = Appsetting('piutang_counter') + 1;
-        UpdateAppsetting('piutang_counter',$counter);
-        // add leading zero
-        if(strlen($counter) == 1){
-        	$counter = '0'.$counter;
-        }
-        $nomor_inv = $prefix.'/'.date('Y/m').$counter;
+        return \DB::transaction(function()use($tanggal, $type, $state, $source, $soId, $karyawanId, $penerima, $desc, $jumlah){
+            $nomor_inv = 'Draft Piutang';
+            if($state == 'open'){
+                $prefix = Appsetting('piutang_prefix');
+                $counter = Appsetting('piutang_counter') + 1;
+                UpdateAppsetting('piutang_counter',$counter);
+                // add leading zero
+                if(strlen($counter) == 1){
+                	$counter = '0'.$counter;
+                }
+                $nomor_inv = $prefix.'/'.date('Y/m').$counter;
+            }
 
-        // generate tanggal
-        $arr_tgl = explode('-',$tanggal);
-        $tgl = new \DateTime();
-        $tgl->setDate($arr_tgl[2],$arr_tgl[1],$arr_tgl[0]);
+            // generate tanggal
+            $arr_tgl = explode('-',$tanggal);
+            $tgl = new \DateTime();
+            $tgl->setDate($arr_tgl[2],$arr_tgl[1],$arr_tgl[0]);
 
-        // set desc
-        // if($type == 'pk'){
-        //     $karyawan = \DB::table('karyawan')->find($karyawanId);
-        //     $desc = $karyawan->nama . ' - ' . $karyawan->kode;
-        // }
+            // set desc
+            // if($type == 'pk'){
+            //     $karyawan = \DB::table('karyawan')->find($karyawanId);
+            //     $desc = $karyawan->nama . ' - ' . $karyawan->kode;
+            // }
 
-        $id = \DB::table('piutang')
-        	->insertGetId([
-        		'name' => $nomor_inv,
-        		'tanggal' => $tgl,
-        		'type' => $type,
-        		'state' => $state,
-        		'source' => $source,
-        		'so_id' => $soId,
-        		'karyawan_id' => $karyawanId,
-                'penerima' => $penerima,
-                'desc' => $desc,
-                'jumlah' => str_replace(',', '', str_replace('.00','',$jumlah)),
-        		'amount_due' => str_replace(',', '', str_replace('.00','',$jumlah)),
-        	]);
+            $id = \DB::table('piutang')
+            	->insertGetId([
+            		'name' => $nomor_inv,
+            		'tanggal' => $tgl,
+            		'type' => $type,
+            		'state' => $state,
+            		'source' => $source,
+            		'so_id' => $soId,
+            		'partner_id' => $karyawanId,
+                    'penerima' => $penerima,
+                    'desc' => $desc,
+                    'jumlah' => str_replace(',', '', str_replace('.00','',$jumlah)),
+            		'amount_due' => $state == 'draft' ? null : str_replace(',', '', str_replace('.00','',$jumlah)),
+            	]);
 
-        return $id;
+            return $id;            
+        });
 	}
 
     public function toDelete($id){
@@ -134,10 +197,22 @@ class PiutangController extends Controller
     }
 
     public function toConfirm($id){
+        // generate nomor hutang
+        $prefix = Appsetting('piutang_prefix');
+        $counter = Appsetting('piutang_counter') + 1;
+        UpdateAppsetting('piutang_counter',$counter);
+        // add leading zero
+        if(strlen($counter) == 1){
+            $counter = '0'.$counter;
+        }
+        $nomor_inv = $prefix.'/'.date('Y/m').$counter;
+
         \DB::table('piutang')
             ->where('id',$id)
             ->update([
-                'state' => 'open'
+                'state' => 'open',
+                'name' => $nomor_inv,
+                'amount_due' => \DB::raw('jumlah')
             ]);
         return redirect('finance/piutang/edit/'.$id);
     }
@@ -309,6 +384,77 @@ class PiutangController extends Controller
                 'data' => $piutang
             ]);
 
+    }
+
+    public function receivePay(){
+        $karyawans = \DB::table('karyawan')
+                    ->get();
+        $karyawanArr = [];
+        foreach($karyawans as $dt){
+            $karyawanArr[$dt->id] = $dt->nama . ' - ' . $dt->kode;
+        }
+
+        $customer = \DB::table('customer')->get();
+        $select_customer = [];
+        foreach($customer as $dt){
+            $select_customer[$dt->id] = $dt->nama;
+        }
+
+        return view('piutang.receive-pay',[
+            'karyawan' => $karyawanArr,
+            'customer' => $select_customer,
+        ]);
+    }
+
+    public function filter($filterby,$val){
+        $data = \DB::table('view_piutang')
+        ->where($filterby,$val)
+        ->orderBy('tanggal','desc')
+        ->paginate(Appsetting('paging_item_number'));
+
+        $sum_jumlah = \DB::table('piutang')
+                        ->where('state','open')
+                        ->sum('jumlah');
+
+        return view('piutang.filter',[
+                'data' => $data,
+                'filterby' => $filterby,
+                'filter' => $val,
+                'sum_jumlah' => $sum_jumlah,
+            ]);
+    }
+
+    public function groupby($val){
+        $data = \DB::table('view_piutang')
+        ->select('*',\DB::raw('count(id) as jumlah'),\DB::raw('sum(jumlah) as sum_jumlah'),\DB::raw('sum(amount_due) as amount_due'))
+        ->groupBy($val)
+        ->get();         
+
+         $sum_jumlah = \DB::table('piutang')
+                        ->where('state','open')
+                        ->sum('jumlah');
+        $sum_amount_due = \DB::table('piutang')
+                        ->where('state','open')
+                        ->sum('amount_due');      
+
+        return view('piutang.group',[
+                'data' => $data,
+                'groupby' => $val,
+                'sum_jumlah' => $sum_jumlah,
+                'sum_amount_due' => $sum_amount_due,
+            ]);
+    }
+
+    public function groupdetail($groupby, $id){
+        $where = 'true';
+        if($groupby == 'partner'){
+            $where = 'partner_id = ' . $id;
+        }
+        $data = \DB::table('view_piutang')
+                ->whereRaw($where)
+                ->orderBy('tanggal','desc')
+                ->get();
+        return $data;
     }
 
 

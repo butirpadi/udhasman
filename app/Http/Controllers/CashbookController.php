@@ -61,7 +61,7 @@ from cashbook");
 					'cash_number' => $cashbook_num,
 					'jumlah' => $jumlah,
 					'in_out' => $req->jenis_kas,
-					'desc' => $req->keterangan,
+					'desc' => $req->keterangan
 				]);
 
 			// // update saldo
@@ -101,7 +101,7 @@ from cashbook");
 			// 		'saldo' => $saldo_baru ]);
 			// }
 
-			return redirect('cashbook');
+			return redirect('finance/cashbook');
 		});
 	}
 
@@ -147,7 +147,7 @@ from cashbook");
 		$data = \DB::table('cashbook')
 				->delete($cashbook_id);
 
-		return redirect('cashbook');
+		return $data;
 	}
 
 

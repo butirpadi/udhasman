@@ -28,52 +28,40 @@
 <section class="content">
   <form method="POST" action="finance/cashbook/insert" >
     <div class="box box-solid" >
-        <div class="box-header with-border" >
-            <label><h3 style="margin:0;padding:0;font-weight:bold;" >New</h3></label>
-            <!-- 
-            <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
-            <a class="btn btn-arrow-right pull-right disabled bg-gray" >Posted</a>
-
-            <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
-
-            <a class="btn btn-arrow-right pull-right disabled bg-blue" >Draft</a> -->
-        </div>
-      <div class="box-body" >
-        <div class="row" >
-            <div class="col-xs-6" >
-                <div class="form-group">
-                    <label for="customerLabel">Jenis Kas</label>
-                    <select name="jenis_kas" class="form-control" required >
-                        <option value="I" >Debit</option>
-                        <option value="O" >Credit</option>
-                    </select>
+        @include('cashbook.form-header')        
+        <div class="box-body" >
+            <div class="row" >
+                <div class="col-xs-6" >
+                    <div class="form-group">
+                        <label for="customerLabel">Jenis Kas</label>
+                        <select name="jenis_kas" class="form-control" required >
+                            <option value="I" >Debit</option>
+                            <option value="O" >Credit</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="customerLabel">Keterangan</label>
+                        <input type="text" name="keterangan" class="form-control" required autocomplete="off" />
+                        
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="customerLabel">Keterangan</label>
-                    <input type="text" name="keterangan" class="form-control" required autocomplete="off" />
-                    
-                </div>
-            </div>
-            <div class="col-xs-6" >
-                <div class="form-group">
-                    <label for="customerLabel">Tanggal</label>
-                    <input type="text" class="form-control input-date" name="tanggal" value="{{date('d-m-Y')}}" required autocomplete="off" />
-                    
-                </div>
-                <div class="form-group">
-                    <label for="customerLabel">Jumlah</label>
-                    <input type="text" name="jumlah" class="form-control uang text-right">
+                <div class="col-xs-6" >
+                    <div class="form-group">
+                        <label for="customerLabel">Tanggal</label>
+                        <input type="text" class="form-control input-date" name="tanggal" value="{{date('d-m-Y')}}" required autocomplete="off" />
+                        
+                    </div>
+                    <div class="form-group">
+                        <label for="customerLabel">Jumlah</label>
+                        <input type="text" name="jumlah" class="form-control uang text-right" required >
+                    </div>
                 </div>
             </div>
+            <div class="box-footer" >
+                <button type="submit" class="btn btn-primary" id="btn-save" ><i class="fa fa-save" ></i> Save</button>
+                        <a class="btn btn-danger" href="finance/cashbook" ><i class="fa fa-close" ></i> Close</a>
+            </div>
         </div>
-        <div class="box-footer" >
-            <button type="submit" class="btn btn-primary" id="btn-save" >Save</button>
-            <a class="btn btn-danger" href="finance/cashbook" >Cancel</a>
-        </div>
-
-
-        
-    </div>
   </form>
 </section><!-- /.content -->
 

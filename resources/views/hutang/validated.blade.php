@@ -131,7 +131,7 @@
                                         <tr style="font-size: 12pt;" >
                                             <td class="text-right" ><label>Amount Due :</label></td>
                                             <td class="text-right " >
-                                                <label class="uang" >{{number_format($data->payment_amount,2,'.',',')}}</label>
+                                                <label class="uang" >{{number_format($data->amount_due,2,'.',',')}}</label>
                                             </td>
                                         </tr>
                                     </tbody>

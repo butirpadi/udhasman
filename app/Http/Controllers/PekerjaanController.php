@@ -77,9 +77,10 @@ class PekerjaanController extends Controller
 		});
 	}
 
-	public function getPekerjaanById($val){
-		$pekerjaan = \DB::table('pekerjaan')->select('id','nama as text')->where('customer_id',$val)->get();
-		return json_encode($pekerjaan);
+	public function getPekerjaanByPartnerId($val){
+		$pekerjaan = \DB::table('pekerjaan')->select('id','nama as text')->where('partner_id',$val)->get();
+		// return json_encode($pekerjaan);
+		return $pekerjaan;
 	}
 
 }

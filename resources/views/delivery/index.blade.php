@@ -19,53 +19,13 @@
 <section class="content">
     <!-- Default box -->
     <div class="box box-solid">
-        <div class="box-header with-border" >
-            <a class="btn btn-primary" id="btn-add" href="delivery/create" ><i class="fa fa-plus-circle" ></i> Create</a>
-            <div class="btn-group">
-                <a  class="btn btn-success dropdown-toggle" data-toggle="dropdown">
-                    <i class="fa fa-filter" ></i>
-                    Filter
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a href="delivery/filter/draft">Draft</a></li>
-                  <li><a href="delivery/filter/open">Open</a></li>
-                  <li><a href="delivery/filter/done">Done</a></li>
-                </ul>
-            </div>
-            <div class="btn-group">
-                <a  class="btn bg-maroon dropdown-toggle" data-toggle="dropdown">
-                    <i class="fa fa-th-large" ></i>
-                    Group by
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a href="delivery/groupby/customer">Customer</a></li>
-                  <li><a href="delivery/groupby/pekerjaan">Pekerjaan</a></li>
-                </ul>
-            </div>
-            <a class="btn btn-danger hide" id="btn-delete" href="#" ><i class="fa fa-trash" ></i> Delete</a>
-
-            <div class="pull-right" >
-                <table style="background-color: #ECF0F5;" >
-                    <tr>
-                        <td class="bg-green text-center" rowspan="2" style="width: 50px;" ><i class="fa fa-tags" ></i></td>
-                        <td style="padding-left: 10px;padding-right: 5px;">
-                            JUMLAH DATA
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-right"  style="padding-right: 5px;" >
-                            <label class="">{{count($pengiriman)}}</label>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </div>
+        @include('delivery.box-header')
         <div class="box-body">
             <table class="table table-bordered table-condensed table-striped " id="table-data" >
                 <thead>
                     <tr>
                         <th style="width:25px;" class="text-center">
-                            <input type="checkbox" name="ck_all" style="margin-left:15px;padding:0;" />
+                            <input type="checkbox" name="ck_all" />
                         </th>
                         <th>Ref#</th>
                         <th>Tanggal</th>
@@ -80,9 +40,11 @@
                 </thead>
                 <tbody>
                     @foreach($pengiriman as $dt)
-                    <tr>
-                        <td>
-                            <input type="checkbox" class="ck_row" name="ck_{{$dt->id}}" style="margin-left:15px;padding:0;" data-originalid="{{$dt->id}}"  />
+                    <tr class="{{$dt->state == 'draft' ? 'text-maroon':''}}" >
+                        <td class="text-center" >
+                            @if($dt->state == 'draft')
+                            <input type="checkbox" class="ck_row" name="ck_{{$dt->id}}"  data-originalid="{{$dt->id}}"  />
+                            @endif
                         </td>
                         <td class="text-center" >
                             {{$dt->name}}
@@ -117,9 +79,9 @@
                         </td>
                         <td class="text-center">
                             @if($dt->invoice_state == 'draft')
-                                <label class="label label-warning">DRAFT</label>
+                                <label class="label label-danger">DRAFT</label>
                             @elseif($dt->invoice_state == 'open')
-                                <label class="label label-info">OPEN</label>
+                                <label class="label label-warning">OPEN</label>
                             @elseif($dt->invoice_state == 'paid')
                                 <label class="label label-success">PAID</label>
                             @else
@@ -127,7 +89,8 @@
                             @endif
                         </td>
                         <td class="text-center" >
-                            <a class="btn btn-success btn-xs" href="delivery/show/{{$dt->id}}" ><i class="fa fa-edit" ></i></a>
+                            <a class="btn btn-success btn-xs" href="delivery/edit/{{$dt->id}}" ><i class="fa fa-edit" ></i></a>
+                            <!-- <a class="btn btn-success btn-xs" href="delivery/show/{{$dt->id}}" ><i class="fa fa-edit" ></i></a> -->
                         </td>
                     </tr>
                     @endforeach
@@ -135,6 +98,11 @@
             </table>
 
         </div><!-- /.box-body -->
+        <div class="box-footer" >
+            <div class="pull-right" >
+                {{$pengiriman->links()}}
+            </div>
+        </div>
     </div><!-- /.box -->
 </section><!-- /.content -->
 @stop
@@ -149,7 +117,7 @@
 <script type="text/javascript">
 (function ($) {
 
-   
+   $('ul.pagination').addClass('pagination-sm no-margin');
 
     // SET DATEPICKER
     $('.input-tanggal').datepicker({
@@ -171,9 +139,9 @@
     });
     // END OF SET AUTONUMERIC
 
-    var TBL_DATA = $('#table-data').DataTable({
-        sort:false
-    });
+    // var TBL_DATA = $('#table-data').DataTable({
+    //     sort:false
+    // });
 
     // check all checkbox
     $('input[name=ck_all]').change(function(){

@@ -56,19 +56,7 @@
 <section class="content">
     <div class="box box-solid">
         <form role="form" method="POST" action="delivery/insert" >
-        <div class="box-header with-border" style="padding-top:5px;padding-bottom:5px;" >
-            {{-- <label> <small>Sales Order</small> <h4 style="font-weight: bolder;margin-top:0;padding-top:0;margin-bottom:0;padding-bottom:0;" >New</h4></label> --}}
-            <label><h3 style="margin:0;padding:0;font-weight:bold;" >New</h3></label>
-
-            <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
-            <a class="btn  btn-arrow-right pull-right disabled bg-gray" >DONE</a>
-
-            <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
-            <a class="btn btn-arrow-right pull-right disabled bg-gray" >OPEN</a>
-
-            <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
-            <a class="btn btn-arrow-right pull-right disabled bg-blue" >DRAFT</a>
-        </div>
+        @include('delivery.edit-header')
         <div class="box-body">
                 <div class="box-body">
                     <div class="row" >
@@ -585,15 +573,15 @@
 
     // Get Data Pekerjaan
     $('select[name=customer]').change(function(){
-        $.get('master/pekerjaan-get-by-id/'+$(this).val(),function(data){
-            data_pekerjaan = JSON.parse(data);
+        $.get('master/pekerjaan/get-by-customer-id/'+$(this).val(),function(data){
+            // data_pekerjaan = JSON.parse(data);
             // $("select[name=pekerjaan]").val([]).trigger('change');
             $('select[name=pekerjaan]').empty();
-            $.each(data_pekerjaan,function(dt){
+            $.each(data,function(dt){
                 // alert(data_pekerjaan[dt].nama + ' -- ' + data_pekerjaan[dt].id);
                 $('select[name=pekerjaan]').append($('<option>', { 
-                    value: data_pekerjaan[dt].id,
-                    text : data_pekerjaan[dt].text 
+                    value: data[dt].id,
+                    text : data[dt].text 
                 }));
             });
             // $("select[name=pekerjaan]").reset();
@@ -607,7 +595,7 @@
 
     // Gewt data Nopol
     $('select[name=driver]').change(function(){
-        $.get('master/karyawan-get-driver-by-id/'+$(this).val(),function(data){
+        $.get('master/driver/get-by-id/' + $(this).val(),function(data){
             data_karyawan = JSON.parse(data);
             $('input[name=nopol]').val(data_karyawan.nopol);
         });

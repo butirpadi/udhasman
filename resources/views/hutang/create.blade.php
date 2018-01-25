@@ -61,7 +61,7 @@
             <label><h3 style="margin:0;padding:0;font-weight:bold;" >New</h3></label>
 
             <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
-            <a class="btn  btn-arrow-right pull-right disabled bg-gray" >DONE</a>
+            <a class="btn  btn-arrow-right pull-right disabled bg-gray" >PAID</a>
 
             <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
             <a class="btn btn-arrow-right pull-right disabled bg-gray" >OPEN</a>
@@ -77,6 +77,10 @@
                                 <label for="customerLabel">Tanggal</label>
                                 <input type="text" name="tanggal" class="input-tanggal form-control" value="{{date('d-m-Y')}}" required>    
                             </div>  
+                            <div class="form-group">
+                                <label >Partner</label>
+                                {!! Form::select('partner',$partners,null,['class'=>'form-control select2']) !!}
+                            </div>
                             <div class="form-group">
                                 <label >Jumlah</label>
                                 <input name="jumlah" class="form-control text-right" required>
@@ -120,6 +124,9 @@
 
 <script type="text/javascript">
 (function ($) {
+
+    $('select[name=partner]').val([]);
+    $('select[name=partner]').select2();
 
     // SET DATEPICKER
     $('.input-tanggal').datepicker({

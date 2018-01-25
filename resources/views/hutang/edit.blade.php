@@ -81,6 +81,14 @@
                                 <input type="hidden" name="original_id" value="{{$data->id}}" required />    
                             </div>  
                             <div class="form-group">
+                                <label >Partner</label>
+                                @if($data->state != 'draft')
+                                    <input type="text" class="form-control" name="partner" value="{{$data->partner}}" readonly >
+                                @else
+                                    {!! Form::select('partner',$partners,$data->partner_id,['class'=>'form-control select2']) !!}
+                                @endif
+                            </div>
+                            <div class="form-group">
                                 <label >Desc</label>
                                 <textarea name="desc" class="form-control" rows="4" maxlength="250" {{$data->state == 'open' ? 'readonly':''}} >{{$data->desc}}</textarea>
                             </div>
@@ -127,7 +135,7 @@
                                         <tr style="font-size: 12pt;" >
                                             <td class="text-right" ><label>Amount Due :</label></td>
                                             <td class="text-right " >
-                                                <label class="uang" >{{number_format($data->payment_amount,2,'.',',')}}</label>
+                                                <label class="uang" >{{number_format($data->amount_due,2,'.',',')}}</label>
                                             </td>
                                         </tr>
                                     </tbody>

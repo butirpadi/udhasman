@@ -12,7 +12,9 @@ class PembelianController extends Controller
 
 		$data = \DB::table('view_pembelian')
 					->orderBy('tanggal','desc')
-					->get();
+					->orderBy('id','desc')
+					->paginate(Appsetting('paging_item_number'));
+					// ->get();
 		// $amount_due = \DB::table('supplier_bill')->sum('amount_due');
 
 		return view('pembelian.index',[
@@ -25,7 +27,9 @@ class PembelianController extends Controller
 	// ====================================================================================================
 
 	public function create(){
-		$supplier = \DB::table('supplier')->get();
+		$supplier = \DB::table('res_partner')
+						->whereSupplier('Y')
+						->get();
 		$select_supplier = [];
 		foreach($supplier as $dt){
 			$select_supplier[$dt->id] = $dt->nama;
@@ -70,7 +74,6 @@ class PembelianController extends Controller
 	        		'subtotal' => $master->subtotal,
 	        		'disc' => $master->disc,
 	        		'total' => $master->total,
-	        		'status' => 'OPEN',
 	        		'user_id' =>$user->id,
 	        	]);
 
@@ -89,7 +92,8 @@ class PembelianController extends Controller
 	        UpdateAppsetting('pembelian_counter',$counter);
 
 	        // return ke halaman depan
-	        return redirect('pembelian');
+	        // return redirect('pembelian');
+	        return redirect('pembelian/edit/'.$pembelian_id);
 			
 		});
 	}
@@ -108,39 +112,63 @@ class PembelianController extends Controller
 					->first();
 		$data->detail = \DB::table('view_pembelian_detail')->wherePembelianId($id)->get();
 
-		if($data->status == 'VALIDATED'){
-			return view('pembelian.validated',[
-					'data' => $data,
-					'next' => $next,
-					'prev' => $prev,
-				]);
-		}elseif($data->status == 'OPEN'){
-			$supplier = \DB::table('supplier')->get();
-			$select_supplier = [];
-			foreach($supplier as $dt){
-				$select_supplier[$dt->id] = $dt->nama;
-			}
-
-			$product = \DB::table('view_product')->get();
-			$select_product = [];
-			foreach($product as $dt){
-				$select_product[$dt->id] = $dt->nama;
-			}
-
-			return view('pembelian.edit',[
-					'select_supplier' => $select_supplier,
-					'product' => $product,
-					'data' => $data,
-					'next' => $next,
-					'prev' => $prev,
-				]);
-		}elseif($data->status == 'CANCELED'){
-			return view('pembelian.canceled',[
-					'data' => $data,					
-					'next' => $next,
-					'prev' => $prev,
-				]);
+		$supplier = \DB::table('res_partner')
+					->whereSupplier('Y')
+					->get();
+		$select_supplier = [];
+		foreach($supplier as $dt){
+			$select_supplier[$dt->id] = $dt->nama;
 		}
+
+		$product = \DB::table('view_product')->get();
+		$select_product = [];
+		foreach($product as $dt){
+			$select_product[$dt->id] = $dt->nama;
+		}
+
+		return view('pembelian.edit',[
+				'select_supplier' => $select_supplier,
+				'product' => $product,
+				'data' => $data,
+				'next' => $next,
+				'prev' => $prev,
+			]);
+
+		// if($data->status == 'VALIDATED'){
+		// 	return view('pembelian.validated',[
+		// 			'data' => $data,
+		// 			'next' => $next,
+		// 			'prev' => $prev,
+		// 		]);
+		// }elseif($data->status == 'OPEN'){
+		// 	$supplier = \DB::table('res_partner')
+		// 				->whereSupplier('Y')
+		// 				->get();
+		// 	$select_supplier = [];
+		// 	foreach($supplier as $dt){
+		// 		$select_supplier[$dt->id] = $dt->nama;
+		// 	}
+
+		// 	$product = \DB::table('view_product')->get();
+		// 	$select_product = [];
+		// 	foreach($product as $dt){
+		// 		$select_product[$dt->id] = $dt->nama;
+		// 	}
+
+		// 	return view('pembelian.edit',[
+		// 			'select_supplier' => $select_supplier,
+		// 			'product' => $product,
+		// 			'data' => $data,
+		// 			'next' => $next,
+		// 			'prev' => $prev,
+		// 		]);
+		// }elseif($data->status == 'CANCELED'){
+		// 	return view('pembelian.canceled',[
+		// 			'data' => $data,					
+		// 			'next' => $next,
+		// 			'prev' => $prev,
+		// 		]);
+		// }
 
 	}
 
@@ -170,41 +198,57 @@ class PembelianController extends Controller
 		        		'subtotal' => $master->subtotal,
 		        		'disc' => $master->disc,
 		        		'total' => $master->total,
-		        		'status' => 'OPEN'
 					]);
 
-			// searching data yang lama, cek apakah ada perubahan jumlah atau harga
-			// foreach($data_org as $dt){
-				foreach($detail->product as $dt_new){
-					$found = \DB::table('pembelian_detail')
-								->where('pembelian_id',$master->id)
-								->where('product_id',$dt_new->id)
-								->count();
+			// // searching data yang lama, cek apakah ada perubahan jumlah atau harga
+			// // foreach($data_org as $dt){
+			// 	foreach($detail->product as $dt_new){
+			// 		$found = \DB::table('pembelian_detail')
+			// 					->where('pembelian_id',$master->id)
+			// 					->where('product_id',$dt_new->id)
+			// 					->count();
 
-					if($found > 0){
-						// update
-						\DB::table('pembelian_detail')
-						->where('pembelian_id',$master->id)
-						->where('product_id',$dt_new->id)
-						->update([
-								'qty' => $dt_new->qty,
-								'unit_price' => $dt_new->unit_price,
-							]);
-					}else{
-						// insert new
-						\DB::table('pembelian_detail')
-							->insert([
-									'pembelian_id' => $master->id,
-									'product_id' => $dt_new->id,
-									'qty' => $dt_new->qty,
-									'unit_price' => $dt_new->unit_price,
-									'user_id' => $data_org->user_id
-								]);
-					}
-				}
+			// 		if($found > 0){
+			// 			// update
+			// 			\DB::table('pembelian_detail')
+			// 			->where('pembelian_id',$master->id)
+			// 			->where('product_id',$dt_new->id)
+			// 			->update([
+			// 					'qty' => $dt_new->qty,
+			// 					'unit_price' => $dt_new->unit_price,
+			// 				]);
+			// 		}else{
+			// 			// insert new
+			// 			\DB::table('pembelian_detail')
+			// 				->insert([
+			// 						'pembelian_id' => $master->id,
+			// 						'product_id' => $dt_new->id,
+			// 						'qty' => $dt_new->qty,
+			// 						'unit_price' => $dt_new->unit_price,
+			// 						'user_id' => $data_org->user_id
+			// 					]);
+			// 		}
+			// 	}
 			// }
 
-			return redirect('pembelian');
+			// hapus data yang lama
+			\DB::table('pembelian_detail')
+					->where('pembelian_id',$master->id)
+					->delete();
+			// insert data yang baru
+			foreach($detail->product as $dt_new){
+				// insert new
+				\DB::table('pembelian_detail')
+					->insert([
+							'pembelian_id' => $master->id,
+							'product_id' => $dt_new->id,
+							'qty' => $dt_new->qty,
+							'unit_price' => $dt_new->unit_price,
+							'user_id' => $data_org->user_id
+						]);
+				}
+
+			return redirect('pembelian/edit/'.$master->id);
 		});
 	}
 
@@ -216,7 +260,7 @@ class PembelianController extends Controller
 			\DB::table('pembelian')
 				->where('id',$id)
 				->update([
-					'status' => 'VALIDATED'
+					'state' => 'done'
 				]);
 			$pembelian = \DB::table('view_pembelian')->find($id);
 
@@ -226,29 +270,37 @@ class PembelianController extends Controller
 	        $counter = Appsetting('hutang_counter');
 	        $nomor_inv = $prefix.'/'.date('Y/m').$counter++;
 	        // update counter
-	        // update counter
 	        UpdateAppsetting('hutang_counter',$counter);
+	        // insert hutang
 			\DB::table('hutang')->insert([
 				'name' => $nomor_inv,
+				'partner_id' => $pembelian->supplier_id,
 				'tanggal' => date('Y-m-d'),
 				'state' => 'open',
 				'source' => $pembelian->ref,
 				'po_id' => $pembelian->id,
-				'desc' => 'Hutang Dagang ' . $pembelian->nama_supplier,
+				'desc' => 'Hutang Dagang ' . $pembelian->supplier,
 				'type' => 'pembelian',
 				'jumlah' => $pembelian->total,
+				'amount_due' => $pembelian->total,
 			]);
+			// update bill state di pembelian
+			\DB::table('pembelian')
+				->where('id',$id)
+				->update([
+					'bill_state' => 'open'
+				]);
 			
 		});
 
-		return redirect()->back();
+		return redirect('pembelian/edit/'.$id);
 	}
 
 	public function cancelIt($id){
 		\DB::table('pembelian')
 			->whereId($id)
 			->update([
-				'status' => 'CANCELED'
+				'state' => 'draft'
 			]);
 
 		return redirect()->back();
@@ -265,6 +317,54 @@ class PembelianController extends Controller
 			return redirect('pembelian');
 
 		});
+	}
+
+	public function search(Request $req){
+		$data = \DB::table('view_pembelian')
+					->where('supplier','like','%'.$req->val.'%')
+					->orWhere('ref','like','%'.$req->val.'%')
+					->orderBy('tanggal','desc')
+					->paginate(Appsetting('paging_item_number'));
+
+		return view('pembelian.search',[
+				'data' => $data,
+				'search_val' => $req->val
+			]);
+	}
+
+	public function filter($filterby,$val){
+		$data = \DB::table('view_pembelian')
+					->where($filterby,$val)
+					->orderBy('tanggal','desc')
+					->paginate(Appsetting('paging_item_number'));
+
+		return view('pembelian.filter',[
+				'data' => $data,
+				'filterby' => $filterby,
+				'filter' => $val
+			]);
+	}
+
+	public function groupby($val){
+		$data = \DB::table('view_pembelian')
+	        ->select('*',\DB::raw('count(id) as jumlah'),\DB::raw('sum(view_pembelian.total) as sum_total'))
+	        ->groupBy($val)
+	        ->paginate(Appsetting('paging_item_number'));     
+
+        return view('pembelian.group',[
+                'data' => $data,
+                'groupby' => $val,
+            ]);
+	}
+
+	public function groupdetail($groupby,$id){
+		$pembelian = \DB::table('view_pembelian')
+					->where($groupby.'_id','=',$id)
+					->orderBy('tanggal','desc')
+					->orderBy('id','desc')
+					->get();
+
+		return $pembelian;
 	}
 
 	

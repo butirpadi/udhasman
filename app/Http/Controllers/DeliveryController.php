@@ -14,9 +14,11 @@ class DeliveryController extends Controller
 {
 	public function index(){
 		$pengiriman = \DB::table('view_new_pengiriman')
-		->orderBy('order_date','desc')
-		->orderBy('created_at','desc')
-		->get();
+						// ->where('state','!=','done')
+						->orderBy('order_date','desc')
+						->orderBy('created_at','desc')
+						->paginate(Appsetting('paging_item_number'));
+						// ->get();
 
 		return view('delivery.index',[
 				'pengiriman' => $pengiriman
@@ -24,14 +26,20 @@ class DeliveryController extends Controller
 	}
 
 	public function create(){
-		$drivers = \DB::table('karyawan')->where('driver',1)->get();
+		$drivers = \DB::table('res_partner')
+							->select('res_partner.*','armada.nopol')
+							->where('driver','Y')
+							->join('armada','res_partner.armada_id','=','armada.id')
+							->get();
 		$driver = [];
 		foreach($drivers as $dt){
-			$nopol = \DB::table('armada')->where('karyawan_id',$dt->id)->first();
-			$driver[$dt->id] = $dt->nama . ' - ' . $nopol->nopol;
+			// $nopol = \DB::table('armada')->where('karyawan_id',$dt->id)->first();
+			$driver[$dt->id] = $dt->nama . ' - ' . $dt->nopol;
 		}
 
-		$customer = \DB::table('customer')->get();
+		$customer = \DB::table('res_partner')
+					->whereCustomer('Y')
+					->get();
 		$select_customer = [];
 		foreach($customer as $dt){
 			$select_customer[$dt->id] = $dt->nama;
@@ -110,14 +118,19 @@ class DeliveryController extends Controller
 	public function show($id){
 		$pengiriman = \DB::table('view_new_pengiriman')->find($id);
 
-		$drivers = \DB::table('karyawan')->where('driver',1)->get();
+		$drivers = \DB::table('res_partner')
+							->select('res_partner.*','armada.nopol')
+							->where('driver','Y')
+							->join('armada','res_partner.armada_id','=','armada.id')
+							->get();
 		$driver = [];
 		foreach($drivers as $dt){
-			$nopol = \DB::table('armada')->where('karyawan_id',$dt->id)->first();
-			$driver[$dt->id] = $dt->nama . ' - ' . $nopol->nopol;
+			$driver[$dt->id] = $dt->nama . ' - ' . $dt->nopol;
 		}
 
-		$customer = \DB::table('customer')->get();
+		$customer = \DB::table('res_partner')
+					->whereCustomer('Y')
+					->get();
 		$select_customer = [];
 		foreach($customer as $dt){
 			$select_customer[$dt->id] = $dt->nama;
@@ -144,14 +157,19 @@ class DeliveryController extends Controller
 	public function edit($id){
 		$pengiriman = \DB::table('view_new_pengiriman')->find($id);
 
-		$drivers = \DB::table('karyawan')->where('driver',1)->get();
+		$drivers = \DB::table('res_partner')
+							->select('res_partner.*','armada.nopol')
+							->where('driver','Y')
+							->join('armada','res_partner.armada_id','=','armada.id')
+							->get();
 		$driver = [];
 		foreach($drivers as $dt){
-			$nopol = \DB::table('armada')->where('karyawan_id',$dt->id)->first();
-			$driver[$dt->id] = $dt->nama . ' - ' . $nopol->nopol;
+			$driver[$dt->id] = $dt->nama . ' - ' . $dt->nopol;
 		}
 
-		$customer = \DB::table('customer')->get();
+		$customer = \DB::table('res_partner')
+					->whereCustomer('Y')
+					->get();
 		$select_customer = [];
 		foreach($customer as $dt){
 			$select_customer[$dt->id] = $dt->nama;
@@ -218,9 +236,10 @@ class DeliveryController extends Controller
 	        $harga_total = $qty * str_replace(',', '', str_replace('.00','',$req->harga_satuan));
 
 	        \DB::table('new_pengiriman')
-	        ->where('id','=',$data_do->id)
+	        ->where('id','=',$req->original_id )
 	        ->update([
 				'order_date' => $fix_order_date,
+				'customer_id' => $req->customer,
 				'pekerjaan_id' => $req->pekerjaan,
 				'lokasi_galian_id' => $req->lokasi_galian,
 				'karyawan_id' => $req->driver,
@@ -274,17 +293,17 @@ class DeliveryController extends Controller
 				]);
 			}
 
-	        if($data_do->state != 'done'){
-				if(($req->kalkulasi != '' || $req->panjang != '' || $req->lebar != '' || $req->tinggi != '' || $req->gross != '' || $req->tare != '' || $req->harga_satuan != '')){
-					// set state ke open
-					\DB::table('new_pengiriman')
-		        		->where('id','=',$data_do->id)
-		        		->update([
-								'state' => 'open'
-								]);
-				}
+	   //      if($data_do->state != 'done'){
+				// if(($req->kalkulasi != '' || $req->panjang != '' || $req->lebar != '' || $req->tinggi != '' || $req->gross != '' || $req->tare != '' || $req->harga_satuan != '')){
+				// 	// set state ke open
+				// 	\DB::table('new_pengiriman')
+		  //       		->where('id','=',$data_do->id)
+		  //       		->update([
+				// 				'state' => 'open'
+				// 				]);
+				// }
 	        	
-	        }
+	   //      }
 
 		});
 
@@ -317,7 +336,7 @@ class DeliveryController extends Controller
 			
 		});
 
-		return redirect('delivery/show/'.$id);
+		return redirect('delivery/edit/'.$id);
 	}
 
 	public function delete(Request $req){
@@ -363,15 +382,16 @@ class DeliveryController extends Controller
 			]);
 	}
 
-	public function filter($val){
+	public function filter($filterby,$val){
 		$pengiriman = \DB::table('view_new_pengiriman')
-		->where('state',$val)
-		->orderBy('order_date')
-		->get();
+		->where($filterby,$val)
+		->orderBy('order_date','desc')
+		->paginate(Appsetting('paging_item_number'));
 
 		return view('delivery.filter',[
 				'pengiriman' => $pengiriman,
-				'filter' => $val
+				'filterby' => $filterby,
+				'filter' => $val,
 			]);
 	}
 
@@ -390,12 +410,66 @@ class DeliveryController extends Controller
 	}
 
 	public function groupdetail($groupby,$id){
-		$pengiriman = \DB::table('view_new_pengiriman')
-		->where($groupby.'_id','=',$id)
-		->orderBy('order_date')
-		->get();
+		if($id != 0){
+			$pengiriman = \DB::table('view_new_pengiriman')
+			->where($groupby.'_id','=',$id)
+			->orderBy('order_date')
+			->get();			
+		}else{
+			$pengiriman = \DB::table('view_new_pengiriman')
+			->where($groupby.'_id')
+			->orderBy('order_date')
+			->get();			
+		}
 
 		echo json_encode($pengiriman);
+	}
+
+	public function getSearch(){
+		$val = \Input::get('val');
+		$pengiriman = \DB::table('view_new_pengiriman')
+						->where('name','like','%' . trim($val) . '%')
+						->orWhere('customer','like','%' . $val . '%')
+						->orWhere('state','like','%' . $val . '%')
+						->orWhere('invoice_state','like','%' . $val . '%')
+						->orWhere('pekerjaan','like','%' . $val . '%')
+						->orWhere('karyawan','like','%' . $val . '%')
+						->orWhere('nopol','like','%' . $val . '%')
+						->orWhere('lokasi_galian','like','%' . $val . '%')
+						->orWhere('material','like','%' . $val . '%')
+						->orWhere('nota_timbang','like','%' . $val . '%')
+						->orderBy('order_date','desc')
+						->orderBy('created_at','desc')
+						->paginate(Appsetting('paging_item_number'));
+						// ->get();
+		$pengiriman->appends(['val'=>$val]);
+
+		return view('delivery.search',[
+				'pengiriman' => $pengiriman,
+				'search_val' => $val
+			]);
+	}
+
+	public function search(Request $req){
+		$pengiriman = \DB::table('view_new_pengiriman')
+						->where('name','like','%' . trim($req->val) . '%')
+						->orWhere('customer','like','%' . $req->val . '%')
+						->orWhere('state','like','%' . $req->val . '%')
+						->orWhere('pekerjaan','like','%' . $req->val . '%')
+						->orWhere('karyawan','like','%' . $req->val . '%')
+						->orWhere('nopol','like','%' . $req->val . '%')
+						->orWhere('lokasi_galian','like','%' . $req->val . '%')
+						->orWhere('material','like','%' . $req->val . '%')
+						->orWhere('nota_timbang','like','%' . $req->val . '%')
+						->orderBy('order_date','desc')
+						->orderBy('created_at','desc')
+						->paginate(Appsetting('paging_item_number'));
+						// ->get();
+
+		return view('delivery.search',[
+				'pengiriman' => $pengiriman,
+				'search_val' => $req->val
+			]);
 	}
 
 

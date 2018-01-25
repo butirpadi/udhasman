@@ -19,7 +19,7 @@
 
 <page orientation="L" format="A4" backtop="20mm" backleft="10mm" backbottom="10mm" backright="10mm" footer="page" > 
     <page_header > 
-        <h4 style="margin:0;padding:0;text-align: center;" >Laporan Pembelian</h4>
+        <h4 style="margin:0;padding:0;text-align: center;" >Laporan Pembelian</h4><br/>
 		<p style="text-align: center;margin:0;padding:0;" >Periode : {{$tanggal_awal . ' / ' . $tanggal_akhir}}</p
 >    </page_header> 
     <page_footer  > 
@@ -32,29 +32,19 @@
 					<th style="width:10%;" >REF#</th>
 					<th style="width:8%;" >TANGGAL</th>
 					<th style="width:10%;" >NOMOR<br/>NOTA</th>
-					<th style="width:28%;" >PRODUCT</th>
+					<th style="width:33%;" >PRODUCT</th>
 					<th style="width:9%;" colspan="2"  >QTY</th>
 					<th style="width:15%;" >HARGA<br/>SATUAN</th>
 					<th style="width:15%;" >JUMLAH</th>
-					<th style="width:5%;" >PAID</th>
 				</tr>
 			</thead>
 			<tbody >
 		    	@foreach($pembelian as $pb)
 		    	<tr>
-		    		<td colspan="9" >
-		    			<strong>SUPPLIER : {{$pb->nama_supplier}}</strong>
+		    		<td colspan="8" >
+		    			<strong>Supplier : {{$pb->supplier}}</strong>
 		    		</td>
 		    	</tr>
-				<!-- <tr>
-					<th style="width:10%;" >REF#</th>
-					<th style="width:10%;" >TANGGAL</th>
-					<th style="width:10%;" >NOMOR NOTA</th>
-					<th style="width:40%;" >PRODUCT</th>
-					<th style="width:10%;" >QTY</th>
-					<th style="width:10%;" >HARGA SATUAN</th>
-					<th style="width:10%;" >JUMLAH</th>
-				</tr> -->
 				<?php $total_per_supplier=0; ?>
 				@foreach($pb->reports as $rp)
 					<tr>
@@ -93,23 +83,15 @@
 								<?php $total_per_supplier+=$pr->unit_price*$pr->qty; ?>
 							@endforeach
 						</td>
-						<td align="center" valign="middle" >
-							@if($rp->bill_state == 'P')
-							PAID
-							@else
-							-
-							@endif
-						</td>
 					</tr>
 				@endforeach
 				<tr>
 					<td colspan="6" align="right" >
-						<strong>TOTAL {{$pb->nama_supplier}} </strong>
+						<strong>Total {{$pb->supplier}} </strong>
 					</td>
 					<td align="right" colspan="2" >
 						<strong>{{number_format($total_per_supplier,2,'.',',')}}</strong>
 					</td>
-					<td></td>
 				</tr>
 		    	@endforeach
 		    	<tr style="font-size: 16px;" >
@@ -119,15 +101,9 @@
 		    		<td colspan="2" align="right" >
 		    			<strong>{{number_format($sum_total,2,'.',',')}}</strong>
 		    		</td>
-		    		<td></td>
 		    	</tr>
 		    </tbody>
 		</table>
-
-
-
-
-
 
 </page> 
 

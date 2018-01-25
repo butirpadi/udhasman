@@ -74,8 +74,8 @@
             <div class="pull-right" >
                 <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
                 <a class="btn  btn-arrow-right pull-right disabled bg-gray" >DONE</a>
-                <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
-                <a class="btn btn-arrow-right pull-right disabled bg-gray" >OPEN</a>
+                <!-- <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
+                <a class="btn btn-arrow-right pull-right disabled bg-gray" >OPEN</a> -->
                 <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
                 <a class="btn btn-arrow-right pull-right disabled bg-blue" >DRAFT</a>
             </div>
@@ -370,8 +370,10 @@
     // SET AUTO NUMERIC
     // =====================================================
     $('input[name=unit_price], input[name=subtotal], input[name=disc], .label-total, .label-total-subtotal').autoNumeric('init',{
-        vMin:'0',
-        vMax:'9999999999'
+        vMin:'0.00',
+        vMax:'9999999999.00',
+        aSep: ',',
+        aDec: '.'
     });
     // END OF AUTONUMERIC
 
@@ -429,12 +431,16 @@
 
         // format numeric
         newrow.find('input[name=unit_price]').autoNumeric('init',{
-            vMin:'0',
-            vMax:'9999999999'
+            vMin:'0.00',
+            vMax:'9999999999.00',
+            aSep: ',',
+            aDec: '.'
         });
         newrow.find('input[name=subtotal]').autoNumeric('init',{
-            vMin:'0',
-            vMax:'9999999999'
+            vMin:'0.00',
+            vMax:'9999999999.00',
+            aSep: ',',
+            aDec: '.'
         });
 
 

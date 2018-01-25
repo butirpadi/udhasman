@@ -29,16 +29,7 @@
   <form method="POST" action="finance/cashbook/update" >
     <input type="hidden" name="cashbook_id" value="{{$data->id}}">
     <div class="box box-solid" >
-        <div class="box-header with-border" >
-            <label><h3 style="margin:0;padding:0;font-weight:bold;" >{{$data->cash_number}}</h3></label>
-            
-            <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
-            <a class="btn btn-arrow-right pull-right disabled bg-gray" >Posted</a>
-
-            <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
-
-            <a class="btn btn-arrow-right pull-right disabled bg-blue" >Draft</a>
-        </div>
+        @include('cashbook.form-header')
       <div class="box-body" >
         <table class="table table-condensed" >
             <tbody>
@@ -63,14 +54,14 @@
                     </td>
                     <td><label>Jumlah</label></td>
                     <td>
-                        <input type="text" name="jumlah" class="form-control uang text-right" value="{{$data->jumlah}}" > 
+                        <input type="text" name="jumlah" class="form-control uang text-right" value="{{$data->jumlah}}" required > 
                     </td>
                 </tr>
                 <tr>
                     <td></td>
                     <td>
-                        <button type="submit" class="btn btn-primary" id="btn-save" >Save</button>
-                        <a class="btn btn-danger" href="finance/cashbook" >Cancel</a>
+                        <button type="submit" class="btn btn-primary" id="btn-save" ><i class="fa fa-save" ></i> Save</button>
+                        <a class="btn btn-danger" href="finance/cashbook" ><i class="fa fa-close" ></i> Close</a>
                     </td>
                 </tr>
             </tbody>

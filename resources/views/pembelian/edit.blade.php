@@ -61,11 +61,11 @@
 
             <div class="pull-right" >
                 <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
-                <a class="btn  btn-arrow-right pull-right disabled bg-gray" >DONE</a>
+                <a class="btn  btn-arrow-right pull-right disabled {{$data->state == 'done' ? 'bg-blue' : 'bg-gray'}}" >DONE</a>
+                <!-- <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
+                <a class="btn btn-arrow-right pull-right disabled bg-blue" >OPEN</a> -->
                 <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
-                <a class="btn btn-arrow-right pull-right disabled bg-blue" >OPEN</a>
-                <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
-                <a class="btn btn-arrow-right pull-right disabled bg-gray" >DRAFT</a>
+                <a class="btn btn-arrow-right pull-right disabled {{$data->state == 'draft' ? 'bg-blue' : 'bg-gray'}}" >DRAFT</a>
             </div>
 
             <div class="text-center hide" >
@@ -83,15 +83,22 @@
                             <label>Supplier</label>
                         </td>
                         <td class="col-lg-4" >
-
-                            {!! Form::select('supplier',$select_supplier,$data->supplier_id,['class'=>'form-control','required']) !!}
+                            @if($data->state == 'done')
+                                <input type="text" name="supplier" value="{{$data->supplier}}" class="form-control" readonly /> 
+                            @else
+                                {!! Form::select('supplier',$select_supplier,$data->supplier_id,['class'=>'form-control','required']) !!}
+                            @endif
                         </td>
                         <td class="col-lg-2" ></td>
                         <td class="col-lg-2" >
                             <label>Tanggal</label>
                         </td>
                         <td class="col-lg-2" >
-                            <input type="text" name="tanggal" class="input-tanggal form-control" value="{{$data->tanggal_format}}" required>
+                            @if($data->state == 'done')
+                                <input type="text" name="tanggal" class="input-tanggal form-control" value="{{$data->tanggal_format}}" readonly>
+                            @else
+                                <input type="text" name="tanggal" class="input-tanggal form-control" value="{{$data->tanggal_format}}" required>
+                            @endif
                         </td>
                     </tr>
                     <tr>
@@ -99,7 +106,11 @@
                             <label>Nomor Nota</label>
                         </td>
                         <td>
-                            <input type="text" name="supplier_ref" class="form-control" value="{{$data->supplier_ref}}">
+                            @if($data->state == 'done')
+                                <input type="text" name="supplier_ref" class="form-control" value="{{$data->supplier_ref}}" readonly>
+                            @else
+                                <input type="text" name="supplier_ref" class="form-control" value="{{$data->supplier_ref}}">
+                            @endif
                         </td>
                         <td></td>
                         <td></td>
@@ -152,36 +163,56 @@
                                 {{$rownum++}}
                             </td>
                             <td>
-                                <select name="product" disabled class="form-control select-product-edit" required style="width: 100%;" >
+                                @if($data->state == 'done')
+                                    {{$dt->nama_product}}
+                                @else
+                                <select name="product" readonly class="form-control select-product-edit" required style="width: 100%;" >
                                     @foreach($product as $pr)
                                         <option value="{{$pr->id}}" {{$pr->id == $dt->product_id ? 'selected':''}}  data-unit="{{$pr->product_unit}}">{{$pr->nama}}</option>
                                     @endforeach
                                 </select>
+                                @endif
                             </td>
                             <td class="label-satuan" >
                                 {{$dt->satuan}}
                             </td>
-                            <td>
-                                <input type="number" autocomplete="off" min="1" class="form-control text-right input-quantity input-sm input-clear" value="{{$dt->qty}}" >
+                            <td class="text-right" >
+                                @if($data->state == 'done')
+                                    {{$dt->qty}}
+                                @else
+                                    <input type="number" autocomplete="off" min="1" class="form-control text-right input-quantity input-sm input-clear" value="{{$dt->qty}}" >
+                                @endif
                             </td>
-                            <td>
-                                <input autocomplete="off" type="text" class="text-right form-control input-unit-price input-sm input-clear uang" name="unit_price" value="{{$dt->unit_price}}" >
+                            <td class="text-right" >
+                                @if($data->state == 'done')
+                                    <span class="uang" >{{$dt->unit_price}}</span>
+                                @else
+                                    <input autocomplete="off" type="text" class="text-right form-control input-unit-price input-sm input-clear uang" name="unit_price" value="{{$dt->unit_price}}" >
+                                @endif
                             </td>
-                            <td>
-                                <input autocomplete="off" type="text" readonly  class="text-right form-control input-subtotal input-sm input-clear uang" name="subtotal" value="{{$dt->unit_price *  $dt->qty}}" >
+                            <td class="text-right" >
+                                @if($data->state == 'done')
+                                    <span class="uang" >{{$dt->unit_price * $dt->qty}}</span>
+                                @else
+                                    <input autocomplete="off" type="text" readonly  class="text-right form-control input-subtotal input-sm input-clear uang" name="subtotal" value="{{$dt->unit_price *  $dt->qty}}" >
+                                @endif
                             </td>
                             <td class="text-center" >
-                                <a href="#" class="btn-delete-row-product" ><i class="fa fa-trash" ></i></a>
+                                @if($data->state != 'done')
+                                    <a href="#" class="btn-delete-row-product" ><i class="fa fa-trash" ></i></a>
+                                @endif
                             </td>
                         </tr>
                     @endforeach
 
-                    <tr id="row-btn-add-item">
-                        <td></td>
-                        <td colspan="7" >
-                            <a id="btn-add-item" href="#">Add an item</a>
-                        </td>
-                    </tr>
+                    @if($data->state != 'done')
+                        <tr id="row-btn-add-item">
+                            <td></td>
+                            <td colspan="7" >
+                                <a id="btn-add-item" href="#">Add an item</a>
+                            </td>
+                        </tr>
+                    @endif
 
 
                 </tbody>
@@ -205,8 +236,12 @@
                                 <td class="text-right" >
                                     <label>Disc :</label>
                                 </td>
-                                <td >
-                                   <input style="font-size:14px;" type="text" name="disc" class="input-sm form-control text-right input-clear uang" value="{{$data->disc}}">
+                                <td class="text-right" >
+                                    @if($data->state == 'done')
+                                        <label class="uang" >{{$data->disc}}</label>
+                                    @else
+                                        <input style="font-size:14px;" type="text" name="disc" class="input-sm form-control text-right input-clear uang" value="{{$data->disc}}">
+                                    @endif
                                 </td>
                             </tr>
                             <tr>
@@ -223,9 +258,17 @@
             </div>
         </div><!-- /.box-body -->
         <div class="box-footer" >
-            <button type="submit" class="btn btn-primary" id="btn-save" ><i class="fa fa-save" ></i> Save</button>
-            <a class="btn btn-danger" id="btn-cancel-save" href="pembelian" ><i class="fa fa-close" ></i> Close</a>
-            <a id="btn-validate" class="btn bg-maroon pull-right" href="pembelian/validate/{{$data->id}}" ><i class="fa fa-check" ></i> Validate</a>
+            @if($data->state != 'done')
+                <button type="submit" class="btn btn-primary" id="btn-save" ><i class="fa fa-save" ></i> Save</button>
+            @endif
+
+            <a class="btn btn-danger" href="pembelian" ><i class="fa fa-close" ></i> Close</a>
+
+            @if($data->state != 'done')
+                <a id="btn-validate" class="btn bg-purple pull-right " href="pembelian/validate/{{$data->id}}" ><i class="fa fa-check" ></i> Confirm</a>
+            @else
+                <!-- <a id="btn-cancel" class="btn bg-maroon pull-right " href="pembelian/cancel/{{$data->id}}" ><i class="fa fa-check" ></i> Cancel</a>             -->
+            @endif
         </div>
     </div><!-- /.box -->
 
@@ -469,12 +512,16 @@
 
         // format numeric
         newrow.find('input[name=unit_price]').autoNumeric('init',{
-            vMin:'0',
-            vMax:'9999999999'
+            vMin:'0.00',
+            vMax:'9999999999.00',
+            aSep: ',',
+            aDec: '.'
         });
         newrow.find('input[name=subtotal]').autoNumeric('init',{
-            vMin:'0',
-            vMax:'9999999999'
+            vMin:'0.00',
+            vMax:'9999999999.00',
+            aSep: ',',
+            aDec: '.'
         });
 
 
@@ -651,11 +698,11 @@
 
    
     // Validate 
-    $('#btn-validate').click(function(){
-        if(!confirm('Anda akan mem-validasi data ini?')){
-            return false;
-        }
-    });
+    // $('#btn-validate').click(function(){
+    //     if(!confirm('Anda akan mem-validasi data ini?')){
+    //         return false;
+    //     }
+    // });
 
 })(jQuery);
 </script>

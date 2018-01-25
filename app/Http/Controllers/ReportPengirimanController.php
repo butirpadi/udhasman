@@ -52,6 +52,7 @@ class ReportPengirimanController extends Controller
                             ->whereRaw($req->customer == '' ? 'true' : 'customer_id = ' . $req->customer)
                             ->whereRaw($req->pekerjaan == '' ? 'true' : 'pekerjaan_id = ' . $req->pekerjaan)
                             ->whereRaw($req->material == '' ? 'true' : 'material_id = ' . $req->material)
+                            ->whereRaw("state in ('open','done')")
                             ->groupBy('customer_id','pekerjaan_id','material_id','kalkulasi')
                             ->get();
 
@@ -60,6 +61,7 @@ class ReportPengirimanController extends Controller
                             ->whereRaw($req->customer == '' ? 'true' : 'customer_id = ' . $req->customer)
                             ->whereRaw($req->pekerjaan == '' ? 'true' : 'pekerjaan_id = ' . $req->pekerjaan)
                             ->whereRaw($req->material == '' ? 'true' : 'material_id = ' . $req->material)
+                            ->whereRaw("state in ('open','done')")
                             ->sum('harga_total');
 
             $html2pdf->writeHTML($this->defaultSummaryReportHtml([
@@ -82,12 +84,14 @@ class ReportPengirimanController extends Controller
                             ->orderBy('customer','asc')
                             ->orderBy('pekerjaan','asc')
                             ->groupBy('customer_id','pekerjaan_id','material_id','kalkulasi')
+                            ->whereRaw("state in ('open','done')")
                             ->get();
             $grand_total = \DB::table('view_new_pengiriman')
                             ->whereBetween('order_date',[$tgl_awal_str,$tgl_akhir_str])
                             ->whereRaw($req->customer == '' ? 'true' : 'customer_id = ' . $req->customer)
                             ->whereRaw($req->pekerjaan == '' ? 'true' : 'pekerjaan_id = ' . $req->pekerjaan)
                             ->whereRaw($req->material == '' ? 'true' : 'material_id = ' . $req->material)
+                            ->whereRaw("state in ('open','done')")
                             ->sum('harga_total');
 
             foreach($pengiriman as $pg){
@@ -162,6 +166,7 @@ class ReportPengirimanController extends Controller
             $pengiriman = \DB::table('view_new_pengiriman')
                             ->select('customer','material','lokasi_galian','karyawan','pekerjaan',\DB::raw('sum(qty) as sum_qty'),\DB::raw('sum(volume) as sum_vol'),\DB::raw('sum(netto) as sum_net'),\DB::raw('sum(harga_total) as sum_total'))
                             ->whereBetween('order_date',[$tgl_awal_str,$tgl_akhir_str])
+                            // ->whereRaw("state in ('open','done')")
                             ->orderBy('customer','asc')
                             ->groupBy('customer_id')
                             ->get();
@@ -170,6 +175,7 @@ class ReportPengirimanController extends Controller
             $pengiriman = \DB::table('view_new_pengiriman')
                             ->select('customer','material','lokasi_galian','karyawan','pekerjaan',\DB::raw('sum(qty) as sum_qty'),\DB::raw('sum(volume) as sum_vol'),\DB::raw('sum(netto) as sum_net'),\DB::raw('sum(harga_total) as sum_total'))
                             ->whereBetween('order_date',[$tgl_awal_str,$tgl_akhir_str])
+                            // ->whereRaw("state in ('open','done')")
                             ->orderBy('customer','asc')
                             ->groupBy('material_id')
                             ->get();
@@ -178,6 +184,7 @@ class ReportPengirimanController extends Controller
             $pengiriman = \DB::table('view_new_pengiriman')
                             ->select('customer','material','lokasi_galian','karyawan','pekerjaan',\DB::raw('sum(qty) as sum_qty'),\DB::raw('sum(volume) as sum_vol'),\DB::raw('sum(netto) as sum_net'),\DB::raw('sum(harga_total) as sum_total'))
                             ->whereBetween('order_date',[$tgl_awal_str,$tgl_akhir_str])
+                            // ->whereRaw("state in ('open','done')")
                             ->orderBy('customer','asc')
                             ->groupBy('lokasi_galian_id')
                             ->get();
@@ -186,6 +193,7 @@ class ReportPengirimanController extends Controller
             $pengiriman = \DB::table('view_new_pengiriman')
                             ->select('customer','material','lokasi_galian','karyawan','pekerjaan',\DB::raw('sum(qty) as sum_qty'),\DB::raw('sum(volume) as sum_vol'),\DB::raw('sum(netto) as sum_net'),\DB::raw('sum(harga_total) as sum_total'))
                             ->whereBetween('order_date',[$tgl_awal_str,$tgl_akhir_str])
+                            // ->whereRaw("state in ('open','done')")
                             ->orderBy('customer','asc')
                             ->groupBy('karyawan_id')
                             ->get();
@@ -194,13 +202,14 @@ class ReportPengirimanController extends Controller
             $pengiriman = \DB::table('view_new_pengiriman')
                             ->select('customer','material','lokasi_galian','karyawan','pekerjaan',\DB::raw('sum(qty) as sum_qty'),\DB::raw('sum(volume) as sum_vol'),\DB::raw('sum(netto) as sum_net'),\DB::raw('sum(harga_total) as sum_total'))
                             ->whereBetween('order_date',[$tgl_awal_str,$tgl_akhir_str])
+                            // ->whereRaw("state in ('open','done')")
                             ->orderBy('customer','asc')
                             ->groupBy('pekerjaan_id')
                             ->get();
             
         }
 
-
+        // Show Report
         $dompdf->loadHtml($this->groupReportHtml([
                 'pengiriman' => $pengiriman,
                 'tanggal_awal' => $awal,
@@ -213,7 +222,7 @@ class ReportPengirimanController extends Controller
         $dompdf->stream("ReportPengiriman.pdf", array("Attachment" => false));
         exit(0);
 
-        //// SHOW HTML
+        // // SHOW HTML
         // return $this->groupReportHtml([
         //         'pengiriman' => $pengiriman,
         //         'tanggal_awal' => $awal,
@@ -245,6 +254,7 @@ class ReportPengirimanController extends Controller
         if($req->group_by == 'customer'){
             $pengiriman_by_group = \DB::table('view_new_pengiriman')
                             ->whereBetween('order_date',[$tgl_awal_str,$tgl_akhir_str])
+                            // ->whereRaw("state in ('open','done')")
                             ->orderBy('customer','asc')
                             ->groupBy('customer_id')
                             ->get();
@@ -264,6 +274,7 @@ class ReportPengirimanController extends Controller
         }elseif($req->group_by == 'material'){
             $pengiriman_by_group = \DB::table('view_new_pengiriman')
                             ->whereBetween('order_date',[$tgl_awal_str,$tgl_akhir_str])
+                            // ->whereRaw("state in ('open','done')")
                             ->orderBy('customer','asc')
                             ->groupBy('material_id')
                             ->get();
@@ -283,6 +294,7 @@ class ReportPengirimanController extends Controller
         }elseif($req->group_by == 'lokasi'){
             $pengiriman_by_group = \DB::table('view_new_pengiriman')
                             ->whereBetween('order_date',[$tgl_awal_str,$tgl_akhir_str])
+                            // ->whereRaw("state in ('open','done')")
                             ->orderBy('customer','asc')
                             ->groupBy('lokasi_galian_id')
                             ->get();
@@ -302,6 +314,7 @@ class ReportPengirimanController extends Controller
         }elseif($req->group_by == 'driver'){
             $pengiriman_by_group = \DB::table('view_new_pengiriman')
                             ->whereBetween('order_date',[$tgl_awal_str,$tgl_akhir_str])
+                            // ->whereRaw("state in ('open','done')")
                             ->orderBy('customer','asc')
                             ->groupBy('karyawan_id')
                             ->get();
@@ -321,6 +334,7 @@ class ReportPengirimanController extends Controller
         }elseif($req->group_by == 'pekerjaan'){
             $pengiriman_by_group = \DB::table('view_new_pengiriman')
                             ->whereBetween('order_date',[$tgl_awal_str,$tgl_akhir_str])
+                            // ->whereRaw("state in ('open','done')")
                             ->orderBy('customer','asc')
                             ->groupBy('pekerjaan_id')
                             ->get();
@@ -340,6 +354,7 @@ class ReportPengirimanController extends Controller
         }
         
 
+        //Show PDF Report
         $dompdf->loadHtml($this->groupDetailReportHtml([
                 'pengiriman_by_group' => $pengiriman_by_group,
                 'tanggal_awal' => $awal,
@@ -351,6 +366,15 @@ class ReportPengirimanController extends Controller
         $dompdf->render();
         $dompdf->stream("ReportPengiriman.pdf", array("Attachment" => false));
         exit(0);
+
+        //// Show Html
+        // return $this->groupDetailReportHtml([
+        //         'pengiriman_by_group' => $pengiriman_by_group,
+        //         'tanggal_awal' => $awal,
+        //         'tanggal_akhir' => $akhir,
+        //         'group_by' => $req->group_by,
+        //         'dicetak'=>date('d-m-Y H:i:s')
+        //     ]);
     }
 
     public function groupDetailReportHtml($data){

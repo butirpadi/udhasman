@@ -80,12 +80,12 @@
                         <div class="col-xs-6" >
                             <div class="form-group">
                                 <label >Jumlah Tagihan</label>
-                                <input type="text" name="jumlah_tagihan" class="form-control text-right" value="{{$data->payment_amount}}" readonly/>
+                                <input type="text" name="jumlah_tagihan" class="form-control text-right" value="{{$data->amount_due}}" readonly/>
                                 <input type="hidden" name="hutang_id" value="{{$data->id}}" />
                             </div>  
                             <div class="form-group">
                                 <label >Jumlah Bayar</label>
-                                <input type="text" name="jumlah_bayar" class="form-control text-right" value="{{$data->payment_amount}}" required >    
+                                <input type="text" name="jumlah_bayar" class="form-control text-right" value="{{$data->amount_due}}" required >    
                             </div>  
                         </div>
                         <div class="col-xs-6" >

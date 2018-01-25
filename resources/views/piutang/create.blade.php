@@ -77,19 +77,12 @@
                                 <label for="customerLabel">Tanggal</label>
                                 <input type="text" name="tanggal" class="input-tanggal form-control" value="{{date('d-m-Y')}}" required>    
                             </div>  
-                            <div class="form-group">
-                                <label >Jenis Piutang</label>
-                                <select name="type" class="form-control" required >
-                                    <option value="pk">Piutang Karyawan</option>
-                                    <option value="pl">Piutang Lain</option>
-                                </select>
-                            </div>
                             <div class="form-group " id="input-karyawan" >
-                                <label >Karyawan</label>
+                                <label >Partner</label>
                                 {!! Form::select('karyawan',$karyawans,null,['class'=>'form-control','required']) !!}
                             </div>
                             <div class="form-group hide" id="input-lain" >
-                                <label >Penerima</label>
+                                <label >Partner</label>
                                 <input type="text" name="penerima" class="form-control">
                             </div>
                         </div>

@@ -47,7 +47,7 @@
                 <table style="background-color: #ECF0F5;" >
                     <tr>
                         <td class="bg-green text-center" rowspan="2" style="width: 50px;" ><i class="ft-rupiah" ></i></td>
-                        <td style="padding-left: 10px;padding-right: 5px;">
+                        <td style="padding-left: 10px;padding-right: 5px;min-width: 150px;">
                             SALDO KAS
                         </td>
                     </tr>
@@ -206,14 +206,10 @@
                 var cash_id = row.data('id');
                 var url="finance/cashbook/delete/"+cash_id;
                 // alert(url);
-                $.get(url,null,function(){
+                $.get(url,function(){
                     row.fadeOut(100,function(){
                         row.remove();
 
-                        // idx++;
-                        // idx++;
-                        // alert(idx);
-                        // alert(rowcount);
                         if( idx++ >= rowcount){
                             pageReload();
                         }

@@ -6,9 +6,38 @@
 <link href="plugins/datepicker/datepicker3.css" rel="stylesheet" type="text/css"/>
 
 <style>
-    #table-data > tbody > tr{
-        cursor:pointer;
+    .row-grouped td{
+        color: #ffffff;
+        padding: 10px 20px;
+        background: -moz-linear-gradient(
+            top,
+            #dbf4ff 0%,
+            #4eabf2 25%,
+            #0e4f96);
+        background: -webkit-gradient(
+            linear, left top, left bottom,
+            from(#dbf4ff),
+            color-stop(0.25, #4eabf2),
+            to(#0e4f96));
+        -moz-border-radius: 6px;
+        -webkit-border-radius: 6px;
+        border-radius: 6px;
+        border: 1px solid #006eb8;
+        -moz-box-shadow:
+            0px 1px 3px rgba(000,000,000,0.5),
+            inset 0px -1px 0px rgba(255,255,255,0.7);
+        -webkit-box-shadow:
+            0px 1px 3px rgba(000,000,000,0.5),
+            inset 0px -1px 0px rgba(255,255,255,0.7);
+        box-shadow:
+            0px 1px 3px rgba(000,000,000,0.5),
+            inset 0px -1px 0px rgba(255,255,255,0.7);
+        text-shadow:
+        0px -1px 1px rgba(000,000,000,0.2),
+        0px 1px 0px rgba(255,255,255,0.3);
+        cursor: pointer;
     }
+
 </style>
 
 @append
@@ -17,7 +46,7 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Pengiriman
+        <a href="delivery" >Pengiriman</a> <i class="fa fa-angle-double-right" ></i> Group by : <i>{{$group}}</i>
     </h1>
 </section>
 
@@ -25,52 +54,7 @@
 <section class="content">
     <!-- Default box -->
     <div class="box box-solid">
-        <div class="box-header with-border" >
-            <a class="btn btn-primary" id="btn-add" href="delivery/create" ><i class="fa fa-plus-circle" ></i> Create</a>
-            <div class="btn-group">
-                <a  class="btn btn-success dropdown-toggle" data-toggle="dropdown">
-                    <i class="fa fa-filter" ></i>
-                    Filter
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a href="delivery/filter/draft">Draft</a></li>
-                  <li><a href="delivery/filter/open">Open</a></li>
-                  <li><a href="delivery/filter/done">Done</a></li>
-                </ul>
-            </div>
-            <div class="btn-group">
-                <a  class="btn bg-maroon dropdown-toggle" data-toggle="dropdown">
-                    <i class="fa fa-th-large" ></i>
-                    Group by
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a href="delivery/groupby/customer">Customer</a></li>
-                  <li><a href="delivery/groupby/pekerjaan">Pekerjaan</a></li>
-                </ul>
-            </div>
-            <a class="btn btn-danger hide" id="btn-delete" href="#" ><i class="fa fa-trash" ></i> Delete</a>
-
-            <label style="font-size: 14px;font-weight: normal;margin-right: 10px;"  class="label bg-purple label-large" ><i class="fa fa-th-large" ></i> Group by: <i>{{$group}}</i>
-                   <a href="delivery" style="color: white;border-left: thin solid white;padding-left: 5px;padding-right: 5px;margin-left: 10px;" >X</a>
-            </label>
-
-
-            <div class="pull-right" >
-                <table style="background-color: #ECF0F5;" >
-                    <tr>
-                        <td class="bg-green text-center" rowspan="2" style="width: 50px;" ><i class="fa fa-tags" ></i></td>
-                        <td style="padding-left: 10px;padding-right: 5px;">
-                            JUMLAH DATA
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-right"  style="padding-right: 5px;" >
-                            <label class="">{{count($pengiriman)}}</label>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </div>
+        @include('delivery.box-header')
         <div class="box-body">
             <table class="table table-bordered table-condensed table-striped " id="table-data" >
                 <thead>
@@ -92,24 +76,15 @@
                 <tbody>
                     @foreach($pengiriman as $dt)
                     <tr class="row-grouped" data-groupby="{{$group}}" data-groupid="{{$group == 'pekerjaan' ? $dt->pekerjaan_id : $dt->customer_id}}" >
-                        <td>
-                            <!-- <input type="checkbox" class="ck_row" name="ck_{{$dt->id}}" style="margin-left:15px;padding:0;" data-originalid="{{$dt->id}}"  /> -->
-                        </td>
-                        <td  >
+                        <td></td>
+                        <td colspan="8" >
                             @if($group == 'customer')
                                 <strong><i>{{$dt->customer . ' (' . $dt->jumlah . ')'}}</i></strong>
                             @endif
                             @if($group == 'pekerjaan')
-                                <strong><i>{{$dt->pekerjaan . ' (' . $dt->jumlah . ')'}}</i></strong>
+                                <strong><i>{{$dt->customer . ' - ' . $dt->pekerjaan . ' (' . $dt->jumlah . ')'}}</i></strong>
                             @endif
                         </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -152,9 +127,9 @@
     });
     // END OF SET AUTONUMERIC
 
-    var TBL_DATA = $('#table-data').DataTable({
-        sort:false
-    });
+    // var TBL_DATA = $('#table-data').DataTable({
+    //     sort:false
+    // });
 
     // check all checkbox
     $('input[name=ck_all]').change(function(){
@@ -208,6 +183,9 @@
     $('.row-grouped').click(function(){
         groupby = $(this).data('groupby');
         groupid = $(this).data('groupid');
+        if(groupid==''){
+            groupid=0;
+        }
         parentrow = $(this);
 
         $.getJSON('delivery/groupdetail/'+groupby+'/'+groupid, function(data) {
@@ -222,8 +200,12 @@
                     }else if(item.state =='done'){
                         status = '<label class="label label-success" >DONE</label>';
                     }
+                    var karyawan = '';
+                    if(item.karyawan ){
+                        karyawan = item.karyawan + ' / ';
+                    }
                     parentrow.after(
-                            $('<tr>').addClass('row-child').attr('data-parentid',groupid).append(
+                            $('<tr>').addClass('row-child hide').attr('data-parentid',groupid).append(
                                             $('<td>')
                                         ).append(
                                             $('<td>').text(item.customer)
@@ -236,14 +218,28 @@
                                         ).append(
                                             $('<td>').text(item.material )
                                         ).append(
-                                            $('<td>').text(item.karyawan + ' / ' + item.nopol)
+                                            $('<td>').text(karyawan + item.nopol)
                                         ).append(
                                             $('<td>').addClass('text-center').html(status)
                                         ).append(
-                                            $('<td>').addClass('text-center').html('<a target="_blank" class="btn btn-success btn-xs" href="delivery/show/' + item.id + '" ><i class="fa fa-edit" ></i></a>')
+                                            $('<td>').addClass('text-center').html('<a target="_blank" class="btn btn-success btn-xs" href="delivery/edit/' + item.id + '" ><i class="fa fa-edit" ></i></a>')
                                         )
                         );
                 });
+
+                // row child add
+                // parentrow.after($('<div>').addClass('div-row'));
+                // $('.row-child').appendTo($('.div-row'));
+                // $('.row-child').removeClass('hide');
+                // $('.div-row').hide();
+                // $('.div-row').slideDown(500,function(){
+                //     parentrow.after($('.row-child'));
+                //     $('.div-row').remove();
+                // });
+                $('.row-child').removeClass('hide');
+                $('.row-child').hide();
+                $('.row-child').fadeIn();
+
             });
 
         // $.get('delivery/groupdetail/'+groupby+'/'+groupid,null,function(res){

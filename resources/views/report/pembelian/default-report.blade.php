@@ -19,12 +19,12 @@
 <page orientation="P" format="A4" backtop="20mm" backleft="10mm" backbottom="10mm" backright="10mm" > 
     <page_header > 
         <h4 style="margin:0;padding:0;text-align: center;" >Laporan Pembelian</h4>
+        <br/>
 		<p style="text-align: center;margin:0;padding:0;" >Periode : {{$tanggal_awal . ' / ' . $tanggal_akhir}}</p
 >    </page_header> 
     <page_footer> 
          [[page_cu]]/[[page_nb]]
-    </page_footer> 
-    
+    </page_footer>     
     
 			<table class="table-product" style="font-size:12px;"  >
 				<thead>
@@ -32,8 +32,7 @@
 						<th style="width: 15%;" >REF#</th>
 						<th style="width: 15%;" >TANGGAL</th>
 						<th style="width: 15%;" >NOMOR<br/>NOTA</th>
-						<th style="width: 25%;" >SUPPLIER</th>
-						<th style="width: 10%;" >PAID</th>
+						<th style="width: 35%;" >SUPPLIER</th>
 						<th style="width: 20%;" >JUMLAH</th>
 					</tr>
 				</thead>
@@ -50,14 +49,7 @@
 								{{$dt->supplier_ref}}
 							</td>
 							<td>
-								{{$dt->nama_supplier}}
-							</td>
-							<td align="center" >
-								@if($dt->bill_state == 'P')
-									PAID
-								@else
-									-
-								@endif
+								{{$dt->supplier}}
 							</td>
 							<td align="right" >
 								{{number_format($dt->total,2,'.',',')}}
@@ -67,7 +59,7 @@
 				</tbody>
 				<tfoot>
 					<tr>
-						<td colspan="5" align="center" >
+						<td colspan="4" align="center" >
 							<strong>TOTAL</strong>
 						</td>
 						<td style="text-align: right;" >

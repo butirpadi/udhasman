@@ -77,45 +77,19 @@
                                 <input type="text" name="tanggal" class="input-tanggal form-control" value="{{$data->tanggal_format}}" required {{$data->state == 'draft' ? '':'readonly'}} >    
                                 <input type="hidden" name="original_id" value="{{$data->id}}" />    
                             </div>  
-                            <div class="form-group">
-                                @if($data->type == 'so')
-                                    <label >Source Document</label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" name="source" value="{{$data->source}}" readonly>
-                                        <span class="input-group-btn">
-                                          <a href="finance/piutang/show-so/{{$data->id}}" class="btn btn-success btn-flat"><i class="fa  fa-external-link"></i></a>
-                                        </span>
-                                    </div>
-                                    <div class="hide" >
-                                        {!! Form::select('type',['pk'=>'Piutang Karyawan','pl'=>'Piutang Lain'],$data->type,['class'=>'form-control']) !!}
-                                    </div>
-                                @else
-                                    <label >Jenis Piutang</label>
-                                    @if($data->state == 'draft')
-                                        {!! Form::select('type',['pk'=>'Piutang Karyawan','pl'=>'Piutang Lain'],$data->type,['class'=>'form-control']) !!}                                        
-                                    @else
-                                        <input type="text" class="form-control" name="show_type" readonly value="{{$data->type == 'pl' ? 'Piutang Lain-lain' : 'Piutang Karyawan'}}" />
-                                        <div class="hide" >
-                                            {!! Form::select('type',['pk'=>'Piutang Karyawan','pl'=>'Piutang Lain'],$data->type,['class'=>'form-control']) !!}
-                                        </div>
-                                    @endif
-                                @endif
-                            </div>
-                            <div class="form-group {{$data->type == 'pk' ? '' : 'hide'}}" id="input-karyawan" >
-                                <label >Karyawan</label>
+                            
+                            <div class="form-group " id="input-karyawan" >
+                                <label >Partner</label>
                                 @if($data->state == 'draft')
-                                    {!! Form::select('karyawan',$karyawans,$data->karyawan_id,['class'=>'form-control','required']) !!}
+                                    {!! Form::select('karyawan',$karyawans,$data->partner_id,['class'=>'form-control','required']) !!}
                                 @else
+                                    <input type="text" class="form-control" value="{{$data->partner . ' - ' . $data->kode_res_partner}}" readonly />
                                     <div class="hide" >
-                                        {!! Form::select('karyawan',$karyawans,$data->karyawan_id,['class'=>'form-control','required']) !!}
+                                        {!! Form::select('karyawan',$karyawans,$data->partner_id,['class'=>'form-control','required']) !!}                                        
                                     </div>
-                                    <input type="text" name="show_karyawan" value="{{$data->karyawan . ' - ' . $data->kode_karyawan}}" class="form-control" readonly /> 
                                 @endif
                             </div>
-                            <div class="form-group {{$data->type == 'pl' ? '':'hide'}}" id="input-lain" >
-                                <label >Penerima</label>
-                                <input type="text" name="penerima" class="form-control" {{$data->state == 'draft' ? '':'readonly'}} value="{{$data->penerima}}" />
-                            </div>
+                            
                         </div>
                         <div class="col-xs-6 " >
                             <div class="form-group" id="input-lain" >

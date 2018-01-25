@@ -72,11 +72,11 @@
         <div class="col-xs-12" >
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
-                  <li class="active"><a href="#tab_1" data-toggle="tab">Basic</a></li>
-                  <li><a href="#tab_2" data-toggle="tab">Group Report</a></li>
+                  <li class="hide"><a href="#tab_1" data-toggle="tab">Basic</a></li>
+                  <li class="active" ><a href="#tab_2" data-toggle="tab">Group Report</a></li>
                 </ul>
                 <div class="tab-content">
-                  <div class="tab-pane active" id="tab_1">
+                  <div class="tab-pane hide" id="tab_1">
                     <form method="POST" action="report/pembelian/default-report" target="_blank">
                         <div class="row" >
                             <div class="col-xs-6" >
@@ -95,12 +95,6 @@
                                     {!! Form::select('supplier',$select_supplier,null,['class'=>'form-control select2']) !!}
                                 </div>
                             </div>
-                            <div class="col-xs-6" >
-                                <div class="form-group">
-                                    <label >Bill Paid</label>
-                                    {!! Form::select('bill_state',['V'=>'Open','P'=>'Paid'],null,['class'=>'form-control select2']) !!}
-                                </div>
-                            </div> 
                             <div class="col-xs-12" >
                                 <button type="submit" class="btn btn-primary" id="btn-save" ><i class="fa fa-check" ></i> Submit</button>
                                 <a class="btn btn-danger" id="btn-cancel-save" href="pembelian" ><i class="fa fa-close" ></i> Close</a>
@@ -108,7 +102,7 @@
                         </div>
                     </form>
                   </div>
-                  <div class="tab-pane" id="tab_2">
+                  <div class="tab-pane active" id="tab_2">
                       <!-- GROUP REPORT -->
                       <form method="POST" action="report/pembelian/group-report" target="_blank">
                         <div class="row" >
@@ -128,12 +122,6 @@
                                     {!! Form::select('supplier',$select_supplier,null,['class'=>'form-control select2']) !!}
                                 </div>
                             </div>
-                            <div class="col-xs-6" >
-                                <div class="form-group">
-                                    <label >Bill Paid</label>
-                                    {!! Form::select('bill_state',['V'=>'Open','P'=>'Paid'],null,['class'=>'form-control select2']) !!}
-                                </div>
-                            </div> 
                             <div class="col-xs-12" >
                                 <button type="submit" class="btn btn-primary" id="btn-save" ><i class="fa fa-check" ></i> Submit</button>
                                 <a class="btn btn-danger" id="btn-cancel-save" href="pembelian" ><i class="fa fa-close" ></i> Close</a>

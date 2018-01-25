@@ -63,12 +63,6 @@
             <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
             <a class="btn  btn-arrow-right pull-right disabled bg-blue" >DONE</a>
 
-            <!-- <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label> -->
-            <!-- <a class="btn btn-arrow-right pull-right disabled bg-blue" >VALIDATED</a> -->
-
-            <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
-            <a class="btn btn-arrow-right pull-right disabled bg-gray" >OPEN</a>
-
             <label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
             <a class="btn btn-arrow-right pull-right disabled bg-gray" >DRAFT</a>
         </div>
@@ -78,7 +72,7 @@
                 <div class="col-xs-6" >
                     <div class="form-group">
                         <label >Supplier</label>
-                        <input type="text" name="supplier" disabled value="{{$data->nama_supplier}}" class="form-control" >
+                        <input type="text" name="supplier" disabled value="{{$data->supplier}}" class="form-control" >
                     </div>  
                     <div class="form-group">
                         <label >Nomor Nota</label>

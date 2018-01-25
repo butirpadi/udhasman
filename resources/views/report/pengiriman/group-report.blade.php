@@ -54,7 +54,7 @@
 
 	<div style="text-align: center;margin-bottom: 10mm;" >
 		<h4 style="margin:0;padding:0;font-size: 11pt;">REKAPITULASI PENGIRIMAN MATERIAL</h4>
-		<p style="font-size: 10pt;margin:0;padding:0;"><strong>Periode : </strong>{{$tanggal_awal . ' / ' . $tanggal_akhir}}</p>
+		<p style="font-size: 10pt;margin:0;padding:0;">Periode : {{$tanggal_awal . ' / ' . $tanggal_akhir}}</p>
 	</div>
 
 	<div class="content" >

@@ -80,7 +80,9 @@
                     </td>
                     <td style="width: 1%;vertical-align: top;" ></td>
                     <td style="width: 35%;vertical-align: top;" >
+                        @if($alamat)
                         {{$alamat->alamat . ($alamat->desa !=''?', ':'') . $alamat->desa . ($alamat->kecamatan !=''?', ':'') . $alamat->kecamatan }}
+                        @endif
                     </td>
                     <td style="width: 14%;" >
                         

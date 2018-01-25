@@ -26,32 +26,14 @@
 
     <!-- Default box -->
     <div class="box box-solid">
-        <div class="box-header with-border" >
-            <a class="btn btn-primary" id="btn-add" href="pembelian/create" ><i class="fa fa-plus-circle" ></i> Create</a>
-            <a class="btn btn-danger hide" id="btn-delete" href="#" ><i class="fa fa-trash" ></i> Delete</a>
-
-            <div class="pull-right" >
-                <table style="background-color: #ECF0F5;" >
-                    <tr>
-                        <td class="bg-green text-center" rowspan="2" style="width: 50px;" ><i class="fa fa-tags" ></i></td>
-                        <td style="padding-left: 10px;padding-right: 5px;">
-                            JUMLAH DATA
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-right"  style="padding-right: 5px;" >
-                            <label class="">{{count($data)}}</label>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </div>
+        @include('pembelian.box-header')
         <div class="box-body">
             <table class="table table-bordered table-condensed table-striped " id="table-data" >
                 <thead>
                     <tr>
                         <th style="width:25px;" class="text-center">
-                            <input type="checkbox" name="ck_all" style="margin-left:15px;padding:0;"  >
+                            <input type="checkbox" name="ck_all" >
+                            <!-- <input type="checkbox" name="ck_all" style="margin-left:15px;padding:0;"  > -->
                         </th>
                         <th>Ref#</th>
                         <th>Tanggal</th>
@@ -65,9 +47,9 @@
                 </thead>
                 <tbody>
                     @foreach($data as $dt)
-                    <tr  data-id="{{$dt->id}}">
+                    <tr  data-id="{{$dt->id}}" >
                         <td class="text-center" >
-                            @if($dt->status == 'OPEN')
+                            @if($dt->state == 'draft')
                                 <input type="checkbox" class="ck_row" >
                             @endif
                         </td>
@@ -81,15 +63,15 @@
                             {{$dt->supplier_ref}}
                         </td>
                         <td class="" >
-                            {{$dt->nama_supplier}}
+                            {{$dt->supplier}}
                         </td>
                         <td class="uang text-right" >
                             {{$dt->total}}
                         </td>
                         <td class="text-center" >
-                            @if($dt->status == 'OPEN')
-                                <label class="label label-warning" >OPEN</label>
-                            @elseif($dt->status =='VALIDATED')
+                            @if($dt->state == 'draft')
+                                <label class="label label-warning" >DRAFT</label>
+                            @elseif($dt->state == 'done')
                                 <label class="label label-success" >DONE</label>
                             @endif
                         </td>
@@ -113,6 +95,11 @@
             </table>
 
         </div><!-- /.box-body -->
+        <div class="box-footer" >
+            <div class="pull-right" >
+                {{$data->links()}}
+            </div>
+        </div>
     </div><!-- /.box -->
 
 </section><!-- /.content -->
@@ -143,7 +130,7 @@
     //     }else if(filter_by == 'order_date'){
     //         $('.input-filter-by-date').show();
     //     }else{
-    //         // order by status open, validated, done
+    //         // order by state open, validated, done
     //         // otomatis submit tanpa tombol click
     //         var filter_by = $('select[name=select_filter_by]').val();
     //         var formFilter = $('<form>').attr('method','GET').attr('action','pembelian/filter');
@@ -173,6 +160,9 @@
     // // END OF FILTER SECTION
     // // ==========================================================================
 
+    // add class to pagination
+    $('ul.pagination').addClass('pagination-sm no-margin');
+
     // SET DATEPICKER
     $('.input-tanggal').datepicker({
         format: 'dd-mm-yyyy',
@@ -193,21 +183,21 @@
     });
     // END OF SET AUTONUMERIC
 
-    var TBL_DATA = $('#table-data').DataTable({
-        // "columns": [
-        //     {className: "text-center","orderable": false},
-        //     {className: "text-right"},
-        //     null,
-        //     null,
-        //     null,
-        //     null,
-        //     null,
-        //     {className: "text-center"},
-        //     // {className: "text-center"}
-        // ],
-        // order: [[ 1, 'asc' ]],
-        sort:false
-    });
+    // var TBL_DATA = $('#table-data').DataTable({
+    //     // "columns": [
+    //     //     {className: "text-center","orderable": false},
+    //     //     {className: "text-right"},
+    //     //     null,
+    //     //     null,
+    //     //     null,
+    //     //     null,
+    //     //     null,
+    //     //     {className: "text-center"},
+    //     //     // {className: "text-center"}
+    //     // ],
+    //     // order: [[ 1, 'asc' ]],
+    //     sort:false
+    // });
 
     // check all checkbox
     $('input[name=ck_all]').change(function(){
