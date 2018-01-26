@@ -617,7 +617,9 @@ Route::group(['middleware' => ['web','auth']], function () {
         Route::get('pengiriman','ReportPengirimanController@index');
         Route::post('pengiriman/default-report','ReportPengirimanController@defaultReport');
         Route::post('pengiriman/group-report','ReportPengirimanController@groupReport');
+        Route::post('pengiriman/group-report-inline','ReportPengirimanController@groupReportInline');
         Route::post('pengiriman/group-detail-report','ReportPengirimanController@groupDetailReport');
+        Route::post('pengiriman/group-detail-report-inline','ReportPengirimanController@groupDetailReportInline');
         // Route::post('pengiriman/group-report','ReportPengirimanController@groupReport');
 
 

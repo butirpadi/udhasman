@@ -68,100 +68,130 @@
         </div>
     </div> -->
 
-    <div class="row" >
-        <div class="col-xs-12" >
-            <div class="nav-tabs-custom">
-                <ul class="nav nav-tabs">
-                  <li class="hide"><a href="#tab_1" data-toggle="tab">Basic</a></li>
-                  <li class="active" ><a href="#tab_2" data-toggle="tab">Group Report</a></li>
-                </ul>
-                <div class="tab-content">
-                    <div class="tab-pane hide" id="tab_1">
-                        <form method="POST" action="report/pengiriman/default-report" target="_blank">
-                            <div class="row" >
-                                <div class="col-xs-6" >
-                                    <div class="form-group">
-                                        <label >Tanggal</label>
-                                        <div class='input-group' style="width: 100%;" >
-                                            <input type="text" name="tanggal_awal" class="input-tanggal form-control" value="{{date('d-m-Y')}}" required>
-                                            <div class='input-group-field' style="padding-left: 5px;" >
-                                                <input  type="text" name="tanggal_akhir" class="input-tanggal form-control" value="{{date('d-m-Y')}}" required>
+    <div class="nav-tabs-custom">
+        <ul class="nav nav-tabs">
+          <li class="hide"><a href="#tab_1" data-toggle="tab">Basic</a></li>
+          <li class="active" ><a href="#tab_2" data-toggle="tab">Group Report</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane hide" id="tab_1">
+                <form method="POST" action="report/pengiriman/default-report" target="_blank">
+                    <div class="row" >
+                        <div class="col-xs-6" >
+                            <div class="form-group">
+                                <label >Tanggal</label>
+                                <div class='input-group' style="width: 100%;" >
+                                    <input type="text" name="tanggal_awal" class="input-tanggal form-control" value="{{date('d-m-Y')}}" required>
+                                    <div class='input-group-field' style="padding-left: 5px;" >
+                                        <input  type="text" name="tanggal_akhir" class="input-tanggal form-control" value="{{date('d-m-Y')}}" required>
 
-                                            </div>
-                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label >Tipe Report</label>
-                                        <select name="tipe_report" class="form-control">
-                                            <option value="summary" >Summary</option>
-                                            <option value="detail" >Detail</option>
-                                            <!-- <option value="grafik" >Grafik</option> -->
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-xs-6" >
-                                    <div class="form-group">
-                                        <label >Customer</label>
-                                        {!! Form::select('customer',$select_customer,null,['class'=>'form-control select2']) !!}
-                                    </div>
-                                    <div class="form-group">
-                                        <label >Pekerjaan</label>
-                                        {!! Form::select('pekerjaan',[],null,['class'=>'form-control select2']) !!}
-                                    </div>
-                                    <div class="form-group">
-                                        <label >Material</label>
-                                        {!! Form::select('material',$select_material,null,['class'=>'form-control select2']) !!}
-                                    </div>
-                                </div> 
-                                <div class="col-xs-12" >
-                                    <button type="submit" class="btn btn-primary" id="btn-save" ><i class="fa fa-check" ></i> Submit</button>
-                                    <a class="btn btn-danger" id="btn-cancel-save" href="pengiriman" ><i class="fa fa-close" ></i> Close</a>
                                 </div>
                             </div>
-                        </form>
+                            <div class="form-group">
+                                <label >Tipe Report</label>
+                                <select name="tipe_report" class="form-control">
+                                    <option value="summary" >Summary</option>
+                                    <option value="detail" >Detail</option>
+                                    <!-- <option value="grafik" >Grafik</option> -->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-xs-6" >
+                            <div class="form-group">
+                                <label >Customer</label>
+                                {!! Form::select('customer',$select_customer,null,['class'=>'form-control select2']) !!}
+                            </div>
+                            <div class="form-group">
+                                <label >Pekerjaan</label>
+                                {!! Form::select('pekerjaan',[],null,['class'=>'form-control select2']) !!}
+                            </div>
+                            <div class="form-group">
+                                <label >Material</label>
+                                {!! Form::select('material',$select_material,null,['class'=>'form-control select2']) !!}
+                            </div>
+                        </div> 
+                        <div class="col-xs-12" >
+                            <button type="submit" class="btn btn-primary" id="btn-save" ><i class="fa fa-check" ></i> Submit</button>
+                            <!-- <a class="btn btn-danger" id="btn-cancel-save" href="pengiriman" ><i class="fa fa-close" ></i> Close</a> -->
+                        </div>
                     </div>
-                    <div class="tab-pane active" id="tab_2">
-                        <form method="POST" action="report/pengiriman/group-report" target="_blank">
-                            <div class="row" >
-                                <div class="col-xs-6" >
-                                    <div class="form-group">
-                                        <label >Tanggal</label>
-                                        <div class='input-group' style="width: 100%;" >
-                                            <input type="text" name="tanggal_awal" class="input-tanggal form-control" value="{{date('d-m-Y')}}" required>
-                                            <div class='input-group-field' style="padding-left: 5px;" >
-                                                <input  type="text" name="tanggal_akhir" class="input-tanggal form-control" value="{{date('d-m-Y')}}" required>
+                </form>
+            </div>
+            <div class="tab-pane active" id="tab_2">
+                <!-- <form method="POST" action="report/pengiriman/group-report" target="_blank"> -->
+                <form name="form-group-report" method="POST" action="report/pengiriman/group-report-inline" target="_blank">
+                    <div class="row" >
+                        <div class="col-xs-6" >
+                            <div class="form-group">
+                                <label >Tanggal</label>
+                                <div class='input-group' style="width: 100%;" >
+                                    <input type="text" name="tanggal_awal" class="input-tanggal form-control" value="{{date('d-m-Y')}}" required>
+                                    <div class='input-group-field' style="padding-left: 5px;" >
+                                        <input  type="text" name="tanggal_akhir" class="input-tanggal form-control" value="{{date('d-m-Y')}}" required>
 
-                                            </div>
-                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label >Tipe Report</label>
-                                        <select name="tipe_report" id="tipe_report_group" class="form-control">
-                                            <option value="summary" >Summary</option>
-                                            <option value="detail" >Detail</option>
-                                            <!-- <option value="grafik" >Grafik</option> -->
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-xs-6" >
-                                    <div class="form-group">
-                                        <label >Group by</label>
-                                        <select name="group_by" class="form-control">
-                                            <option value="customer" >Customer</option>
-                                            <option value="pekerjaan" >Pekerjaan</option>
-                                            <option value="material" >Material</option>
-                                            <option value="lokasi" >Lokasi Galian</option>
-                                            <option value="driver" >Driver</option>
-                                        </select>
-                                    </div>
-                                </div> 
-                                <div class="col-xs-12" >
-                                    <button type="submit" class="btn btn-primary" id="btn-save" ><i class="fa fa-check" ></i> Submit</button>
-                                    <a class="btn btn-danger" id="btn-cancel-save" href="pengiriman" ><i class="fa fa-close" ></i> Close</a>
                                 </div>
                             </div>
-                        </form>
+                            <div class="form-group">
+                                <label >Tipe Report</label>
+                                <select name="tipe_report" id="tipe_report_group" class="form-control">
+                                    <option value="summary" >Summary</option>
+                                    <option value="detail" >Detail</option>
+                                    <!-- <option value="grafik" >Grafik</option> -->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-xs-6" >
+                            <div class="form-group">
+                                <label >Group by</label>
+                                <select name="group_by" class="form-control">
+                                    <option value="customer" >Customer</option>
+                                    <option value="pekerjaan" >Pekerjaan</option>
+                                    <option value="material" >Material</option>
+                                    <option value="lokasi" >Lokasi Galian</option>
+                                    <option value="driver" >Driver</option>
+                                </select>
+                            </div>
+                            <div class="form-group" id="input-customer" >
+                                <label>Customer</label>
+                                {!! Form::select('customer',$select_customer,null,['class'=>'form-control select2']) !!}
+                            </div>
+                            <div class="form-group hide" id="input-material" >
+                                <label>Material</label>
+                                {!! Form::select('material',$select_material,null,['class'=>'form-control select2']) !!}
+                            </div>
+                            <div class="form-group hide" id="input-pekerjaan" >
+                                <label>Pekerjaan</label>
+                                {!! Form::select('pekerjaan',$select_pekerjaan,null,['class'=>'form-control select2']) !!}
+                            </div>
+                            <div class="form-group hide" id="input-lokasi-galian" >
+                                <label>Lokasi Galian</label>
+                                {!! Form::select('lokasi_galian',$select_lokasi_galian,null,['class'=>'form-control select2']) !!}
+                            </div>
+                            <div class="form-group hide" id="input-driver" >
+                                <label>Lokasi Driver</label>
+                                {!! Form::select('driver',$select_driver,null,['class'=>'form-control select2']) !!}
+                            </div>
+                        </div> 
+                        <div class="col-xs-12" >
+                            <button type="submit" class="btn btn-primary" id="btn-save" ><i class="fa fa-check" ></i> Submit</button>
+                            <!-- <a class="btn btn-danger" id="btn-cancel-save" href="pengiriman" ><i class="fa fa-close" ></i> Close</a> -->
+                        </div>
                     </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="box box-solid hide" id="box-report" >
+        <div class="box-body" >
+            <div class="row" >
+                <div class="col-xs-12" id="report-detail" ></div>
+                <div class="col-xs-12 hide" id="report-detail-button" >
+                    <a class="btn btn-primary" id="btn-print-pdf" ><i class="fa fa-file-pdf-o" ></i> PDF</a>
+                    <a class="btn btn-success" ><i class="fa fa-file-excel-o" ></i> XLS</a>
+                </div>      
             </div>
         </div>
     </div>
@@ -189,9 +219,8 @@
 (function ($) {
 
     //Initialize Select2 Elements
-    $("select[name=customer]").val([]);
-    $("select[name=material]").val([]);
-    $(".select2").select2();
+    $(".select2").val([]);
+    $('.select2').select2();
 
     // SET DATEPICKER
     $('.input-tanggal').datepicker({
@@ -223,14 +252,96 @@
 
     // set form action
     detail_action = "report/pengiriman/group-detail-report";
+    detail_inline_action = "report/pengiriman/group-detail-report-inline";
     summary_action = "report/pengiriman/group-report";
+    summary_action_inline = "report/pengiriman/group-report-inline";
     $('#tipe_report_group').change(function(){
         if($(this).val() == 'detail'){
-            $(this).parents('form').last().attr('action',detail_action);
+            // $(this).parents('form').last().attr('action',detail_action);
+            $(this).parents('form').last().attr('action',detail_inline_action);
         }else{
-            $(this).parents('form').last().attr('action',summary_action);
+            // $(this).parents('form').last().attr('action',summary_action);
+            $(this).parents('form').last().attr('action',summary_action_inline);
 
         }
+    });
+
+
+    $('select[name=group_by]').change(function(){
+        var groupby  = $(this).val();
+
+        // clear select
+        $('.select2').select2('destroy');
+        $('.select2').val([]);
+        $('.select2').select2();
+
+        if(groupby == 'customer'){
+            $('#input-customer').removeClass('hide');
+            $('#input-material').addClass('hide');
+            $('#input-pekerjaan').addClass('hide');
+            $('#input-lokasi-galian').addClass('hide');
+            $('#input-driver').addClass('hide');
+        }else if(groupby == 'material'){
+            $('#input-customer').addClass('hide');
+            $('#input-material').removeClass('hide');
+            $('#input-pekerjaan').addClass('hide');
+            $('#input-lokasi-galian').addClass('hide');
+            $('#input-driver').addClass('hide');
+        }else if(groupby == 'pekerjaan'){
+            $('#input-customer').addClass('hide');
+            $('#input-material').addClass('hide');
+            $('#input-pekerjaan').removeClass('hide');
+            $('#input-lokasi-galian').addClass('hide');
+            $('#input-driver').addClass('hide');
+        }else if(groupby == 'lokasi'){
+            $('#input-customer').addClass('hide');
+            $('#input-material').addClass('hide');
+            $('#input-pekerjaan').addClass('hide');
+            $('#input-lokasi-galian').removeClass('hide');
+            $('#input-driver').addClass('hide');
+        }else if(groupby == 'driver'){
+            $('#input-customer').addClass('hide');
+            $('#input-material').addClass('hide');
+            $('#input-pekerjaan').addClass('hide');
+            $('#input-lokasi-galian').addClass('hide');
+            $('#input-driver').removeClass('hide');
+        }
+
+    });
+
+    $('form[name=form-group-report]').submit(function(){
+        $.post($(this).attr('action'),$(this).serialize(),function(res){
+            $('#report-detail').html(res);
+            $('#report-detail-button').removeClass('hide');
+            $('#box-report').removeClass('hide');
+            $('#box-report').hide();
+            $('#box-report').slideDown(500);
+        });
+        return false;
+    });
+
+    $('#btn-print-pdf').click(function(){
+        // var form = $('<form>');
+        var form = $('form[name=form-group-report]').clone();
+        form.attr('name','duplicate-form');
+        // form.html($('form[name=form-group-report]').serialize());
+        // form.attr('method','POST');
+        // form.attr('target','_blank')
+        $('#report-detail').after(form);
+        form.find('select[name=group_by]').val($('form[name=form-group-report]').find('select[name=group_by]').val());
+        form.find('select[name=tipe_report]').val($('form[name=form-group-report]').find('select[name=tipe_report]').val());
+        form.find('select[name=customer]').val($('form[name=form-group-report]').find('select[name=customer]').val());
+        form.find('select[name=lokasi_galian]').val($('form[name=form-group-report]').find('select[name=lokasi_galian]').val());
+        form.find('select[name=pekerjaan]').val($('form[name=form-group-report]').find('select[name=pekerjaan]').val());
+        form.find('select[name=material]').val($('form[name=form-group-report]').find('select[name=material]').val());
+        form.find('select[name=driver]').val($('form[name=form-group-report]').find('select[name=driver]').val());
+        if(form.find('select[name=tipe_report]').val() == 'summary' ){
+            form.attr('action',summary_action);            
+        }else{
+            form.attr('action',detail_action);            
+        }
+        form.submit();
+        form.remove();
     });
 
 
