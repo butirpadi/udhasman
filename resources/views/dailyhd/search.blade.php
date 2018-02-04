@@ -10,7 +10,7 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Operasional Alat Berat
+        <a href="dailyhd" >Operasional Alat Berat</a> <i class="fa fa-angle-double-right" ></i> Search : <i>{{$search_val}}</i>
     </h1>
 </section>
 
@@ -28,6 +28,7 @@
                         <th style="width:25px;">
                             <input type="checkbox" name="ck_all"  >
                         </th>
+                        {{-- <th style="width:25px;">No</th> --}}
                         <th  >Ref#</th>
                         <th  >Tanggal</th>
                         <th>Alat</th>
@@ -36,7 +37,7 @@
                         <th>Operator</th>
                         <th>Solar</th>
                         <th>Oli</th>
-                        <th>Jam<br/>kerja</th>
+                        <th>Jam kerja</th>
                         <!-- <th>Status</th> -->
                         <th style="width:25px;"></th>
                     </tr>
@@ -51,19 +52,19 @@
                             {{$dt->ref}}
                         </td>
                         <td class="row-to-edit" >
-                            {{$dt->tanggal_format}}
+                            {{$dt->tanggal_formatted}}
                         </td>
                         <td>
                             {{'['.$dt->kode_alat . '] ' .$dt->alat}}
                         </td>
                         <td>
-                            {{'['.$dt->kode_lokasi . '] ' .$dt->lokasi_galian}}
+                            {{'['.$dt->kode_lokasi . '] ' .$dt->lokasi}}
                         </td>
                         <td>
-                            {{'['.$dt->kode_pengawas . '] ' .$dt->pengawas}}
+                            {{'['.$dt->kode_pengawas . '] ' .$dt->nama_pengawas}}
                         </td>
                         <td>
-                            {{'['.$dt->kode_operator . '] ' .$dt->operator}}
+                            {{'['.$dt->kode_operator . '] ' .$dt->nama_operator}}
                         </td>
                         <td class="text-right" >
                             {{$dt->solar}}
@@ -100,8 +101,6 @@
     // var TBL_DATA = $('#table-data').DataTable({
     //     sort:false
     // });
-
-    $('ul.pagination').addClass('pagination-sm no-margin');
 
     // check all checkbox
     $('input[name=ck_all]').change(function(){

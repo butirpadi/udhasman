@@ -49,12 +49,6 @@
                     </div>
                     
                 </div>
-                <div class="col-xs-6" >
-                    <div class="form-group">
-                        <label>Driver</label>
-                        {!! Form::select('driver',$selectDriver,$data->karyawan_id,['class'=>'form-control']) !!}
-                    </div>
-                </div>
             </div>
         </div>
         <div class="box-footer" >

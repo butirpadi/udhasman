@@ -103,7 +103,7 @@ class AttendanceController extends Controller
 			$tanggal->setDate($arr_tgl[2],$arr_tgl[1],$arr_tgl[0]);
 
 			// delete data sebelumnya
-			\DB::table('attend')
+			\DB::table('presensi')
 				->where('tgl',$arr_tgl[2].'-'.$arr_tgl[1].'-'.$arr_tgl[0])
 				->delete();
 
@@ -111,7 +111,7 @@ class AttendanceController extends Controller
 			$data_presensi = json_decode($req->data_presensi);
 			// echo var_dump($data_presensi->presensi);
 			foreach($data_presensi->presensi as $dt){
-					\DB::table('attend')
+					\DB::table('presensi')
 						->insert([
 							'tgl' => $tanggal,
 							'karyawan_id' => $dt->karyawan_id,
@@ -156,13 +156,13 @@ class AttendanceController extends Controller
 		// }
 
 		$data = json_decode('{"karyawan":""}');
-		$data->karyawan = \DB::table('view_karyawan')
-							->where('kode_jabatan','ST')
-							->where('is_active','Y')
+		$data->karyawan = \DB::table('res_partner')
+							->whereStaff('Y')
+							->where('active','Y')
 							->get();
 
 		foreach($data->karyawan as $dk){
-			$dk->presensi = \DB::table('attend')
+			$dk->presensi = \DB::table('presensi')
 								->select('tgl','pagi','siang','karyawan_id')
 								->whereKaryawanId($dk->id)
 								->whereTgl($tanggal_str)

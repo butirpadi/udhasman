@@ -36,12 +36,12 @@
                     <div class="col-xs-4" >
                         <div class="form-group">
                             <label >Tanggal</label>
-                            <input type="text" name="tanggal" class="form-control input-date" value="{{$data->tanggal_formatted}}" required />
+                            <input type="text" name="tanggal" class="form-control input-date" value="{{$data->tanggal_format}}" required />
                             <input type="hidden" name="dailyhd_id" value="{{$data->id}}" />
                         </div>
                         <div class="form-group">
                             <label >Pengawas</label>
-                            <input type="text" name="pengawas" class="form-control" value="{{'['.$data->kode_pengawas . '] ' . $data->nama_pengawas}}" readonly required/>
+                            <input type="text" name="pengawas" class="form-control" value="{{'['.$data->kode_pengawas . '] ' . $data->pengawas}}" readonly required/>
                             <input type="hidden" name="pengawas_id" class="form-control" value="{{$data->pengawas_id}}" required/>
                         </div>
                         <div class="form-group">
@@ -84,7 +84,7 @@
                     <div class="col-xs-4" >
                         <div class="form-group">
                             <label >Lokasi Galian</label>
-                            {!! Form::select('lokasi_id',$selectGalian,null,['class'=>'form-control','required']) !!}
+                            {!! Form::select('lokasi_id',$selectGalian,$data->lokasi_galian_id,['class'=>'form-control','required']) !!}
                         </div>
                         <div class="form-group">
                             <label >Keterangan</label>

@@ -8,7 +8,40 @@
     #table-data > tbody > tr{
         cursor:pointer;
     }
+
+    .row-grouped td{
+        color: #ffffff;
+        padding: 10px 20px;
+        background: -moz-linear-gradient(
+            top,
+            #dbf4ff 0%,
+            #4eabf2 25%,
+            #0e4f96);
+        background: -webkit-gradient(
+            linear, left top, left bottom,
+            from(#dbf4ff),
+            color-stop(0.25, #4eabf2),
+            to(#0e4f96));
+        -moz-border-radius: 6px;
+        -webkit-border-radius: 6px;
+        border-radius: 6px;
+        border: 1px solid #006eb8;
+        -moz-box-shadow:
+            0px 1px 3px rgba(000,000,000,0.5),
+            inset 0px -1px 0px rgba(255,255,255,0.7);
+        -webkit-box-shadow:
+            0px 1px 3px rgba(000,000,000,0.5),
+            inset 0px -1px 0px rgba(255,255,255,0.7);
+        box-shadow:
+            0px 1px 3px rgba(000,000,000,0.5),
+            inset 0px -1px 0px rgba(255,255,255,0.7);
+        text-shadow:
+        0px -1px 1px rgba(000,000,000,0.2),
+        0px 1px 0px rgba(255,255,255,0.3);
+        cursor: pointer;
+    }
 </style>
+
 
 @append
 
@@ -56,12 +89,9 @@
                 </thead>
                 <tbody>
                     @foreach($data as $dt)
-                    <tr data-rowid="{{$rownum}}" data-id="{{$dt->id}}">
-                        <td class="row-bulan" data-bulan="{{$dt->bulan}}" >
+                    <tr class="row-grouped" data-rowid="{{$rownum}}" data-id="{{$dt->id}}">
+                        <td colspan="2"  class="row-bulan" data-bulan="{{$dt->bulan}}" >
                             {{$dt->bulan . ' (' . $dt->jumlah . ')'}}
-                        </td>
-                        <td class="text-center" >
-                            
                         </td>
                     </tr>
                     @endforeach
@@ -82,9 +112,9 @@
 <script type="text/javascript">
 (function ($) {
 
-    var TBL_KATEGORI = $('#table-data').DataTable({
-        sort:false
-    });
+    // var TBL_KATEGORI = $('#table-data').DataTable({
+    //     sort:false
+    // });
 
     // check all checkbox
     $('input[name=ck_all]').change(function(){

@@ -190,7 +190,7 @@
                 <div class="col-xs-12" id="report-detail" ></div>
                 <div class="col-xs-12 hide" id="report-detail-button" >
                     <a class="btn btn-primary" id="btn-print-pdf" ><i class="fa fa-file-pdf-o" ></i> PDF</a>
-                    <a class="btn btn-success" ><i class="fa fa-file-excel-o" ></i> XLS</a>
+                    <a class="btn btn-success" id="btn-excel" ><i class="fa fa-file-excel-o" ></i> XLS</a>
                 </div>      
             </div>
         </div>
@@ -339,6 +339,27 @@
             form.attr('action',summary_action);            
         }else{
             form.attr('action',detail_action);            
+        }
+        form.submit();
+        form.remove();
+    });
+
+    $('#btn-excel').click(function(){
+        var form = $('form[name=form-group-report]').clone();
+        form.attr('name','duplicate-form');
+        form.attr('method','POST');
+        $('#report-detail').after(form);
+        form.find('select[name=group_by]').val($('form[name=form-group-report]').find('select[name=group_by]').val());
+        form.find('select[name=tipe_report]').val($('form[name=form-group-report]').find('select[name=tipe_report]').val());
+        form.find('select[name=customer]').val($('form[name=form-group-report]').find('select[name=customer]').val());
+        form.find('select[name=lokasi_galian]').val($('form[name=form-group-report]').find('select[name=lokasi_galian]').val());
+        form.find('select[name=pekerjaan]').val($('form[name=form-group-report]').find('select[name=pekerjaan]').val());
+        form.find('select[name=material]').val($('form[name=form-group-report]').find('select[name=material]').val());
+        form.find('select[name=driver]').val($('form[name=form-group-report]').find('select[name=driver]').val());
+        if(form.find('select[name=tipe_report]').val() == 'summary' ){
+            form.attr('action','report/pengiriman/group-report-excel');            
+        }else{
+            form.attr('action','report/pengiriman/group-detail-report-excel');            
         }
         form.submit();
         form.remove();

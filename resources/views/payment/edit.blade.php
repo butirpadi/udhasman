@@ -124,7 +124,7 @@
                                             @foreach($piutang as $dt)
                                                 <tr id="row-{{$dt->id}}" >
                                                     <td >
-                                                        <a href="#" class="btn-add-tagihan" data-piutang="{{json_encode($dt)}}" ><i class="fa fa-plus-square" ></i></a>
+                                                        <!-- <a href="#" class="btn-add-tagihan" data-piutang="{{json_encode($dt)}}" ><i class="fa fa-plus-square" ></i></a> -->
                                                     </td>
                                                     <td class="text-center" >
                                                         {{$dt->name}}
@@ -358,7 +358,7 @@
         //                 );
         var amountdue = Number(tagihan.amount_due) 
         tbRight.find('tbody').append($('<tr>')
-                             .append($('<td>').addClass('text-center').append($('<a>').attr('data-tagihan',JSON.stringify(tagihan)).attr('href','#').addClass('btn-remove-tagihan').append($('<i>').addClass('fa fa-minus-square'))))
+                             .append($('<td>').addClass('text-center').append($('<a>').attr('data-tagihan',JSON.stringify(tagihan)).attr('href','#').addClass('btn-remove-tagihan hide').append($('<i>').addClass('fa fa-minus-square'))))
                              .append($('<td>').addClass('text-center').text(tagihan.name))
                              .append($('<td>').addClass('text-right').text(number_format(amountdue,2,'.',',')))
                              );

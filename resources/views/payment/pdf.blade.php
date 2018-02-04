@@ -34,7 +34,7 @@
                     </td>
                     <td style="width:2%;vertical-align: top;" >:</td>
                     <td style="width:38%;vertical-align: top;" >
-                        {{$data->customer}}
+                        {{$data->partner}}
                     </td>
 
                     <td style="width: 10%;" >
@@ -115,7 +115,7 @@
         <!-- Invoice Copy -->
         <div style="width: 100%;text-align: center;border: solid thin black;padding: 5px;" >
             <strong style="margin: 0;padding: 0;font-size: 11px;" >UD. HASIL MANCING</strong>
-            <h4 style="margin: 0;padding: 0;font-size: 12px;" >BUKTI KAS MASUK</h4>
+            <h4 style="margin: 0;padding: 0;font-size: 12px;" >BUKTI KAS MASUK (COPY)</h4>
         </div>
         <table style="width: 100%;padding:5px;font-size: 11px;border-left:thin solid black;border-right:thin solid black;padding-top: 15px;padding-bottom: 15px;" >
             <tbody>
@@ -125,7 +125,7 @@
                     </td>
                     <td style="width:2%;vertical-align: top;" >:</td>
                     <td style="width:38%;vertical-align: top;" >
-                        {{$data->customer}}
+                        {{$data->partner}}
                     </td>
 
                     <td style="width: 10%;" >

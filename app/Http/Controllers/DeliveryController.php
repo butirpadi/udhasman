@@ -450,27 +450,27 @@ class DeliveryController extends Controller
 			]);
 	}
 
-	public function search(Request $req){
-		$pengiriman = \DB::table('view_new_pengiriman')
-						->where('name','like','%' . trim($req->val) . '%')
-						->orWhere('customer','like','%' . $req->val . '%')
-						->orWhere('state','like','%' . $req->val . '%')
-						->orWhere('pekerjaan','like','%' . $req->val . '%')
-						->orWhere('karyawan','like','%' . $req->val . '%')
-						->orWhere('nopol','like','%' . $req->val . '%')
-						->orWhere('lokasi_galian','like','%' . $req->val . '%')
-						->orWhere('material','like','%' . $req->val . '%')
-						->orWhere('nota_timbang','like','%' . $req->val . '%')
-						->orderBy('order_date','desc')
-						->orderBy('created_at','desc')
-						->paginate(Appsetting('paging_item_number'));
-						// ->get();
+	// public function search(Request $req){
+	// 	$pengiriman = \DB::table('view_new_pengiriman')
+	// 					->where('name','like','%' . trim($req->val) . '%')
+	// 					->orWhere('customer','like','%' . $req->val . '%')
+	// 					->orWhere('state','like','%' . $req->val . '%')
+	// 					->orWhere('pekerjaan','like','%' . $req->val . '%')
+	// 					->orWhere('karyawan','like','%' . $req->val . '%')
+	// 					->orWhere('nopol','like','%' . $req->val . '%')
+	// 					->orWhere('lokasi_galian','like','%' . $req->val . '%')
+	// 					->orWhere('material','like','%' . $req->val . '%')
+	// 					->orWhere('nota_timbang','like','%' . $req->val . '%')
+	// 					->orderBy('order_date','desc')
+	// 					->orderBy('created_at','desc')
+	// 					->paginate(Appsetting('paging_item_number'));
+	// 					// ->get();
 
-		return view('delivery.search',[
-				'pengiriman' => $pengiriman,
-				'search_val' => $req->val
-			]);
-	}
+	// 	return view('delivery.search',[
+	// 			'pengiriman' => $pengiriman,
+	// 			'search_val' => $req->val
+	// 		]);
+	// }
 
 
 }

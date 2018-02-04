@@ -9,9 +9,9 @@ use App\Http\Controllers\Controller;
 class PresensiController extends Controller
 {
 	public function index(){
-		$data = \DB::table('view_attend')
-					->select('*',\DB::raw('(select count(tgl) from (select bulan,tgl from view_attend
-					group by bulan,tgl) as attend_by_tgl where attend_by_tgl.bulan = view_attend.bulan) as jumlah'))
+		$data = \DB::table('view_presensi')
+					->select('*',\DB::raw('(select count(tgl) from (select bulan,tgl from view_presensi
+					group by bulan,tgl) as attend_by_tgl where attend_by_tgl.bulan = view_presensi.bulan) as jumlah'))
 					->where('tgl','!=','')
 					->groupBy('bulan')
 					->orderBy('tgl','desc')
@@ -24,7 +24,7 @@ class PresensiController extends Controller
 	}
 
 	public function getPresensiByBulan($bulan){
-		$data = \DB::table('view_attend')
+		$data = \DB::table('view_presensi')
 					->select('tgl_format',\DB::raw('count(*) as jumlah'))
 					->where('bulan',$bulan)
 					->groupBy('tgl')

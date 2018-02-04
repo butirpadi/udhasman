@@ -46,7 +46,7 @@
         <div class="col-sm-4 col-md-4 col-lg-4" >
           <div class="form-group">
             <label>Tanggal</label>
-            <form name="form_presensi" method="POST" action="attendance/get-attendance-table" >
+            <form name="form_presensi" target="_blank" method="POST" action="attendance/get-attendance-table" >
               <div class="input-group" >
                   <input class="form-control input-tanggal" name="tanggal" value="{{$openTime!=null?$openTime:''}}" required />
                   <div class="input-group-btn" >

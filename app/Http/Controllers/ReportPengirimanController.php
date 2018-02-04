@@ -318,15 +318,83 @@ class ReportPengirimanController extends Controller
         $dompdf->stream("ReportPengiriman.pdf", array("Attachment" => false));
         exit(0);
 
-        // // SHOW HTML
-        // return $this->groupReportHtml([
-        //         'pengiriman' => $pengiriman,
-        //         'tanggal_awal' => $awal,
-        //         'tanggal_akhir' => $akhir,
-        //         'group_by' => $req->group_by,
-        //         'dicetak'=>date('d-m-Y H:i:s')
-        //     ]);
+    }
 
+    public function groupReportExcel(Request $req){
+        // Generate Tanggal
+        $awal = $req->tanggal_awal;
+        $arr_tgl = explode('-',$awal);
+        $tgl_awal = new \DateTime();
+        $tgl_awal->setDate($arr_tgl[2],$arr_tgl[1],$arr_tgl[0]); 
+        $tgl_awal_str = $arr_tgl[2].'-'.$arr_tgl[1].'-'.$arr_tgl[0];
+
+        $akhir = $req->tanggal_akhir;
+        $arr_tgl = explode('-',$akhir);
+        $tgl_akhir = new \DateTime();
+        $tgl_akhir->setDate($arr_tgl[2],$arr_tgl[1],$arr_tgl[0]); 
+        $tgl_akhir_str = $arr_tgl[2].'-'.$arr_tgl[1].'-'.$arr_tgl[0];
+
+        if($req->group_by == 'customer'){
+            $pengiriman = \DB::table('view_new_pengiriman')
+                            ->select('customer','material','lokasi_galian','karyawan','pekerjaan',\DB::raw('sum(qty) as sum_qty'),\DB::raw('sum(volume) as sum_vol'),\DB::raw('sum(netto) as sum_net'),\DB::raw('sum(harga_total) as sum_total'))
+                            ->whereBetween('order_date',[$tgl_awal_str,$tgl_akhir_str])
+                            // ->whereRaw("state in ('open','done')")
+                            ->orderBy('customer','asc')
+                            ->groupBy('customer_id')
+                            ->get();
+            
+        }elseif($req->group_by == 'material'){
+            $pengiriman = \DB::table('view_new_pengiriman')
+                            ->select('customer','material','lokasi_galian','karyawan','pekerjaan',\DB::raw('sum(qty) as sum_qty'),\DB::raw('sum(volume) as sum_vol'),\DB::raw('sum(netto) as sum_net'),\DB::raw('sum(harga_total) as sum_total'))
+                            ->whereBetween('order_date',[$tgl_awal_str,$tgl_akhir_str])
+                            // ->whereRaw("state in ('open','done')")
+                            ->orderBy('customer','asc')
+                            ->groupBy('material_id')
+                            ->get();
+            
+        }elseif($req->group_by == 'lokasi'){
+            $pengiriman = \DB::table('view_new_pengiriman')
+                            ->select('customer','material','lokasi_galian','karyawan','pekerjaan',\DB::raw('sum(qty) as sum_qty'),\DB::raw('sum(volume) as sum_vol'),\DB::raw('sum(netto) as sum_net'),\DB::raw('sum(harga_total) as sum_total'))
+                            ->whereBetween('order_date',[$tgl_awal_str,$tgl_akhir_str])
+                            // ->whereRaw("state in ('open','done')")
+                            ->orderBy('customer','asc')
+                            ->groupBy('lokasi_galian_id')
+                            ->get();
+            
+        }elseif($req->group_by == 'driver'){
+            $pengiriman = \DB::table('view_new_pengiriman')
+                            ->select('customer','material','lokasi_galian','karyawan','pekerjaan',\DB::raw('sum(qty) as sum_qty'),\DB::raw('sum(volume) as sum_vol'),\DB::raw('sum(netto) as sum_net'),\DB::raw('sum(harga_total) as sum_total'))
+                            ->whereBetween('order_date',[$tgl_awal_str,$tgl_akhir_str])
+                            // ->whereRaw("state in ('open','done')")
+                            ->orderBy('customer','asc')
+                            ->groupBy('karyawan_id')
+                            ->get();
+            
+        }elseif($req->group_by == 'pekerjaan'){
+            $pengiriman = \DB::table('view_new_pengiriman')
+                            ->select('customer','material','lokasi_galian','karyawan','pekerjaan',\DB::raw('sum(qty) as sum_qty'),\DB::raw('sum(volume) as sum_vol'),\DB::raw('sum(netto) as sum_net'),\DB::raw('sum(harga_total) as sum_total'))
+                            ->whereBetween('order_date',[$tgl_awal_str,$tgl_akhir_str])
+                            // ->whereRaw("state in ('open','done')")
+                            ->orderBy('customer','asc')
+                            ->groupBy('pekerjaan_id')
+                            ->get();
+            
+        }
+
+        // SHOW HTM
+        // Generate Excell
+        \Excel::create('Laporan_Summary_Pengiriman_Material_'.date('dmY_His'), function($excel) use($pengiriman,$awal,$akhir,$req)  {
+            $excel->sheet('Report', function($sheet) use($pengiriman,$awal,$akhir,$req) {
+                $sheet->loadView('report.pengiriman.excel-group',[
+                    'pengiriman' => $pengiriman,
+                    'tanggal_awal' => $awal,
+                    'tanggal_akhir' => $akhir,
+                    'group_by' => $req->group_by,
+                    'dicetak'=>date('d-m-Y H:i:s')
+                ]);
+            });
+
+        })->download('xlsx');
     }
 
     public function groupDetailReportInline(Request $req){
@@ -457,112 +525,7 @@ class ReportPengirimanController extends Controller
                                     ->orderBy('material','asc')
                                     ->orderBy('karyawan','asc')
                                     ->get();
-            }
-        
-
-
-        // if($req->group_by == 'customer'){
-        //     $pengiriman_by_group = \DB::table('view_new_pengiriman')
-        //                     ->whereBetween('order_date',[$tgl_awal_str,$tgl_akhir_str])
-        //                     // ->whereRaw("state in ('open','done')")
-        //                     ->orderBy('customer','asc')
-        //                     ->groupBy('customer_id')
-        //                     ->get();
-
-        //     // get detail
-        //     foreach($pengiriman_by_group as $dt){
-        //         $dt->detail = \DB::table('view_new_pengiriman')
-        //                         ->whereBetween('order_date',[$tgl_awal_str,$tgl_akhir_str])
-        //                         ->where('customer_id',$dt->customer_id)
-        //                         ->orderBy('order_date','asc')
-        //                         ->orderBy('customer','asc')
-        //                         ->orderBy('material','asc')
-        //                         ->orderBy('karyawan','asc')
-        //                         ->get();
-        //     }
-            
-        // }elseif($req->group_by == 'material'){
-        //     $pengiriman_by_group = \DB::table('view_new_pengiriman')
-        //                     ->whereBetween('order_date',[$tgl_awal_str,$tgl_akhir_str])
-        //                     // ->whereRaw("state in ('open','done')")
-        //                     ->orderBy('customer','asc')
-        //                     ->groupBy('material_id')
-        //                     ->get();
-
-        //     // get detail
-        //     foreach($pengiriman_by_group as $dt){
-        //         $dt->detail = \DB::table('view_new_pengiriman')
-        //                         ->whereBetween('order_date',[$tgl_awal_str,$tgl_akhir_str])
-        //                         ->where('material_id',$dt->material_id)
-        //                         ->orderBy('order_date','asc')
-        //                         ->orderBy('customer','asc')
-        //                         ->orderBy('material','asc')
-        //                         ->orderBy('karyawan','asc')
-        //                         ->get();
-        //     }
-            
-        // }elseif($req->group_by == 'lokasi'){
-        //     $pengiriman_by_group = \DB::table('view_new_pengiriman')
-        //                     ->whereBetween('order_date',[$tgl_awal_str,$tgl_akhir_str])
-        //                     // ->whereRaw("state in ('open','done')")
-        //                     ->orderBy('customer','asc')
-        //                     ->groupBy('lokasi_galian_id')
-        //                     ->get();
-
-        //     // get detail
-        //     foreach($pengiriman_by_group as $dt){
-        //         $dt->detail = \DB::table('view_new_pengiriman')
-        //                         ->whereBetween('order_date',[$tgl_awal_str,$tgl_akhir_str])
-        //                         ->where('lokasi_galian_id',$dt->lokasi_galian_id)
-        //                         ->orderBy('order_date','asc')
-        //                         ->orderBy('customer','asc')
-        //                         ->orderBy('material','asc')
-        //                         ->orderBy('karyawan','asc')
-        //                         ->get();
-        //     }
-            
-        // }elseif($req->group_by == 'driver'){
-        //     $pengiriman_by_group = \DB::table('view_new_pengiriman')
-        //                     ->whereBetween('order_date',[$tgl_awal_str,$tgl_akhir_str])
-        //                     // ->whereRaw("state in ('open','done')")
-        //                     ->orderBy('customer','asc')
-        //                     ->groupBy('karyawan_id')
-        //                     ->get();
-
-        //     // get detail
-        //     foreach($pengiriman_by_group as $dt){
-        //         $dt->detail = \DB::table('view_new_pengiriman')
-        //                         ->whereBetween('order_date',[$tgl_awal_str,$tgl_akhir_str])
-        //                         ->where('karyawan_id',$dt->karyawan_id)
-        //                         ->orderBy('order_date','asc')
-        //                         ->orderBy('customer','asc')
-        //                         ->orderBy('material','asc')
-        //                         ->orderBy('karyawan','asc')
-        //                         ->get();
-        //     }
-            
-        // }elseif($req->group_by == 'pekerjaan'){
-        //     $pengiriman_by_group = \DB::table('view_new_pengiriman')
-        //                     ->whereBetween('order_date',[$tgl_awal_str,$tgl_akhir_str])
-        //                     // ->whereRaw("state in ('open','done')")
-        //                     ->orderBy('customer','asc')
-        //                     ->groupBy('pekerjaan_id')
-        //                     ->get();
-
-        //     // get detail
-        //     foreach($pengiriman_by_group as $dt){
-        //         $dt->detail = \DB::table('view_new_pengiriman')
-        //                         ->whereBetween('order_date',[$tgl_awal_str,$tgl_akhir_str])
-        //                         ->where('pekerjaan_id',$dt->pekerjaan_id)
-        //                         ->orderBy('order_date','asc')
-        //                         ->orderBy('customer','asc')
-        //                         ->orderBy('material','asc')
-        //                         ->orderBy('karyawan','asc')
-        //                         ->get();
-        //     }
-            
-        // }
-        
+            }        
 
         //Show PDF Report
         $dompdf->loadHtml($this->groupDetailReportHtml([
@@ -572,19 +535,11 @@ class ReportPengirimanController extends Controller
                 'group_by' => $req->group_by,
                 'dicetak'=>date('d-m-Y H:i:s')
             ]));
-
         $dompdf->render();
         $dompdf->stream("ReportPengiriman.pdf", array("Attachment" => false));
         exit(0);
 
-        //// Show Html
-        // return $this->groupDetailReportHtml([
-        //         'pengiriman_by_group' => $pengiriman_by_group,
-        //         'tanggal_awal' => $awal,
-        //         'tanggal_akhir' => $akhir,
-        //         'group_by' => $req->group_by,
-        //         'dicetak'=>date('d-m-Y H:i:s')
-        //     ]);
+       
     }
 
     public function groupDetailReportHtml($data){
@@ -593,6 +548,90 @@ class ReportPengirimanController extends Controller
 
     public function groupReportHtml($data){
         return view('report.pengiriman.group-report',$data);
+    }
+
+    public function testExel(){
+        // generate excel
+        \Excel::create('New file', function($excel)  {
+            $excel->sheet('Report', function($sheet) {
+                $sheet->loadView('report.pengiriman.test');
+            });
+
+        })->download('xlsx');;
+        // return view('report.pengiriman.test');
+    }
+
+    public function groupDetailReportExcel(Request $req){
+        // Generate Tanggal
+        $awal = $req->tanggal_awal;
+        $arr_tgl = explode('-',$awal);
+        $tgl_awal = new \DateTime();
+        $tgl_awal->setDate($arr_tgl[2],$arr_tgl[1],$arr_tgl[0]); 
+        $tgl_awal_str = $arr_tgl[2].'-'.$arr_tgl[1].'-'.$arr_tgl[0];
+
+        $akhir = $req->tanggal_akhir;
+        $arr_tgl = explode('-',$akhir);
+        $tgl_akhir = new \DateTime();
+        $tgl_akhir->setDate($arr_tgl[2],$arr_tgl[1],$arr_tgl[0]); 
+        $tgl_akhir_str = $arr_tgl[2].'-'.$arr_tgl[1].'-'.$arr_tgl[0];
+
+        $groupby = $req->group_by == 'customer' ? 'customer_id' : ($req->group_by == 'pekerjaan' ? 'pekerjaan_id' : ($req->group_by == 'material' ? 'material_id' : ($req->group_by == 'lokasi' ? 'lokasi_galian_id' : ($req->group_by == 'driver' ? 'karyawan_id' : 'true') ) ) );
+
+        $wheredetail = 'true';
+        if($req->group_by == 'customer'){
+            if($req->customer != ''){
+                $wheredetail = 'customer_id = ' . $req->customer;
+            }
+        }else if($req->group_by == 'pekerjaan'){
+            if($req->pekerjaan != ''){
+                $wheredetail = 'pekerjaan_id = ' . $req->pekerjaan;
+            }
+        }else if($req->group_by == 'material'){
+            if($req->material != ''){
+                $wheredetail = 'material_id = ' . $req->material;
+            }
+        }else if($req->group_by == 'lokasi'){
+            if($req->lokasi_galian != ''){
+                $wheredetail = 'lokasi_galian_id = ' . $req->lokasi_galian;
+            }
+        }else if($req->group_by == 'driver'){
+            if($req->driver != ''){
+                $wheredetail = 'karyawan_id = ' . $req->driver;
+            }
+        }
+
+
+        $pengiriman_by_group = \DB::table('view_new_pengiriman')
+                            ->whereBetween('order_date',[$tgl_awal_str,$tgl_akhir_str])
+                            ->whereRaw($wheredetail)
+                            ->orderBy('customer','asc')
+                            ->groupBy($groupby)
+                            ->get();
+        foreach($pengiriman_by_group as $dt){
+                $whereraw = $req->group_by == 'customer' ? 'customer_id = ' . $dt->customer_id : ($req->group_by == 'pekerjaan' ? 'pekerjaan_id = ' . $dt->pekerjaan_id : ($req->group_by == 'material' ? 'material_id = ' . $dt->material_id : ($req->group_by == 'lokasi' ? 'lokasi_galian_id = ' . $dt->lokasi_galian_id : ($req->group_by == 'driver' ? 'karyawan_id = ' . $dt->karyawan_id : 'true') ) ) );
+                $dt->detail = \DB::table('view_new_pengiriman')
+                                    ->whereBetween('order_date',[$tgl_awal_str,$tgl_akhir_str])
+                                    ->whereRaw($whereraw)
+                                    ->orderBy('order_date','asc')
+                                    ->orderBy('customer','asc')
+                                    ->orderBy('material','asc')
+                                    ->orderBy('karyawan','asc')
+                                    ->get();
+            }       
+
+        // Generate Excell
+        \Excel::create('Laporan_Pengiriman_Material_'.date('dmY_His'), function($excel) use($pengiriman_by_group,$awal,$akhir,$req)  {
+            $excel->sheet('Report', function($sheet) use($pengiriman_by_group,$awal,$akhir,$req) {
+                $sheet->loadView('report.pengiriman.excel-detail',[
+                    'pengiriman_by_group' => $pengiriman_by_group,
+                    'tanggal_awal' => $awal,
+                    'tanggal_akhir' => $akhir,
+                    'group_by' => $req->group_by,
+                    'dicetak'=>date('d-m-Y H:i:s')
+                ]);
+            });
+
+        })->download('xlsx');
     }
 
 

@@ -63,7 +63,7 @@
                     @foreach($data as $dt)
                     <tr data-rowid="{{$rownum}}" data-id="{{$dt->id}}">
                         <td class="text-center" >
-                            @if($dt->can_delete == 'true')
+                            @if($dt->karyawan_id == '')
                                 <input type="checkbox" class="ck_row" />
                             @endif
                         </td>

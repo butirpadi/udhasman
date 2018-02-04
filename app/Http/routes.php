@@ -78,6 +78,7 @@ Route::group(['middleware' => ['web','auth']], function () {
         Route::post('update','DailyhdController@update');
         Route::post('delete','DailyhdController@delete');
         Route::post('validate','DailyhdController@toValidate');
+        Route::get('search', 'DailyhdController@getSearch');
     });
     
     Route::group(['prefix' => 'finance/cashbook'], function () {
@@ -620,7 +621,42 @@ Route::group(['middleware' => ['web','auth']], function () {
         Route::post('pengiriman/group-report-inline','ReportPengirimanController@groupReportInline');
         Route::post('pengiriman/group-detail-report','ReportPengirimanController@groupDetailReport');
         Route::post('pengiriman/group-detail-report-inline','ReportPengirimanController@groupDetailReportInline');
+        Route::get('pengiriman/test','ReportPengirimanController@testExel');
+        Route::post('pengiriman/group-detail-report-excel','ReportPengirimanController@groupDetailReportExcel');
+        Route::post('pengiriman/group-report-excel','ReportPengirimanController@groupReportExcel');
         // Route::post('pengiriman/group-report','ReportPengirimanController@groupReport');
+
+        // REPORT HUTANG
+        Route::group(['prefix' => 'hutang'], function () {
+            Route::get('/','ReportHutangController@index');
+            Route::post('submit','ReportHutangController@submit');
+            Route::post('submit-pdf','ReportHutangController@submitPdf');
+            Route::post('submit-excel','ReportHutangController@submitExcel');
+        });
+
+        // REPORT PIUTANG
+        Route::group(['prefix' => 'piutang'], function () {
+            Route::get('/','ReportPiutangController@index');
+            Route::post('submit','ReportPiutangController@submit');
+            Route::post('submit-pdf','ReportPiutangController@submitPdf');
+            Route::post('submit-excel','ReportPiutangController@submitExcel');
+        });
+
+        // REPORT DAILYHD
+        Route::group(['prefix' => 'dailyhd'], function () {
+            Route::get('/','ReportDailyhdController@index');
+            Route::post('submit','ReportDailyhdController@submit');
+            Route::post('submit-pdf','ReportDailyhdController@submitPdf');
+            Route::post('submit-excel','ReportDailyhdController@submitExcel');
+        });
+
+        // REPORT PRESENSI
+        Route::group(['prefix' => 'presensi'], function () {
+            Route::get('/','ReportPresensiController@index');
+            Route::post('submit','ReportPresensiController@submit');
+            Route::post('submit-pdf','ReportPresensiController@submitPdf');
+            Route::post('submit-excel','ReportPresensiController@submitExcel');
+        });
 
 
         // // REPORT PURCHASE

@@ -11,7 +11,7 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Pengiriman
+        <a href="delivery" >Pengiriman</a> <i class="fa fa-angle-double-right" ></i> Search : <i>{{$search_val}}</i>
     </h1>
 </section>
 

@@ -11,7 +11,7 @@ class DailyhdController extends Controller
 	public function index(){
 		$data = \DB::table('view_dailyhd')
 				->orderBy('tanggal','desc')
-				->get();
+				->paginate(Appsetting('paging_item_number'));
 		
 		return view('dailyhd.index',[
 				'data' => $data
@@ -31,7 +31,7 @@ class DailyhdController extends Controller
 			$select_galian[$dt->id] =  $dt->nama;
 		}
 
-		$staff = \DB::table('view_karyawan')->whereKodeJabatan('ST')->get();
+		$staff = \DB::table('res_partner')->whereStaff('Y')->get();
 		$select_staff = [];
 		foreach($staff as $dt){
 			$select_staff[$dt->id] = $dt->nama;
@@ -98,7 +98,7 @@ class DailyhdController extends Controller
 			$select_galian[$dt->id] =  $dt->nama;
 		}
 
-		$staff = \DB::table('view_karyawan')->whereKodeJabatan('ST')->get();
+		$staff = \DB::table('res_partner')->whereStaff('Y')->get();
 		$select_staff = [];
 		foreach($staff as $dt){
 			$select_staff[$dt->id] = $dt->nama;
@@ -113,12 +113,6 @@ class DailyhdController extends Controller
 			'selectGalian' => $select_galian,
 			'selectStaff' => $select_staff,
 		]);
-		
-		// if($data->status == 'O'){
-		// 	return view('dailyhd.edit',['data'=>$data]);
-		// }else{
-		// 	return view('dailyhd.validated',['data'=>$data]);
-		// }
 		
 	}
 
@@ -149,7 +143,7 @@ class DailyhdController extends Controller
 						'desc' => $req->keterangan,
 					]);
 				
-			return redirect('dailyhd');
+			return redirect('dailyhd/edit/'.$req->dailyhd_id);
 			// return redirect()->back();
 		});
 	}
@@ -188,6 +182,30 @@ class DailyhdController extends Controller
 
 		// return redirect('dailyhd');
 		return redirect()->back();
+	}
+
+	public function getSearch(){
+		$val = \Input::get('val');
+		$data = \DB::table('view_dailyhd')
+						->where('alat','like','%' . trim($val) . '%')
+						->orWhere('lokasi','like','%' . $val . '%')
+						->orWhere('kode_lokasi','like','%' . $val . '%')
+						->orWhere('kode_alat','like','%' . $val . '%')
+						->orWhere('alat','like','%' . $val . '%')
+						->orWhere('kode_pengawas','like','%' . $val . '%')
+						->orWhere('nama_pengawas','like','%' . $val . '%')
+						->orWhere('kode_operator','like','%' . $val . '%')
+						->orWhere('nama_operator','like','%' . $val . '%')
+						->orderBy('tanggal','desc')
+						->orderBy('created_at','desc')
+						->paginate(Appsetting('paging_item_number'));
+						
+		$data->appends(['val'=>$val]);
+
+		return view('dailyhd.search',[
+				'data' => $data,
+				'search_val' => $val
+			]);
 	}
 
 }

@@ -99,6 +99,7 @@
 
         </div><!-- /.box-body -->
         <div class="box-footer" >
+            <i>Showing {{($pengiriman->currentpage()-1)*$pengiriman->perpage()+1}} to {{(($pengiriman->currentpage()-1)*$pengiriman->perpage())+$pengiriman->count()}} of {{$pengiriman->total()}} entries</i>
             <div class="pull-right" >
                 {{$pengiriman->links()}}
             </div>

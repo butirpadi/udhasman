@@ -1,5 +1,13 @@
 @extends('layouts.master')
 
+@section('styles')
+<style>
+  .inner h3{
+    font-size: 24px!important;
+  }
+</style>
+@append
+
 @section('content')
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -15,26 +23,17 @@
 
 <!-- Main content -->
 <section class="content">
-
-    {{-- <!-- Default box -->
-    <div class="box box-solid">
-        <div class="box-body">
-            
-        </div>
-    </div><!-- /.box --> --}}
-
-    <div class="row">
-      
+    <div class="row">      
         <div class="col-lg-3 col-xs-6" >
             <div class="small-box bg-aqua">
                 <div class="inner">
                   <h3>{{$open_so_count}}</h3>
-                  <p>Open Sales Orders</p>
+                  <p>Pembelian Tertunda</p>
                 </div>
                 <div class="icon">
                   <i class="fa fa-shopping-cart"></i>
                 </div>
-                <a href="sales/order/filter?filter_by=O" class="small-box-footer">
+                <a href="pembelian/filter/state/draft" class="small-box-footer">
                   More info <i class="fa fa-arrow-circle-right"></i>
                 </a>
               </div>
@@ -44,7 +43,7 @@
             <div class="small-box bg-green">
                 <div class="inner">
                   <h3>{{$open_do_count}}</h3>
-                  <p>Delivery Orders to do</p>
+                  <p>Pengiriman Tertunda</p>
                 </div>
                 <div class="icon">
                   <i class="fa fa-truck"></i>
@@ -58,13 +57,28 @@
         <div class="col-lg-3 col-xs-6" >
             <div class="small-box bg-red">
                 <div class="inner">
-                  <h3>{{$open_ci_count}}</h3>
-                  <p>Open Customer Invoices</p>
+                  <h3>{{number_format($open_ci_count,2,'.',',')}}</h3>
+                  <p>Saldo Hutang</p>
                 </div>
                 <div class="icon">
                   <i class="fa fa-newspaper-o"></i>
                 </div>
-                <a href="invoice/customer/filter?filter_by=O" class="small-box-footer">
+                <a href="finance/hutang/filter/state/open" class="small-box-footer">
+                  More info <i class="fa fa-arrow-circle-right"></i>
+                </a>
+              </div>
+        </div>
+
+        <div class="col-lg-3 col-xs-6" >
+            <div class="small-box bg-orange">
+                <div class="inner">
+                  <h3>{{number_format($open_piutang_count,2,'.',',')}}</h3>
+                  <p>Saldo Piutang</p>
+                </div>
+                <div class="icon">
+                  <i class="fa fa-calendar"></i>
+                </div>
+                <a href="finance/piutang/filter/state/open" class="small-box-footer">
                   More info <i class="fa fa-arrow-circle-right"></i>
                 </a>
               </div>

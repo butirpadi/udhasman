@@ -165,6 +165,7 @@ return [
         browner12\helpers\HelperServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
     ],
 
@@ -215,6 +216,7 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'Input' => Illuminate\Support\Facades\Input::class,
         'Helper' => App\Helpers\Helper::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
     ],
 

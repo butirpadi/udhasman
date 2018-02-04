@@ -16,20 +16,20 @@ class ArmadaController extends Controller
 	}
 
 	public function create(){
-		$drivers = \DB::select('select id,nama,kode 
-					from view_karyawan  
-					where view_karyawan.driver = 1 and  view_karyawan.id not in (select karyawan_id from armada where karyawan_id is not null )
-					');
-		$selectDriver = [
-				'0' => 'NONE'
-			];
+		// $drivers = \DB::select('select id,nama,kode 
+		// 			from view_karyawan  
+		// 			where view_karyawan.driver = 1 and  view_karyawan.id not in (select karyawan_id from armada where karyawan_id is not null )
+		// 			');
+		// $selectDriver = [
+		// 		'0' => 'NONE'
+		// 	];
 
-		foreach ($drivers as $dt){
-			$selectDriver[$dt->id] = $dt->nama .' - ' . $dt->kode;
-		}
+		// foreach ($drivers as $dt){
+		// 	$selectDriver[$dt->id] = $dt->nama .' - ' . $dt->kode;
+		// }
 
 		return view('master.armada.create',[
-				'selectDriver' => $selectDriver,
+				// 'selectDriver' => $selectDriver,
 			]);
 	}
 
@@ -60,7 +60,7 @@ class ArmadaController extends Controller
 					'nama' => $req->nama,
 					'kode' => $kode,
 					'nopol' => $req->nopol,
-					'karyawan_id' => $req->driver,
+					// 'karyawan_id' => $req->driver,
 				]);
 
 		return redirect('master/armada');
@@ -78,21 +78,21 @@ class ArmadaController extends Controller
 					->orderBy('id','desc')
 					->first();
 
-		$drivers = \DB::select('select * 
-					from view_karyawan 
-					where view_karyawan.driver = 1 and  view_karyawan.id not in (select karyawan_id from armada where karyawan_id is not null and armada.id != ' . $id . ')
-					');
-		$selectDriver = [
-				'0' => 'NONE'
-			];
-		foreach($drivers as $dt){
-			$selectDriver[$dt->id] = $dt->nama ;
-		}
+		// $drivers = \DB::select('select * 
+		// 			from view_karyawan 
+		// 			where view_karyawan.driver = 1 and  view_karyawan.id not in (select karyawan_id from armada where karyawan_id is not null and armada.id != ' . $id . ')
+		// 			');
+		// $selectDriver = [
+		// 		'0' => 'NONE'
+		// 	];
+		// foreach($drivers as $dt){
+		// 	$selectDriver[$dt->id] = $dt->nama ;
+		// }
 		return view('master.armada.edit',[
 				'data' => $data,
 				'next' => $next,
 				'prev' => $prev,
-				'selectDriver' => $selectDriver,
+				// 'selectDriver' => $selectDriver,
 			]);
 	}
 
@@ -103,7 +103,7 @@ class ArmadaController extends Controller
 					'nama' => $req->nama,
 					// 'kode' => $req->kode,
 					'nopol' => $req->nopol,
-					'karyawan_id' => $req->driver,
+					// 'karyawan_id' => $req->driver,
 				]);
 		return redirect('master/armada');
 	}
