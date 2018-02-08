@@ -52,7 +52,7 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        <a href="pembelian" >Report Pembelian</a>  
+        Report Pembelian
     </h1>
 </section>
 

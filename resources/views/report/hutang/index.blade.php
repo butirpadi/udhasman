@@ -52,7 +52,7 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        <a href="pengiriman" >Report Hutang</a>  
+        Report Hutang
     </h1>
 </section>
 

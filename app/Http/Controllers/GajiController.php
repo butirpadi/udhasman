@@ -35,9 +35,9 @@ class GajiController extends Controller
 	public function showPayrollTable($tanggal){
 		$tanggal_gaji;
 		// get data driver
-	  	$data = \DB::table('view_karyawan')
-	  				->where('driver',1)
-	  				->where('is_active','Y')
+	  	$data = \DB::table('res_partner')
+	  				->where('driver','Y')
+	  				// ->where('is_active','Y')
 	  				->orderBy('created_at','desc')
 	  				->orderBy('id','asc')
 	  				->get();
@@ -259,7 +259,7 @@ class GajiController extends Controller
 		$tanggal_akhir->modify('-1 day');
 
 		$payroll_id = \DB::table('payroll_driver')->insertGetId([
-				'status' => 'D',
+				'state' => 'draft',
 				'payroll_number' => $payroll_number,
 				'payment_date' => $tanggal,
 				'tanggal_awal' => $tanggal_awal,
@@ -325,7 +325,7 @@ class GajiController extends Controller
 			// 						->get();
 
   		// cek apakah sudah ter-validate
-  		if($data->status == 'P'){
+  		if($data->state == 'paid'){
   			return view('gaji/driver/validated-pay',[
 	  				'data' => $data,
 	  				'tanggal_awal' => $tanggal_awal,

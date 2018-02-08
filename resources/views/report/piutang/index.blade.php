@@ -52,7 +52,7 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        <a href="pengiriman" >Report Piutang</a>  
+        Report Piutang
     </h1>
 </section>
 

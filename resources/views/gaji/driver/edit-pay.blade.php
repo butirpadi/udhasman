@@ -28,11 +28,11 @@
 			<div class="box-header with-border"  >
 				<label><h3 style="margin:0;padding:0;font-weight:bold;" >{{$data->payroll_number}}</h3></label>
 				<label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
-				<a class="btn btn-arrow-right pull-right disabled bg-gray" >Paid</a>
+				<a class="btn btn-arrow-right pull-right disabled {{$data->state == 'paid' ? 'bg-blue' : 'bg-gray'}}" >Paid</a>
 				<label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
-				<a class="btn btn-arrow-right pull-right disabled bg-blue" >Open</a>
+				<a class="btn btn-arrow-right pull-right disabled {{$data->state == 'open' ? 'bg-blue' : 'bg-gray'}}" >Open</a>
 				<label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
-				<a class="btn btn-arrow-right pull-right disabled bg-gray" >Draft</a>
+				<a class="btn btn-arrow-right pull-right disabled {{$data->state == 'draft' ? 'bg-blue' : 'bg-gray'}}" >Draft</a>
 			</div>
 			<div class="box-body">
 		    	<div class="row" >
@@ -45,7 +45,7 @@
 		    			</div>
 		    			<div class="form-group" >
 		    				<label>Nama</label>
-		    				<input type="text" readonly  name="nama" class="form-control" value="{{$data->nama_karyawan}}" />
+		    				<input type="text" readonly  name="nama" class="form-control" value="{{$data->karyawan}}" />
 		    			</div>
 		    		</div>
 		    		<div class="col-xs-6" >
@@ -78,7 +78,7 @@
 		    	</div>
 		    </div>
 		    <div class="box-footer" >
-		    	@if($data->status == 'D')
+		    	@if($data->state == 'draft')
 		    		<a class="btn btn-primary" id="btn-calculate" data-paymentid="{{$data->id}}" data-karyawanid="{{$data->karyawan_id}}" data-tanggal="{{$data->payment_date_formatted}}" ><i class="fa fa-hourglass-half" ></i> Calculate</a>
 		    	@endif
 

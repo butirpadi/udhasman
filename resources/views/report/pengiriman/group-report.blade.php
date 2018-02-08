@@ -4,9 +4,6 @@
 	<meta charset="UTF-8">
 	<title>.:: Rekapitulasi Pengiriman Material ::.</title>
 	<style>
-		body {  
-		    font-family: 'Arial'  
-		}
 	    table.table-product, table.table-total {
 	        border-collapse: collapse;
 	      }

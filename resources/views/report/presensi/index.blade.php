@@ -52,7 +52,7 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        <a href="pengiriman" >Report Presensi</a>  
+        Report Presensi
     </h1>
 </section>
 
@@ -194,6 +194,12 @@
         form.attr('action','report/presensi/submit-excel');       
         form.submit();
         form.remove();
+    });
+
+    $('select[name=tipe_report]').change(function(){
+        $('select[name=karyawan]').select2('destroy');
+        $('select[name=karyawan]').val([]);
+        $('select[name=karyawan]').select2();
     });
 
 

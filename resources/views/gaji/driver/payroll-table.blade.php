@@ -74,9 +74,9 @@
                         </td> --}}
                         <td class="text-center" >
                             @if($dt->payroll)
-                                @if($dt->payroll->status == 'P')
+                                @if($dt->payroll->state == 'paid')
                                     <label class="label label-success">PAID</label>
-                                @elseif($dt->payroll->status == 'O')
+                                @elseif($dt->payroll->state == 'open')
                                     <label class="label label-primary">OPEN</label>
                                 @else
                                     <label class="label label-warning">DRAFT</label>
@@ -89,16 +89,16 @@
                         <td class="text-center" >
                             @if($dt->payroll)
                                     <a class="btn btn-success btn-xs" href="gaji/driver/edit-pay/{{$dt->payroll->id}}" data-toggle="tooltip" data-title="Edit" ><i class="fa fa-edit" ></i></a>
-                                <!-- @if($dt->payroll->status != 'P')
+                                <!-- @if($dt->payroll->state != 'P')
                                     <a class="btn btn-success btn-xs" href="gaji/driver/edit-pay/{{$dt->payroll->id}}" data-toggle="tooltip" data-title="Edit" ><i class="fa fa-edit" ></i></a>
-                                @elseif($dt->payroll->status == 'O')
+                                @elseif($dt->payroll->state == 'O')
                                     <a class="btn btn-success btn-xs" href="gaji/driver/edit-pay/{{$dt->payroll->id}}" data-toggle="tooltip" data-title="Edit" ><i class="fa fa-edit" ></i></a>
                                 @else
                                 <a class="btn btn-primary btn-xs" href="gaji/driver/pay/{{$dt->id}}/{{$tanggal_penggajian}}" data-toggle="tooltip" data-title="Edit" ><i class="fa fa-edit" ></i></a>
                                     
                                 @endif -->
 
-                                <!-- @if($dt->payroll->status == 'P') -->
+                                <!-- @if($dt->payroll->state == 'P') -->
                                     <a target="_blank" class="btn btn-danger btn-xs" data-toggle="tooltip" data-title="Print PDF"  href="gaji/driver/print-pdf/{{$dt->payroll->id}}" ><i class="fa fa-file-pdf-o" ></i></a>
                                     <a target="_blank" class="btn btn-primary btn-xs" data-toggle="tooltip" data-title="Print & Copy" href="gaji/driver/print-copy/{{$dt->payroll->id}}" ><i class="fa fa-copy" ></i></a>
                                     <a target="_blank" class="btn btn-warning btn-xs" data-toggle="tooltip" data-title="Direct Print" href="gaji/driver/print-direct/{{$dt->payroll->id}}" ><i class="fa fa-print" ></i></a>

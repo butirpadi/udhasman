@@ -147,6 +147,7 @@
 				@endforeach
 			</tbody>
 		</table>
+		@if($tipe_report == 'detail')
 		<br/>
 		<table>
 			<tbody>
@@ -169,5 +170,6 @@
 				</tr>
 			</tbody>
 		</table>
+		@endif
 	</body>
 </html>

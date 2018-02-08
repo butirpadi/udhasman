@@ -52,7 +52,7 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        <a href="pengiriman" >Report Pengiriman</a>  
+        Report Pengiriman
     </h1>
 </section>
 
@@ -170,7 +170,7 @@
                                 {!! Form::select('lokasi_galian',$select_lokasi_galian,null,['class'=>'form-control select2']) !!}
                             </div>
                             <div class="form-group hide" id="input-driver" >
-                                <label>Lokasi Driver</label>
+                                <label>Driver</label>
                                 {!! Form::select('driver',$select_driver,null,['class'=>'form-control select2']) !!}
                             </div>
                         </div> 

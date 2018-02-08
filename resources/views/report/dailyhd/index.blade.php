@@ -52,7 +52,7 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        <a href="pengiriman" >Report Operasional Alat Berat</a>  
+        Report Operasional Alat Berat
     </h1>
 </section>
 

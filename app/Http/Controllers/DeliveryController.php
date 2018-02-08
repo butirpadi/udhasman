@@ -110,7 +110,8 @@ class DeliveryController extends Controller
 
 		});
 
-		return redirect('delivery/show/'.$new_id);
+		// return redirect('delivery/show/'.$new_id);
+		return redirect('delivery/edit/'.$new_id);
 
 	}
 

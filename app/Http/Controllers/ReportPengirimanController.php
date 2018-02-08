@@ -444,16 +444,16 @@ class ReportPengirimanController extends Controller
                             ->groupBy($groupby)
                             ->get();
         foreach($pengiriman_by_group as $dt){
-                $whereraw = $req->group_by == 'customer' ? 'customer_id = ' . $dt->customer_id : ($req->group_by == 'pekerjaan' ? 'pekerjaan_id = ' . $dt->pekerjaan_id : ($req->group_by == 'material' ? 'material_id = ' . $dt->material_id : ($req->group_by == 'lokasi' ? 'lokasi_galian_id = ' . $dt->lokasi_galian_id : ($req->group_by == 'driver' ? 'karyawan_id = ' . $dt->karyawan_id : 'true') ) ) );
-                $dt->detail = \DB::table('view_new_pengiriman')
-                                    ->whereBetween('order_date',[$tgl_awal_str,$tgl_akhir_str])
-                                    ->whereRaw($whereraw)
-                                    ->orderBy('order_date','asc')
-                                    ->orderBy('customer','asc')
-                                    ->orderBy('material','asc')
-                                    ->orderBy('karyawan','asc')
-                                    ->get();
-            }       
+            $whereraw = $req->group_by == 'customer' ? 'customer_id = ' . $dt->customer_id : ($req->group_by == 'pekerjaan' ? 'pekerjaan_id = ' . $dt->pekerjaan_id : ($req->group_by == 'material' ? 'material_id = ' . $dt->material_id : ($req->group_by == 'lokasi' ? 'lokasi_galian_id = ' . $dt->lokasi_galian_id : ($req->group_by == 'driver' ? 'karyawan_id = ' . $dt->karyawan_id : 'true') ) ) );
+            $dt->detail = \DB::table('view_new_pengiriman')
+                                ->whereBetween('order_date',[$tgl_awal_str,$tgl_akhir_str])
+                                ->whereRaw($whereraw)
+                                ->orderBy('order_date','asc')
+                                ->orderBy('customer','asc')
+                                ->orderBy('material','asc')
+                                ->orderBy('karyawan','asc')
+                                ->get();
+        }       
 
         // Show Html
         return $this->groupDetailReportHtml([
