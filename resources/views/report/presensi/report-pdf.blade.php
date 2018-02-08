@@ -1,7 +1,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>.:: Rekapitulasi Pengiriman Material ::.</title>
+		<title>.:: Laporan Presensi Karyawan ::.</title>
 		<style>
 		    table.table-product, table.table-total {
 		        border-collapse: collapse;
@@ -43,164 +43,125 @@
 	</head>
 	<body>
 		<div class="footer">
-			<i style="position: absolute;left:0;" >LAPORAN OPERASIONAL ALAT BERAT</i>
+			<i style="position: absolute;left:0;" >LAPORAN PRESENSI KARYAWAN</i>
 		    Page <span class="pagenum"></span>
 			<i style="position: absolute;right:0;" >Dicetak pada {{date('d-m-Y H:i:s')}}</i>
 		</div>
 
 		<div style="text-align: center;" >
-			<h4 style="margin:0;padding:0;">LAPORAN OPERASIOANL ALAT</h4>
+			<h4 style="margin:0;padding:0;">LAPORAN PRESENSI KARYAWAN</h4>
 			<p style="font-size: 10pt;margin:0;padding:0;"><strong>Periode : </strong>{{$tanggal_awal . ' / ' . $tanggal_akhir}}</p>
 			<br/>
 		</div>
 
 		<div class="content" >
-			<?php $grand_total=0; ?>
-			<table class="table-product" style="font-size:10pt;width: 100%;font-family: arial;"  >
-				<thead>
-					<tr>
-						<th style="width: 12%;border:1px solid #000;text-align: center;" >#</th>
-						<th style="width: 10%;border:1px solid #000;text-align: center;" >TANGGAL</th>
-						@if($group_by != 'alat_id')
-							<th style="width: 16%;border:1px solid #000;text-align: center;" >ALAT</th>
-						@endif
-						@if($group_by != 'lokasi_galian_id')
-							<th style="width: 16%;border:1px solid #000;text-align: center;" >LOKASI GALIAN</th>
-						@endif
-						@if($group_by != 'pengawas_id')
-							<th style="width: 16%;border:1px solid #000;text-align: center;" >PENGAWAS</th>
-						@endif
-						@if($group_by != 'operator_id')
-							<th style="width: 16%;border:1px solid #000;text-align: center;" >OPERATOR</th>
-						@endif
-						<th style="width: 10%;border:1px solid #000;text-align: center;" >SOLAR</th>
-						<th style="width: 10%;border:1px solid #000;text-align: center;" >OLI</th>
-						<th style="width: 10%;border:1px solid #000;text-align: center;" >TOTAL<br/>JAM KERJA</th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php $grand_solar = 0; ?>
-					<?php $grand_oli = 0; ?>
-					<?php $grand_jam_kerja = 0; ?>
+			<table class="table-product" style="font-size:8pt;font-family: Arial;width: 100%;"  >
+			<thead>
+				<tr>
+					<th rowspan="2" style="border:1px solid #000;width: 5%;" >KODE</th>
+					<th rowspan="2" style="border:1px solid #000;width: 15%;" >NAMA</th>
+					@if($tipe_report == 'detail')
+						@foreach($data_group as $dt)
+							<th  colspan="{{cal_days_in_month(CAL_GREGORIAN,$dt->bulan_idx,$dt->year)}}" style="border:1px solid #000;text-align: center;width: 68.2%;" >{{$dt->bulan}}</th>
+						@endforeach
+					@endif
+					<th colspan="2" style="border:1px solid #000;text-align: center;width: 5%;" >HADIR</th>				
+					<th colspan="2" style="border:1px solid #000;text-align: center;width: 5%;" >ALPHA</th>				
+				</tr>
+				<tr>
+					@if($tipe_report == 'detail')
+						@foreach($data_group as $dt)
+							@for($i=1;$i <= cal_days_in_month(CAL_GREGORIAN,$dt->bulan_idx,$dt->year);$i++)
+								<th style="border:1px solid #000;text-align: center;" >{{$i}}</th>
+							@endfor
+						@endforeach
+					@endif
+					<th>P</th>
+					<th>S</th>
+					<th>P</th>
+					<th>S</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach($karyawan as $kary)
+					<tr >
+						<td style="text-align: center;" >{{$kary->kode}}</td>
+						<td>{{$kary->nama}}</td>
+						<?php $siang = 0;?>
+						<?php $pagi = 0;?>
+						<?php $alpha = 0;?>
+						<?php $alpha_pagi = 0;?>
+						<?php $alpha_siang = 0;?>
+						@foreach($data_group as $dt)
+							@for($i=1;$i <= cal_days_in_month(CAL_GREGORIAN,$dt->bulan_idx,$dt->year);$i++)
+								<?php $bg='background-color:white;;color:black;'; ?>
+								<?php $bg_cont=''; ?>
+								@foreach($kary->presensi as $pres)
+									@if($pres->bulan == $dt->bulan && $pres->day == $i)
+										@if($pres->pagi == 'Y' && $pres->siang == 'Y')
+											<?php $bg='background-color:green;color:white;'; ?>
+											<?php $bg_cont='F'; ?>
+										@elseif($pres->pagi == 'Y' && $pres->siang == 'N')
+											<?php $bg='background-color:orangered;color:white;'; ?>
+											<?php $bg_cont='P'; ?>
+										@elseif($pres->pagi == 'N' && $pres->siang == 'Y')
+											<?php $bg='background-color:yellow;color:darkred;'; ?>
+											<?php $bg_cont='S'; ?>
+										@else
+											<?php $bg_cont='A'; ?>
+										@endif
 
-					@foreach($data_group as $pg)
-						@if($group_by == 'alat_id')
-							<?php $subtitle = 'Alat';?>
-							<?php $subtitle_val = $pg->kode_alat . ' - ' . $pg->alat;?>
-						@elseif($group_by == 'lokasi_galian_id')
-							<?php $subtitle ='Lokasi Galian';?>
-							<?php $subtitle_val =$pg->lokasi_galian;?>
-						@elseif($group_by == 'pengawas_id')
-							<?php $subtitle ='Pengawas';?>
-							<?php $subtitle_val =$pg->pengawas;?>
-						@elseif($group_by == 'operator_id')
-							<?php $subtitle ='Operator';?>
-							<?php $subtitle_val =$pg->operator;?>
-						@endif
-						<tr>
-							@if($tipe_report == 'detail')
-								<td colspan="8" style="border:1px solid #000;background-color: whitesmoke;" >
-									<strong>
-										{{$subtitle}} : {{$subtitle_val}}
-									</strong>
+										@if($pres->siang == 'Y')
+											<?php $siang += 1; ?>
+										@endif
+										@if($pres->pagi == 'Y')
+											<?php $pagi += 1; ?>
+										@endif
+										@if($pres->pagi == 'N')
+											<?php $alpha_pagi += 1; ?>
+										@endif
+										@if($pres->siang == 'N')
+											<?php $alpha_siang += 1; ?>
+										@endif
+									@endif
+								@endforeach	
+								@if($tipe_report == 'detail')
+								<td class="cell-box" style="text-align: center;{{$bg}}" >
+									{{$bg_cont}}
 								</td>
-							@else
-								<td colspan="5" style="border:1px solid #000;" >
-									{{$subtitle}} : {{$subtitle_val}}
-								</td>
-								<td style="text-align: right;border:1px solid #000;" >
-									{{number_format($pg->sum_solar),2,'.',','}}	
-								</td>
-								<td style="text-align: right;border:1px solid #000;" >
-									{{number_format($pg->sum_oli),2,'.',','}}	
-								</td>
-								<td style="text-align: right;border:1px solid #000;" >
-									{{number_format($pg->sum_jam_kerja),2,'.',','}}	
-								</td>
-							@endif
-						</tr>
-						<?php $sum_solar = 0; ?>
-						<?php $sum_oli = 0; ?>
-						<?php $sum_jam_kerja = 0; ?>
-						
-						@if(isset($pg->detail))
-							@foreach($pg->detail as $dt)
-							<tr>
-								<td style="text-align: center;border:1px solid #000;" >
-									{{$dt->ref}}
-								</td>
-								<td style="text-align: center;border:1px solid #000;" >
-									{{$dt->tanggal_format}}
-								</td>						
-								@if($group_by != 'alat_id')
-									<td style="border:1px solid #000;">{{$dt->alat}}</td>
 								@endif
-								@if($group_by != 'lokasi_galian_id')
-									<td style="border:1px solid #000;">{{$dt->lokasi_galian}}</td>
-								@endif
-								@if($group_by != 'pengawas_id')
-									<td style="border:1px solid #000;">{{$dt->pengawas}}</td>
-								@endif
-								@if($group_by != 'operator_id')
-									<td style="border:1px solid #000;">{{$dt->operator}}</td>
-								@endif
-								<td style="text-align: right;border:1px solid #000;" >
-									{{$dt->solar}}
-								</td>
-								<td style="text-align: right;border:1px solid #000;" >
-									{{$dt->oli}}
-								</td>
-								<td style="text-align: right;border:1px solid #000;" >
-									{{$dt->jam_kerja}}
-								</td>
-							</tr>
-								<?php $sum_solar+=$dt->solar; ?>
-								<?php $sum_oli+=$dt->oli; ?>
-								<?php $sum_jam_kerja+=$dt->jam_kerja; ?>
-							@endforeach
-							<tr>
-								<td style="text-align: right;border:1px solid #000;" colspan="5" ><strong>TOTAL {{$subtitle_val}}</strong>
-								</td>
-								<td style="text-align: right;border:1px solid #000;" >
-									<strong>{{number_format($sum_solar,2,'.',',')}}</strong>
-								</td>
-								<td style="text-align: right;border:1px solid #000;" >
-									<strong>{{number_format($sum_oli,2,'.',',')}}</strong>
-								</td>
-								<td style="text-align: right;border:1px solid #000;" >
-									<strong>{{number_format($sum_jam_kerja,2,'.',',')}}</strong>
-								</td>
-							</tr>
-						@endif
-
-						@if($tipe_report == 'detail')
-							<?php $grand_solar += $sum_solar; ?>					
-							<?php $grand_oli += $sum_oli; ?>					
-							<?php $grand_jam_kerja += $sum_jam_kerja; ?>					
-						@else
-							<?php $grand_solar += $pg->sum_solar; ?>					
-							<?php $grand_oli += $pg->sum_oli; ?>					
-							<?php $grand_jam_kerja += $pg->sum_jam_kerja; ?>
-						@endif
-					@endforeach
-				</tbody>
-				<tfoot>
-					<tr>
-						<td colspan="5" style="text-align: center;border:1px solid #000;height: 30px;vertical-align: middle;" >
-							<strong>TOTAL</strong>
-						</td>
-						<td style="text-align: right;border:1px solid #000;vertical-align: middle;" >
-							<strong>{{number_format($grand_solar,2,'.',',')}}</strong>
-						</td>
-						<td style="text-align: right;border:1px solid #000;vertical-align: middle;" >
-							<strong>{{number_format($grand_oli,2,'.',',')}}</strong>
-						</td>
-						<td style="text-align: right;border:1px solid #000;vertical-align: middle;" >
-							<strong>{{number_format($grand_jam_kerja,2,'.',',')}}</strong>
-						</td>
+							@endfor
+						@endforeach		
+						<td style="text-align: right;" >{{$pagi}}</td>
+						<td style="text-align: right;">{{$siang}}</td>
+						<td style="text-align: right;">{{$alpha_pagi}}</td>
+						<td style="text-align: right;">{{$alpha_siang}}</td>
 					</tr>
-				</tfoot>
-			</table>
+				@endforeach
+			</tbody>
+		</table>
+		<br/>
+		<table style="font-size: 10pt;" >
+			<tbody>
+				<tr>
+					<td style="width: 20px;height: 20px;background-color: green;text-align: center;color: white;" >F</td>
+					<td style="padding-left: 10px;" >Hadir Pagi & Siang</td>
+					<td style="width: 20px;" ></td>
+					<td style="width: 20px;height: 20px;background-color: orangered;text-align: center;color: white;" >P</td>
+					<td style="padding-left: 10px;" >Hadir Pagi</td>
+				</tr>
+				<tr>
+					<td colspan="4" style="height: 5px;" ></td>
+				</tr>
+				<tr>
+					<td style="width: 20px;height: 20px;background-color: yellow;text-align: center;color: darkred;" >S</td>
+					<td style="padding-left: 10px;" >Hadir Siang</td>
+					<td style="width: 20px;" ></td>
+					<td style="width: 20px;height: 20px;background-color: white;text-align: center;" >A</td>
+					<td style="padding-left: 10px;" >Alpha</td>
+				</tr>
+			</tbody>
+		</table>
 		</div>
 
 				

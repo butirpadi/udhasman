@@ -56,9 +56,7 @@
 			  right: 1px;
 			}
 	      	
-	      	.cell-box{
-	      		width: 25px!important;
-	      	}
+	      	
 		</style> 
 	</head>
 	<body>
@@ -101,21 +99,15 @@
 						<?php $alpha_siang = 0;?>
 						@foreach($data_group as $dt)
 							@for($i=1;$i <= cal_days_in_month(CAL_GREGORIAN,$dt->bulan_idx,$dt->year);$i++)
-								<?php $bg='background-color:white;color:black;'; ?>
-								<?php $bg_cont=''; ?>
+								<?php $bg=0; ?>
 								@foreach($kary->presensi as $pres)
 									@if($pres->bulan == $dt->bulan && $pres->day == $i)
 										@if($pres->pagi == 'Y' && $pres->siang == 'Y')
-											<?php $bg='background-color:green;color:white;'; ?>
-											<?php $bg_cont='F'; ?>
+											<?php $bg='f'; ?>
 										@elseif($pres->pagi == 'Y' && $pres->siang == 'N')
-											<?php $bg='background-color:orangered;color:white;'; ?>
-											<?php $bg_cont='P'; ?>
+											<?php $bg='p'; ?>
 										@elseif($pres->pagi == 'N' && $pres->siang == 'Y')
-											<?php $bg='background-color:yellow;color:darkred;'; ?>
-											<?php $bg_cont='S'; ?>
-										@else
-											<?php $bg_cont='A'; ?>
+											<?php $bg='s'; ?>
 										@endif
 
 										@if($pres->siang == 'Y')
@@ -133,8 +125,16 @@
 									@endif
 								@endforeach	
 								@if($tipe_report == 'detail')
-								<td class="cell-box" style="text-align: center;{{$bg}}" >
-									{{$bg_cont}}
+								<td style="text-align: center;" >
+									@if($bg=='f')
+									&#x2713; / &#x2713;
+									@elseif($bg=='p')
+									&#x2713; / &#x2717;
+									@elseif($bg=='s')
+									&#x2717; / &#x2713;
+									@else
+									&#x2717; / &#x2717;
+									@endif
 								</td>
 								@endif
 							@endfor
@@ -145,28 +145,6 @@
 						<td style="text-align: right;">{{$alpha_siang}}</td>
 					</tr>
 				@endforeach
-			</tbody>
-		</table>
-		<br/>
-		<table>
-			<tbody>
-				<tr>
-					<td style="width: 20px;height: 20px;background-color: green;text-align: center;color: white;" >F</td>
-					<td style="padding-left: 10px;" >Hadir Pagi & Siang</td>
-					<td style="width: 20px;" ></td>
-					<td style="width: 20px;height: 20px;background-color: orangered;text-align: center;color: white;" >P</td>
-					<td style="padding-left: 10px;" >Hadir Pagi</td>
-				</tr>
-				<tr>
-					<td colspan="4" style="height: 5px;" ></td>
-				</tr>
-				<tr>
-					<td style="width: 20px;height: 20px;background-color: yellow;text-align: center;color: darkred;" >S</td>
-					<td style="padding-left: 10px;" >Hadir Siang</td>
-					<td style="width: 20px;" ></td>
-					<td style="width: 20px;height: 20px;background-color: white;text-align: center;" >A</td>
-					<td style="padding-left: 10px;" >Alpha</td>
-				</tr>
 			</tbody>
 		</table>
 	</body>

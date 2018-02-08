@@ -80,50 +80,20 @@
                             <div class="form-group">
                                 <label >Tanggal</label>
                                 <input type="text" name="tanggal_awal" class="input-tanggal form-control" value="{{date('m-Y')}}" required>
-                                <!-- <div class='input-group' style="width: 100%;" >
-                                    <input type="text" name="tanggal_awal" class="input-tanggal form-control" value="{{date('d-m-Y')}}" required>
-                                    <div class='input-group-field' style="padding-left: 5px;" >
-                                        <input  type="text" name="tanggal_akhir" class="input-tanggal form-control" value="{{date('d-m-Y')}}" required>
-
-                                    </div>
-                                </div> -->
                             </div>
                             <div class="form-group">
                                 <label >Tipe Report</label>
                                 <select name="tipe_report" id="tipe_report_group" class="form-control">
                                     <option value="summary" >Summary</option>
                                     <option value="detail" >Detail</option>
-                                    <!-- <option value="grafik" >Grafik</option> -->
                                 </select>
                             </div>
                         </div>
                         <div class="col-xs-6" >
-                            <div class="form-group">
-                                <label >Group by</label>
-                                <select name="group_by" class="form-control">
-                                    <option value="alat_id" >Alat</option>
-                                    <option value="lokasi_galian_id" >Lokasi Galian</option>
-                                    <option value="pengawas_id" >Pengawas</option>
-                                    <option value="operator_id" >Operator</option>
-                                </select>
-                            </div>
-                            <div class="form-group" id="input-alat" >
-                                <label>Alat</label>
-                                {!! Form::select('alat',$alat,null,['class'=>'form-control select2']) !!}
-                            </div>
-                            <div class="form-group hide" id="input-lokasi-galian" >
-                                <label>Lokasi Galian</label>
-                                {!! Form::select('lokasi_galian',$lokasi,null,['class'=>'form-control select2']) !!}
-                            </div>
-                            <div class="form-group hide" id="input-pengawas" >
-                                <label>Pengawas</label>
-                                {!! Form::select('pengawas',$partners,null,['class'=>'form-control select2']) !!}
-                            </div>
-                            <div class="form-group hide" id="input-operator" >
-                                <label>Operator</label>
-                                {!! Form::select('operator',$partners,null,['class'=>'form-control select2']) !!}
-                            </div>
-                            
+                            <div class="form-group " id="input-pengawas" >
+                                <label>Karyawan</label>
+                                {!! Form::select('karyawan',$karyawan,null,['class'=>'form-control select2']) !!}
+                            </div>                            
                         </div> 
                         <div class="col-xs-12" >
                             <button type="submit" class="btn btn-primary" id="btn-save" ><i class="fa fa-check" ></i> Submit</button>
@@ -203,12 +173,9 @@
         // form.attr('method','POST');
         form.attr('target','_blank')
         $('#report-detail').after(form);
-        form.find('select[name=group_by]').val($('form[name=form-group-report]').find('select[name=group_by]').val());
         form.find('select[name=tipe_report]').val($('form[name=form-group-report]').find('select[name=tipe_report]').val());
-        form.find('select[name=alat]').val($('form[name=form-group-report]').find('select[name=alat]').val());
-        form.find('select[name=lokasi_galian]').val($('form[name=form-group-report]').find('select[name=lokasi_galian]').val());
-        form.find('select[name=pengawas]').val($('form[name=form-group-report]').find('select[name=pengawas]').val());
-        form.find('select[name=operator]').val($('form[name=form-group-report]').find('select[name=operator]').val());        
+        form.find('select[name=karyawan]').val($('form[name=form-group-report]').find('select[name=karyawan]').val());
+        
         form.attr('action','report/presensi/submit-pdf');            
         form.submit();
         form.remove();
@@ -222,48 +189,11 @@
         // form.attr('method','POST');
         form.attr('target','_blank')
         $('#report-detail').after(form);
-        form.find('select[name=group_by]').val($('form[name=form-group-report]').find('select[name=group_by]').val());
         form.find('select[name=tipe_report]').val($('form[name=form-group-report]').find('select[name=tipe_report]').val());
-        form.find('select[name=alat]').val($('form[name=form-group-report]').find('select[name=alat]').val());
-        form.find('select[name=lokasi_galian]').val($('form[name=form-group-report]').find('select[name=lokasi_galian]').val());
-        form.find('select[name=pengawas]').val($('form[name=form-group-report]').find('select[name=pengawas]').val());
-        form.find('select[name=operator]').val($('form[name=form-group-report]').find('select[name=operator]').val());
+        form.find('select[name=karyawan]').val($('form[name=form-group-report]').find('select[name=karyawan]').val());
         form.attr('action','report/presensi/submit-excel');       
         form.submit();
         form.remove();
-    });
-
-    $('select[name=group_by]').change(function(){
-        var groupby = $(this).val();
-
-        // clear input
-        $('select[name=alat]').select2('val','');
-        $('select[name=lokasi_galian]').select2('val','');
-        $('select[name=pengawas]').select2('val','');
-        $('select[name=operator]').select2('val','');
-
-        if(groupby == 'alat_id'){
-            $('#input-alat').removeClass('hide');
-            $('#input-lokasi-galian').addClass('hide');
-            $('#input-pengawas').addClass('hide');
-            $('#input-operator').addClass('hide');
-        }else if(groupby == 'lokasi_galian_id'){
-            $('#input-lokasi-galian').removeClass('hide');
-            $('#input-alat').addClass('hide');
-            $('#input-pengawas').addClass('hide');
-            $('#input-operator').addClass('hide');
-        }else if(groupby == 'pengawas_id'){
-            $('#input-pengawas').removeClass('hide');
-            $('#input-lokasi-galian').addClass('hide');
-            $('#input-alat').addClass('hide');
-            $('#input-operator').addClass('hide');            
-        }else if(groupby == 'operator_id'){
-            $('#input-operator').removeClass('hide');
-            $('#input-lokasi-galian').addClass('hide');
-            $('#input-pengawas').addClass('hide');
-            $('#input-alat').addClass('hide');
-            
-        }
     });
 
 
