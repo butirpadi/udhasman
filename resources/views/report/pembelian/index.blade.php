@@ -108,7 +108,7 @@
                             </div>
                             <div class="col-xs-12" >
                                 <button type="submit" class="btn btn-primary" id="btn-save" ><i class="fa fa-check" ></i> Submit</button>
-                                <a class="btn btn-danger" id="btn-cancel-save" href="pembelian" ><i class="fa fa-close" ></i> Close</a>
+                                <!-- <a class="btn btn-danger" href="report/pembelian" ><i class="fa fa-close" ></i> Reset</a> -->
                             </div>
                         </div>
                     </form>

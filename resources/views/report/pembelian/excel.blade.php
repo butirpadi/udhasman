@@ -3,42 +3,36 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	</head>
 	<body>
-		<div class="content" >
-			<table style="font-size:12px;width: 100%;"   >
+		<table class="table-product" style="font-size:10pt;width: 100%;font-family: arial;"  >
 			<thead>
 				<tr>
-					<th colspan="8" style="text-align: center;border:none;" ><strong>LAPORAN PEMBELIAN</strong></th>
+					<th colspan="8" style="text-align: center;" >REKAPITULASI PEMBELIAN</th>
 				</tr>
-				<tr>
-					<th colspan="8" style="text-align: center;border:none;" ><strong>Periode : </strong>{{$tanggal_awal . ' / ' . $tanggal_akhir}}</th>
+				<tr  >
+					<th colspan="8" style="text-align: center;" >Periode : {{$tanggal_awal . ' / ' . $tanggal_akhir}}</th>
 				</tr>
-				<tr>
-					<th colspan="8" ></th>
-				</tr>
-				<tr>
-					<th style="width:10%;border:1px solid #000;text-align: center;" >REF#</th>
-					<th style="width:100px;border:1px solid #000;text-align: center;" >TANGGAL</th>
-					<th style="width:10%;border:1px solid #000;text-align: center;" >NOMOR<br/>NOTA</th>
-					<th style="width:33%;border:1px solid #000;text-align: center;" >PRODUCT</th>
-					<th style="width:9%;border:1px solid #000;text-align: center;" colspan="2"  >QTY</th>
-					<th style="width:15%;border:1px solid #000;text-align: center;" >HARGA<br/>SATUAN</th>
-					<th style="width:15%;border:1px solid #000;text-align: center;" >JUMLAH</th>
+				<tr  >
+					<th style="width: 10%;border:1px solid #000;text-align: center;" >#</th>
+					<th style="width: 10%;border:1px solid #000;text-align: center;" >TANGGAL</th>
+					<th style="width: 10%;border:1px solid #000;text-align: center;" >NOTA</th>
+					<th style="width: 33%;border:1px solid #000;text-align: center;" >PRODUK</th>
+					<th colspan="2" style="width: 9%;border:1px solid #000;text-align: center;" >QTY</th>
+					<th style="width: 15%;border:1px solid #000;text-align: center;" >HARGA</th>
+					<th style="width: 15%;border:1px solid #000;text-align: center;" >JUMLAH</th>
 				</tr>
 			</thead>
-			<tbody >
-		    	@foreach($pembelian as $pb)
+			<tbody>
+				@foreach($pembelian as $pb)
 			    	<tr>
 			    	@if($tipe_report == 'detail')
 			    		<td colspan="8" style="border:1px solid #000;">
 			    			<strong>Supplier : {{$pb->supplier}}</strong>
 			    		</td>
 			    	@else 
-			    		<td colspan="7" style="border:1px solid #000;" >
+			    		<td colspan="6" style="border:1px solid #000;" >
 			    			<strong>Supplier : {{$pb->supplier}}</strong>
 			    		</td>
-			    		<td style="text-align: right;border:1px solid #000;" >
-			    			{{number_format($pb->total,2,'.',',')}}
-			    		</td>
+			    		<td colspan="2" style="text-align: right;border:1px solid #000;" data-format="0,0.00" >{{$pb->total}}</td>
 			    	@endif
 			    	</tr>
 			    	@if($tipe_report == 'detail')
@@ -62,24 +56,13 @@
 											{{$rp->supplier_ref}}
 										@endif
 									</td>
-									<td style="border:1px solid #000;">
-										<p style="margin:0;padding: 2px;" >{{$pr->nama_product}}</p>
-										
-									</td>
-									<td style="text-align: right;border:1px solid #000;" >
-										<p style="margin:0;padding: 2px;" >{{$pr->qty}}</p>
-									</td>
-									<td style="border:1px solid #000;">
-										<p style="margin:0;padding: 2px;" >{{$pr->satuan}}</p>
-									</td>
-									<td style="text-align: right;border:1px solid #000;" >
-										<p style="margin:0;padding: 2px;" >{{number_format($pr->unit_price,2,'.',',')}}</p>
-									</td>
-									<td style="text-align: right;border:1px solid #000;" >
-										<p style="margin:0;padding: 2px;" >{{number_format($pr->unit_price*$pr->qty,2,'.',',')}}</p>
-										<?php $total_per_supplier+=$pr->unit_price*$pr->qty; ?>
-									</td>
+									<td style="border:1px solid #000;">{{$pr->nama_product}}</td>
+									<td data-format="0" style="text-align: right;border:1px solid #000;" >{{$pr->qty}}</td>
+									<td style="border:1px solid #000;">{{$pr->satuan}}</td>
+									<td data-format="0,0.00" style="text-align: right;border:1px solid #000;" >{{$pr->unit_price}}</td>
+									<td data-format="0,0.00" style="text-align: right;border:1px solid #000;" >{{$pr->unit_price*$pr->qty}}</td>
 								</tr>
+								<?php $total_per_supplier+=$pr->unit_price*$pr->qty; ?>
 								<?php $first=false; ?>
 							@endforeach
 						@endforeach
@@ -87,24 +70,19 @@
 							<td colspan="6" style="text-align: right;border:1px solid #000;">
 								<strong>Total {{$pb->supplier}} </strong>
 							</td>
-							<td colspan="2" style="text-align: right;border:1px solid #000;" >
-								<strong>{{number_format($total_per_supplier,2,'.',',')}}</strong>
-							</td>
+							<td data-format="0,0.00" colspan="2" style="text-align: right;border:1px solid #000;font-weight: bold;" >{{$total_per_supplier}}</td>
 						</tr>
 					@endif
-		    	@endforeach
-		    	<tr style="font-size: 16px;" >
-		    		<td colspan="6" style="text-align: center;border:1px solid #000;">
-		    			<strong>TOTAL</strong>
-		    		</td>
-		    		<td colspan="2" style="text-align: right;border:1px solid #000;" >
-		    			<strong>{{number_format($sum_total,2,'.',',')}}</strong>
-		    		</td>
-		    	</tr>
-		    </tbody>
-		</table>
-		</div>
-
-				
+				@endforeach
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="6" style="text-align: center;border:1px solid #000;">
+						<strong>TOTAL</strong>
+					</td>
+					<td colspan="2" style="text-align: right;border:1px solid #000;font-weight: bold;" data-format="0,0.00" >{{$sum_total}}</td>
+				</tr>
+			</tfoot>
+		</table>		
 	</body>
 </html>

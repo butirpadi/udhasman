@@ -1,7 +1,7 @@
 --
 -- DbNinja v3.2.7 for MySQL
 --
--- Dump date: 2018-02-14 17:49:05 (UTC)
+-- Dump date: 2018-02-14 11:53:44 (UTC)
 -- Server version: 10.1.28-MariaDB
 -- Database: udhdev
 --
@@ -327,7 +327,7 @@ CREATE TABLE `payment` (
   PRIMARY KEY (`id`),
   KEY `FK_payment_res_partner` (`partner_id`),
   CONSTRAINT `FK_payment_res_partner` FOREIGN KEY (`partner_id`) REFERENCES `res_partner` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
 
 
 --
@@ -724,8 +724,6 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 
 
 
-
-
 --
 -- Structure for view: view_hutang
 --
@@ -829,6 +827,62 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP VIEW IF EXISTS `view_product`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `udhdev`.`view_product` AS select `udhdev`.`product`.`id` AS `id`,`udhdev`.`product`.`created_at` AS `created_at`,`udhdev`.`product`.`kode` AS `kode`,`udhdev`.`product`.`nama` AS `nama`,`udhdev`.`product`.`product_unit_id` AS `product_unit_id`,`udhdev`.`product_unit`.`nama` AS `product_unit` from (`udhdev`.`product` join `udhdev`.`product_unit` on((`udhdev`.`product`.`product_unit_id` = `udhdev`.`product_unit`.`id`)));
+
+
+--
+-- Structure for view: view_purchase_order
+--
+DROP VIEW IF EXISTS `view_purchase_order`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `udhdev`.`view_purchase_order` AS select `udhdev`.`purchase_order`.`id` AS `id`,`udhdev`.`purchase_order`.`supplier_ref` AS `supplier_ref`,`udhdev`.`purchase_order`.`created_at` AS `created_at`,`udhdev`.`purchase_order`.`order_number` AS `order_number`,`udhdev`.`purchase_order`.`order_date` AS `order_date`,date_format(`udhdev`.`purchase_order`.`order_date`,'%d-%m-%Y') AS `order_date_formatted`,`udhdev`.`purchase_order`.`subtotal` AS `subtotal`,`udhdev`.`purchase_order`.`disc` AS `disc`,`udhdev`.`purchase_order`.`total` AS `total`,`udhdev`.`purchase_order`.`supplier_id` AS `supplier_id`,`udhdev`.`res_partner`.`kode` AS `kode_supplier`,`udhdev`.`res_partner`.`nama` AS `supplier`,`udhdev`.`purchase_order`.`status` AS `status` from (`udhdev`.`res_partner` join `udhdev`.`purchase_order` on((`udhdev`.`res_partner`.`id` = `udhdev`.`purchase_order`.`supplier_id`)));
+
+
+--
+-- Structure for view: view_purchase_order_all_detail
+--
+DROP VIEW IF EXISTS `view_purchase_order_all_detail`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `udhdev`.`view_purchase_order_all_detail` AS select `udhdev`.`purchase_order`.`id` AS `id`,`udhdev`.`purchase_order`.`created_at` AS `created_at`,`udhdev`.`purchase_order`.`supplier_ref` AS `supplier_ref`,`udhdev`.`purchase_order`.`order_number` AS `order_number`,`udhdev`.`purchase_order`.`order_date` AS `order_date`,date_format(`udhdev`.`purchase_order`.`order_date`,'%d-%m-%Y') AS `order_date_formatted`,`udhdev`.`purchase_order`.`supplier_id` AS `supplier_id`,`udhdev`.`purchase_order`.`status` AS `status`,`udhdev`.`purchase_order`.`user_id` AS `user_id`,`udhdev`.`purchase_order`.`subtotal` AS `subtotal`,`udhdev`.`purchase_order`.`disc` AS `disc`,`udhdev`.`purchase_order`.`total` AS `total`,`udhdev`.`res_partner`.`nama` AS `supplier`,`udhdev`.`res_partner`.`kode` AS `kode_supplier`,`udhdev`.`purchase_order_detail`.`product_id` AS `product_id`,`udhdev`.`product`.`kode` AS `kode_product`,`udhdev`.`product`.`nama` AS `product`,`udhdev`.`product`.`product_unit_id` AS `product_unit_id`,`udhdev`.`product_unit`.`nama` AS `product_unit`,`udhdev`.`purchase_order_detail`.`qty` AS `qty`,`udhdev`.`purchase_order_detail`.`unit_price` AS `unit_price` from ((((`udhdev`.`purchase_order` join `udhdev`.`purchase_order_detail` on((`udhdev`.`purchase_order`.`id` = `udhdev`.`purchase_order_detail`.`purchase_order_id`))) join `udhdev`.`res_partner` on((`udhdev`.`purchase_order`.`supplier_id` = `udhdev`.`res_partner`.`id`))) join `udhdev`.`product` on((`udhdev`.`purchase_order_detail`.`product_id` = `udhdev`.`product`.`id`))) join `udhdev`.`product_unit` on((`udhdev`.`product`.`product_unit_id` = `udhdev`.`product_unit`.`id`)));
+
+
+--
+-- Structure for view: view_purchase_order_detail
+--
+DROP VIEW IF EXISTS `view_purchase_order_detail`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `udhdev`.`view_purchase_order_detail` AS select `udhdev`.`purchase_order_detail`.`id` AS `id`,`udhdev`.`purchase_order_detail`.`created_at` AS `created_at`,`udhdev`.`purchase_order_detail`.`purchase_order_id` AS `purchase_order_id`,`udhdev`.`purchase_order_detail`.`product_id` AS `product_id`,`udhdev`.`purchase_order_detail`.`qty` AS `qty`,`udhdev`.`purchase_order_detail`.`unit_price` AS `unit_price`,`udhdev`.`purchase_order`.`order_date` AS `order_date`,date_format(`udhdev`.`purchase_order`.`order_date`,'%d-%m-%Y') AS `order_date_formatted`,`udhdev`.`purchase_order`.`supplier_id` AS `supplier_id`,`udhdev`.`res_partner`.`nama` AS `supplier`,`udhdev`.`product`.`kode` AS `kode_product`,`udhdev`.`product`.`nama` AS `product`,`udhdev`.`product`.`product_unit_id` AS `product_unit_id`,`udhdev`.`product_unit`.`nama` AS `product_unit` from ((((`udhdev`.`purchase_order` join `udhdev`.`purchase_order_detail` on((`udhdev`.`purchase_order`.`id` = `udhdev`.`purchase_order_detail`.`purchase_order_id`))) join `udhdev`.`product` on((`udhdev`.`purchase_order_detail`.`product_id` = `udhdev`.`product`.`id`))) join `udhdev`.`product_unit` on((`udhdev`.`product`.`product_unit_id` = `udhdev`.`product_unit`.`id`))) join `udhdev`.`res_partner` on((`udhdev`.`purchase_order`.`supplier_id` = `udhdev`.`res_partner`.`id`)));
+
+
+--
+-- Structure for view: view_sales_invoice
+--
+DROP VIEW IF EXISTS `view_sales_invoice`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `udhdev`.`view_sales_invoice` AS select `udhdev`.`sales_order`.`id` AS `id`,`udhdev`.`sales_order`.`is_direct_sales` AS `is_direct_sales`,`udhdev`.`sales_order`.`created_at` AS `created_at`,`udhdev`.`sales_order`.`updated_at` AS `updated_at`,`udhdev`.`sales_order`.`order_number` AS `order_number`,`udhdev`.`sales_order`.`order_date` AS `order_date`,`udhdev`.`sales_order`.`customer_id` AS `customer_id`,`udhdev`.`sales_order`.`pekerjaan_id` AS `pekerjaan_id`,`udhdev`.`sales_order`.`status` AS `status`,`udhdev`.`sales_order`.`nama_customer` AS `nama_customer`,`udhdev`.`sales_order`.`nopol` AS `nopol`,`udhdev`.`_customer`.`kode` AS `kode_customer`,`udhdev`.`_customer`.`nama` AS `customer`,`udhdev`.`customer_invoice_detail`.`material_id` AS `material_id`,`udhdev`.`customer_invoice_detail`.`kalkulasi` AS `kalkulasi`,`udhdev`.`customer_invoice_detail`.`panjang` AS `panjang`,`udhdev`.`customer_invoice_detail`.`lebar` AS `lebar`,`udhdev`.`customer_invoice_detail`.`tinggi` AS `tinggi`,`udhdev`.`customer_invoice_detail`.`volume` AS `volume`,`udhdev`.`customer_invoice_detail`.`gross` AS `gross`,`udhdev`.`customer_invoice_detail`.`tarre` AS `tarre`,`udhdev`.`customer_invoice_detail`.`netto` AS `netto`,`udhdev`.`customer_invoice_detail`.`unit_price` AS `unit_price`,`udhdev`.`customer_invoice_detail`.`total` AS `total`,`udhdev`.`customer_invoice_detail`.`qty` AS `qty`,`udhdev`.`material`.`kode` AS `kode_material`,`udhdev`.`material`.`nama` AS `material` from ((((`udhdev`.`_customer` join `udhdev`.`sales_order` on((`udhdev`.`_customer`.`id` = `udhdev`.`sales_order`.`customer_id`))) join `udhdev`.`customer_invoices` on((`udhdev`.`sales_order`.`id` = `udhdev`.`customer_invoices`.`order_id`))) join `udhdev`.`customer_invoice_detail` on((`udhdev`.`customer_invoices`.`id` = `udhdev`.`customer_invoice_detail`.`customer_invoice_id`))) join `udhdev`.`material` on((`udhdev`.`customer_invoice_detail`.`material_id` = `udhdev`.`material`.`id`)));
+
+
+--
+-- Structure for view: view_sales_order
+--
+DROP VIEW IF EXISTS `view_sales_order`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `udhdev`.`view_sales_order` AS select `udhdev`.`sales_order`.`id` AS `id`,`udhdev`.`sales_order`.`created_at` AS `created_at`,`udhdev`.`sales_order`.`updated_at` AS `updated_at`,`udhdev`.`sales_order`.`order_number` AS `order_number`,`udhdev`.`sales_order`.`order_date` AS `order_date`,date_format(`udhdev`.`sales_order`.`order_date`,'%d-%m-%Y') AS `order_date_formatted`,`udhdev`.`sales_order`.`customer_id` AS `customer_id`,`udhdev`.`sales_order`.`status` AS `status`,`udhdev`.`_customer`.`nama` AS `customer`,`udhdev`.`_customer`.`kode` AS `kode_customer`,`udhdev`.`sales_order`.`pekerjaan_id` AS `pekerjaan_id`,`udhdev`.`pekerjaan`.`nama` AS `pekerjaan`,`udhdev`.`pekerjaan`.`alamat` AS `alamat_pekerjaan`,`udhdev`.`desa`.`name` AS `desa`,`udhdev`.`kecamatan`.`id` AS `kecamatan_id`,`udhdev`.`kecamatan`.`name` AS `kecamatan`,`udhdev`.`kabupaten`.`id` AS `kabupaten_id`,`udhdev`.`kabupaten`.`name` AS `kabupaten`,`udhdev`.`provinsi`.`id` AS `provinsi_id`,`udhdev`.`provinsi`.`name` AS `provinsi`,`udhdev`.`sales_order`.`is_direct_sales` AS `is_direct_sales`,`udhdev`.`sales_order`.`nama_customer` AS `nama_customer`,`udhdev`.`sales_order`.`nopol` AS `nopol` from ((((((`udhdev`.`sales_order` left join `udhdev`.`_customer` on((`udhdev`.`sales_order`.`customer_id` = `udhdev`.`_customer`.`id`))) left join `udhdev`.`pekerjaan` on((`udhdev`.`sales_order`.`pekerjaan_id` = `udhdev`.`pekerjaan`.`id`))) left join `udhdev`.`desa` on((`udhdev`.`pekerjaan`.`desa_id` = `udhdev`.`desa`.`id`))) left join `udhdev`.`kecamatan` on((`udhdev`.`desa`.`kecamatan_id` = `udhdev`.`kecamatan`.`id`))) left join `udhdev`.`kabupaten` on((`udhdev`.`kecamatan`.`kabupaten_id` = `udhdev`.`kabupaten`.`id`))) left join `udhdev`.`provinsi` on((`udhdev`.`kabupaten`.`provinsi_id` = `udhdev`.`provinsi`.`id`)));
+
+
+--
+-- Structure for view: view_sales_order_all_detail
+--
+DROP VIEW IF EXISTS `view_sales_order_all_detail`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `udhdev`.`view_sales_order_all_detail` AS select `udhdev`.`sales_order`.`id` AS `id`,`udhdev`.`sales_order`.`is_direct_sales` AS `is_direct_sales`,`udhdev`.`sales_order`.`created_at` AS `created_at`,`udhdev`.`sales_order`.`updated_at` AS `updated_at`,`udhdev`.`sales_order`.`order_number` AS `order_number`,date_format(`udhdev`.`sales_order`.`order_date`,'%d-%m-%Y') AS `order_date_formatted`,`udhdev`.`sales_order`.`order_date` AS `order_date`,`udhdev`.`sales_order`.`customer_id` AS `customer_id`,`udhdev`.`sales_order`.`pekerjaan_id` AS `pekerjaan_id`,`udhdev`.`sales_order`.`status` AS `status`,`udhdev`.`sales_order`.`nama_customer` AS `nama_customer`,`udhdev`.`sales_order`.`nopol` AS `nopol`,`udhdev`.`sales_order_detail`.`material_id` AS `material_id`,`udhdev`.`sales_order_detail`.`qty` AS `qty`,`udhdev`.`_customer`.`kode` AS `kode_customer`,`udhdev`.`_customer`.`nama` AS `customer`,`udhdev`.`pekerjaan`.`nama` AS `pekerjaan`,`udhdev`.`material`.`kode` AS `kode_material`,`udhdev`.`material`.`nama` AS `material`,(case when (`udhdev`.`sales_order`.`is_direct_sales` = 'Y') then `udhdev`.`sales_order_detail`.`total` else (select sum(`udhdev`.`delivery_order`.`total`) from `udhdev`.`delivery_order` where ((`udhdev`.`delivery_order`.`sales_order_id` = `udhdev`.`sales_order`.`id`) and (`udhdev`.`delivery_order`.`material_id` = `udhdev`.`sales_order_detail`.`material_id`))) end) AS `total` from ((((`udhdev`.`sales_order` join `udhdev`.`sales_order_detail` on((`udhdev`.`sales_order`.`id` = `udhdev`.`sales_order_detail`.`sales_order_id`))) join `udhdev`.`_customer` on((`udhdev`.`sales_order`.`customer_id` = `udhdev`.`_customer`.`id`))) left join `udhdev`.`pekerjaan` on((`udhdev`.`sales_order`.`pekerjaan_id` = `udhdev`.`pekerjaan`.`id`))) join `udhdev`.`material` on((`udhdev`.`sales_order_detail`.`material_id` = `udhdev`.`material`.`id`)));
+
+
+--
+-- Structure for view: view_sales_order_detail
+--
+DROP VIEW IF EXISTS `view_sales_order_detail`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `udhdev`.`view_sales_order_detail` AS select `sod`.`id` AS `id`,`sod`.`created_at` AS `created_at`,`sod`.`updated_at` AS `updated_at`,`sod`.`sales_order_id` AS `sales_order_id`,`sod`.`material_id` AS `material_id`,`sod`.`qty` AS `qty`,`udhdev`.`material`.`kode` AS `kode_material`,`udhdev`.`material`.`nama` AS `material`,`sod`.`harga` AS `harga`,`sod`.`total` AS `total` from (`udhdev`.`sales_order_detail` `sod` join `udhdev`.`material` on((`sod`.`material_id` = `udhdev`.`material`.`id`)));
+
+
+--
+-- Structure for view: view_supplier_payment
+--
+DROP VIEW IF EXISTS `view_supplier_payment`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `udhdev`.`view_supplier_payment` AS select `udhdev`.`supplier_payment`.`id` AS `id`,`udhdev`.`supplier_payment`.`created_at` AS `created_at`,`udhdev`.`supplier_payment`.`payment_number` AS `payment_number`,`udhdev`.`supplier_payment`.`supplier_bill_id` AS `supplier_bill_id`,`udhdev`.`supplier_payment`.`payment_amount` AS `payment_amount`,date_format(`udhdev`.`supplier_payment`.`payment_date`,'%d-%m-%Y') AS `payment_date_formatted`,`udhdev`.`supplier_payment`.`payment_date` AS `payment_date`,`udhdev`.`supplier_payment`.`status` AS `status`,`udhdev`.`supplier_bill`.`bill_number` AS `bill_number` from (`udhdev`.`supplier_bill` join `udhdev`.`supplier_payment` on((`udhdev`.`supplier_bill`.`id` = `udhdev`.`supplier_payment`.`supplier_bill_id`)));
 
 
 --

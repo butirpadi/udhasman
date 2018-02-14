@@ -132,12 +132,12 @@ class ReportPembelianController extends Controller
 				'tipe_report' =>$req->tipe_report
 			];
 
-        	\Excel::create('Laporan_Pembelian_'.date('dmY_His'), function($excel) use($reportOptions)  {
-	            $excel->sheet('Report', function($sheet) use($reportOptions) {
-	                $sheet->loadView('report.pembelian.excel',$reportOptions);
-	            });
-
-	        })->download('xlsx');
+    	return \Excel::create('Laporan_Pembelian_'.date('dmY_His'), function($excel) use($reportOptions)  {
+            $excel->sheet('Report', function($sheet) use($reportOptions) {
+            	$sheet->setAutoSize(true);
+                $sheet->loadView('report.pembelian.excel',$reportOptions);
+            });
+        })->download('xlsx');
 
 	        // return view('report.pembelian.excel',$reportOptions);
        
