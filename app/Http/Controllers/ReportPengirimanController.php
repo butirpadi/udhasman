@@ -622,13 +622,14 @@ class ReportPengirimanController extends Controller
         // Generate Excell
         \Excel::create('Laporan_Pengiriman_Material_'.date('dmY_His'), function($excel) use($pengiriman_by_group,$awal,$akhir,$req)  {
             $excel->sheet('Report', function($sheet) use($pengiriman_by_group,$awal,$akhir,$req) {
-                $sheet->loadView('report.pengiriman.excel-detail',[
+                $sheet->loadView('report.pengiriman.excel',[
                     'pengiriman_by_group' => $pengiriman_by_group,
                     'tanggal_awal' => $awal,
                     'tanggal_akhir' => $akhir,
                     'group_by' => $req->group_by,
                     'dicetak'=>date('d-m-Y H:i:s')
                 ]);
+                $sheet->setAutoSize(true);
             });
 
         })->download('xlsx');
