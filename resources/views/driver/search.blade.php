@@ -38,7 +38,7 @@
                   <li><a href="master/partner/filter/partner">Partner</a></li>
                   <li><a href="master/partner/filter/supplier">Supplier</a></li>
                   <li><a href="master/partner/filter/customer">Customer</a></li>
-                  <li><a href="master/partner/filter/staff">Staff</a></li>
+                  <li><a href="master/partner/filter/driver">Staff</a></li>
                   <li><a href="master/partner/filter/driver">Driver</a></li>
                 </ul>
             </div>
@@ -90,7 +90,7 @@
                                 Supplier
                             @elseif($dt->driver == 'Y')
                                 Driver
-                            @elseif($dt->staff == 'Y')
+                            @elseif($dt->driver == 'Y')
                                 Staff
                             @else
                                 Partner

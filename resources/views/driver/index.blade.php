@@ -26,7 +26,7 @@
     <!-- Default box -->
     <div class="box box-solid">
         <div class="box-header with-border">
-            <a class="btn btn-primary" id="btn-add" href="master/staff/create" ><i class="fa fa-plus-circle" ></i> Create</a>
+            <a class="btn btn-primary" id="btn-add" href="master/driver/create" ><i class="fa fa-plus-circle" ></i> Create</a>
             <a class="btn btn-danger hide" id="btn-delete" href="#" ><i class="fa fa-trash" ></i> Delete</a>
 
             <div class="pull-right" >
@@ -81,7 +81,7 @@
                             {{$dt->telp}}
                         </td>
                         <td class="text-center" >
-                            <a class="btn btn-primary btn-xs" href="master/staff/edit/{{$dt->id}}" ><i class="fa fa-edit" ></i></a>
+                            <a class="btn btn-primary btn-xs" href="master/driver/edit/{{$dt->id}}" ><i class="fa fa-edit" ></i></a>
                         </td>
                     </tr>
                     @endforeach
@@ -157,7 +157,7 @@
     // $(document).on('click','.',function(){
     //     var row = $(this).parent();
     //     var data_id = row.data('id');
-    //     location.href = 'master/staff/edit/' + data_id ;
+    //     location.href = 'master/driver/edit/' + data_id ;
     // });
 
     // Delete Data Lokasi
@@ -171,7 +171,7 @@
                 dataid.push(newdata);
             });
 
-            var deleteForm = $('<form>').attr('method','POST').attr('action','master/staff/delete');
+            var deleteForm = $('<form>').attr('method','POST').attr('action','master/driver/delete');
             deleteForm.append($('<input>').attr('type','hidden').attr('name','dataid').attr('value',JSON.stringify(dataid)));
             $('body').append(deleteForm);
 deleteForm.submit();

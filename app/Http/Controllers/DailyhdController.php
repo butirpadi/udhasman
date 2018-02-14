@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Helpers\HtmlPdf;
+use Spipu\Html2Pdf\Html2Pdf;
 
 class DailyhdController extends Controller
 {
@@ -15,6 +17,19 @@ class DailyhdController extends Controller
 		
 		return view('dailyhd.index',[
 				'data' => $data
+			]);
+	}
+
+	public function groupBy($val){
+		$data = \DB::table('view_dailyhd')
+				->select('*',\DB::raw('count(id) as jumlah'))
+				->groupBy($val)
+				->orderBy('tanggal','desc')
+				->paginate(Appsetting('paging_item_number'));
+
+		return view('dailyhd.group',[
+				'data' => $data,
+				'group_by' => $val
 			]);
 	}
 
@@ -83,6 +98,45 @@ class DailyhdController extends Controller
 		});
 
 		
+	}
+
+	public function pdf($id){
+		$alat = \DB::table('alat')->get();
+		$select_alat = [];
+		foreach($alat as $dt){
+			$select_alat[$dt->id] = $dt->kode . ' - ' . $dt->nama;
+		}
+
+		$galian = \DB::table('lokasi_galian')->get();
+		$select_galian = [];
+		foreach($galian as $dt){
+			$select_galian[$dt->id] =  $dt->nama;
+		}
+
+		$staff = \DB::table('res_partner')->whereStaff('Y')->get();
+		$select_staff = [];
+		foreach($staff as $dt){
+			$select_staff[$dt->id] = $dt->nama;
+		}
+
+
+		$data = \DB::table('view_dailyhd')->find($id);
+
+		$html2pdf = new Html2Pdf('P', 'A4', 'en');
+		$html2pdf->writeHTML(view('dailyhd.pdf',[
+			'data'=>$data,
+			'selectAlat' => $select_alat,
+			'selectGalian' => $select_galian,
+			'selectStaff' => $select_staff,
+		])->__toString());
+		$html2pdf->output();
+
+		// return view('dailyhd.pdf',[
+		// 	'data'=>$data,
+		// 	'selectAlat' => $select_alat,
+		// 	'selectGalian' => $select_galian,
+		// 	'selectStaff' => $select_staff,
+		// ]);
 	}
 
 	public function edit($id){

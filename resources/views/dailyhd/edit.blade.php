@@ -99,6 +99,7 @@
             </div>   
             <div class="box-footer" >
                 <button type="submit" class="btn btn-primary" ><i class="fa fa-save" ></i> Save</button>
+                <a class="btn btn-success" target="_blank" href="dailyhd/pdf/{{$data->id}}" ><i class="fa fa-file-pdf-o"></i> PDF</a>
                 <a href="dailyhd" class="btn btn-danger"><i class="fa fa-close" ></i> Close</a>
             </div>
         </form>

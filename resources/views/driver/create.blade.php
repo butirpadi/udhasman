@@ -31,7 +31,7 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        <a href="master/staff" >Data Driver</a>
+        <a href="master/driver" >Data Driver</a>
         <i class="fa fa-angle-double-right" ></i> Create
     </h1>
 </section>
@@ -39,7 +39,7 @@
 <!-- Main content -->
 <section class="content">
     <div class="box box-solid" >
-        <form enctype="multipart/form-data" method="POST" action="master/staff/insert" >
+        <form enctype="multipart/form-data" method="POST" action="master/driver/insert" >
             <div class="box-header with-border" style="padding-top:5px;padding-bottom:5px;" >
                 <label><h3 style="margin:0;padding:0;font-weight:bold;" >New</h3></label>
             </div>
@@ -60,7 +60,7 @@
                                 Supplier
                             </label>
                             <label class="radio-inline" >
-                                <input type="radio" name="partner_type" value="staff" >
+                                <input type="radio" name="partner_type" value="driver" >
                                 Staff
                             </label>
                             <label class="radio-inline" >
@@ -155,7 +155,7 @@
             </div>
             <div class="box-footer">
                 <button type="submit" class="btn btn-primary" id="btn-save" ><i class="fa fa-save" ></i> Save</button>
-                <a class="btn btn-danger" href="master/staff" ><i class="fa fa-close" ></i> Close</a>
+                <a class="btn btn-danger" href="master/driver" ><i class="fa fa-close" ></i> Close</a>
             </div>
         </form>
     </div>
@@ -310,7 +310,7 @@
                 $('#input-gaji').hide();
                 $('#input-owner').hide();
                 $('#input-npwp').hide();
-            }else if(type == 'staff'){
+            }else if(type == 'driver'){
                 $('#input-owner').hide();
                 $('#input-npwp').hide();
                 $('#input-armada').hide();
@@ -327,7 +327,7 @@
 
         });
 
-        $(":radio[value=staff]").prop('checked',true).trigger('change');
+        $(":radio[value=driver]").prop('checked',true).trigger('change');
 
     })(jQuery);
 </script>

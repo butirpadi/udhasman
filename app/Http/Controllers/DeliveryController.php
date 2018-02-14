@@ -25,6 +25,134 @@ class DeliveryController extends Controller
 			]);
 	}
 
+	public function validateAll(){
+		$openPengiriman = \DB::table('new_pengiriman')
+								->whereState('open')
+								->get();
+		foreach($openPengiriman as $dt){
+			$this->toValidate($dt->id);
+			echo 'validate pengiriman with ID = ' . $dt->id . '<br/>';
+		}
+
+		echo 'Validate Successfull';
+	}
+
+	public function import(){
+		return view('delivery.import');
+	}
+
+	public function postImport(Request $req){
+		if($req->hasFile('import_file')){
+            \Excel::load($req->file('import_file')->getRealPath(), function ($reader) {
+            	\DB::transaction(function()use($reader){
+            		echo 'Partner | Pekerjaan | Galian | Armada | Driver | Material <br/>';
+            		foreach ($reader->toArray() as $key => $row) {
+	                    $data['partner'] = $row['partner'];
+	                    $data['pekerjaan'] = $row['pekerjaan'];
+	                    $data['tanggal'] = $row['tanggal'];
+	                    $data['nopol'] = $row['nopol'];
+	                    $data['material'] = $row['material'];
+	                    $data['kalkulasi'] = $row['kalkulasi'];
+	                    $data['gross'] = $row['gross'];
+	                    $data['tare'] = $row['tare'];
+	                    $data['panjang'] = $row['panjang'];
+	                    $data['lebar'] = $row['lebar'];
+	                    $data['tinggi'] = $row['tinggi'];
+	                    $data['qty'] = $row['qty'];
+	                    $data['harga'] = $row['harga'];
+	                    $data['galian'] = $row['galian'];
+	                    $data['nota'] = $row['nota'];
+
+	                    // get partner id
+
+	                    $partner = \DB::table('res_partner')
+	                    				->whereCustomer('Y')
+	                    				->whereNama($data['partner'])
+	                    				->first();
+	                    echo $partner->nama . ' | ';
+
+	                    $pekerjaan = \DB::table('pekerjaan')
+	                    				->whereNama($data['pekerjaan'])
+	                    				->first();
+	                    echo $pekerjaan->nama . ' | ';
+
+	                    $galian = \DB::table('lokasi_galian')
+	                    				->whereNama($data['galian'])
+	                    				->first();
+	                    echo $galian->nama . ' | ';
+
+	                    $armada = \DB::table('armada')
+	                    				->whereNopol($data['nopol'])
+	                    				->first();
+	                    echo $armada->nopol . ' | ';
+
+	                    $driver = \DB::table('res_partner')
+	                    				->whereDriver('Y')
+	                    				->whereArmadaId($armada->id)
+	                    				->first();
+	                    echo $driver->nama . ' | ';
+
+	                    $material = \DB::table('material')
+	                    				->whereNama($data['material'])
+	                    				->first();
+	                    echo $material->nama . '               <br/>';
+
+	                    // INSERT TO DATABASE
+	                    // Generate DO Number
+				        $month=date("m");
+						$year=date("Y");
+				        $prefix = \DB::table('appsetting')->where('name','pengiriman_prefix')->first()->value;
+				        $counter = \DB::table('appsetting')->where('name','pengiriman_counter')->first()->value;
+				        // $new_number = $prefix . '/'.$year.'/'.$month.'/'. $counter;
+				        $new_number = $prefix . '/'.$year.'/'.$month. $counter;
+				        // update counter
+				        \DB::table('appsetting')
+				        		->where('name','pengiriman_counter')
+				        		->update([
+				        			'value' => $counter+1
+				        		  ]);
+
+				        $harga_total = $data['qty'] * $data['harga'];
+				        if($data['kalkulasi'] == 'ton'){
+				        	$harga_total = ($data['gross'] - $data['tare']) * $data['harga'];
+				        }elseif($data['kalkulasi'] == 'kubik'){
+				        	$harga_total = ($data['panjang'] * $data['lebar'] * $data['tinggi']) * $data['harga'];
+				        }
+
+				        $new_do_id = \DB::table('new_pengiriman')->insertGetId([
+							'name' => $new_number,
+							'order_date' => $data['tanggal'],
+							'customer_id' => $partner->id,
+							'pekerjaan_id' => $pekerjaan->id,
+							'karyawan_id' => $driver->id,
+							'nopol' => $data['nopol'],
+							'material_id' => $material->id,
+							'lokasi_galian_id' => $galian->id,
+							'nota_timbang' => $data['nota'],
+							'state' => 'open',
+							'kalkulasi' => $data['kalkulasi'],
+							'gross' => $data['gross'],
+							'tare' => $data['tare'],
+							'netto' => $data['gross'] - $data['tare'],
+							'panjang' => $data['panjang'],
+							'lebar' => $data['lebar'],
+							'tinggi' => $data['tinggi'],
+							'volume' => $data['panjang'] * $data['lebar'] * $data['tinggi'],
+							'harga_satuan' => $data['harga'],
+							'harga_total' => $harga_total ,
+						]);
+	                    
+	                }	
+
+	                echo 'Import Successfull <br/><br/>';
+	                echo '<a href="import" >Import Again..</a>';
+	                echo '<a href="' . url('delivery') . '" >Close</a>';
+            	});
+                
+            });
+        }
+	}
+
 	public function create(){
 		$drivers = \DB::table('res_partner')
 							->select('res_partner.*','armada.nopol')

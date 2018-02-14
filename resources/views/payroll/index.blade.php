@@ -26,7 +26,7 @@
     <!-- Default box -->
     <div class="box box-solid">
         <div class="box-header with-border" >
-            <a class="btn btn-primary " id="btn-add" href="attendance/attend" ><i class="fa fa-plus-circle" ></i> Input Presensi</a>
+            <a class="btn btn-primary " id="btn-add" href="attendance/attend" ><i class="fa fa-plus-circle" ></i> Input Payroll</a>
             <a class="btn btn-danger hide" id="btn-delete" href="#" ><i class="fa fa-trash" ></i> Delete</a>
             
             <div class="pull-right" >

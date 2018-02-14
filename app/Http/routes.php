@@ -79,6 +79,8 @@ Route::group(['middleware' => ['web','auth']], function () {
         Route::post('delete','DailyhdController@delete');
         Route::post('validate','DailyhdController@toValidate');
         Route::get('search', 'DailyhdController@getSearch');
+        Route::get('group-by/{val}', 'DailyhdController@groupBy');
+        Route::get('pdf/{id}','DailyhdController@pdf');
     });
     
     Route::group(['prefix' => 'finance/cashbook'], function () {
@@ -365,6 +367,9 @@ Route::group(['middleware' => ['web','auth']], function () {
         Route::post('search','DeliveryController@search');
         Route::get('search','DeliveryController@getSearch');
         Route::get('filter/{filterby}/{val}','DeliveryController@filter');
+        Route::get('import','DeliveryController@import');
+        Route::post('post-import','DeliveryController@postImport');
+        Route::get('validate-all','DeliveryController@validateAll');
         // Route::get('edit/{id}','PembelianController@edit');
         // Route::post('update','PembelianController@update');
         // Route::get('validate/{id}','PembelianController@validateIt');

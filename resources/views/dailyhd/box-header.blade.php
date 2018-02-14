@@ -1,27 +1,15 @@
 <div class="box-header with-border" >
             <a class="btn btn-primary" id="btn-add" href="dailyhd/create" ><i class="fa fa-plus-circle" ></i> Create</a>
-            <!-- <div class="btn-group">
-                <a  class="btn btn-success dropdown-toggle" data-toggle="dropdown">
-                    <i class="fa fa-filter" ></i>
-                    Filter
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a href="dailyhd/filter/state/draft">State : Draft</a></li>
-                  <li><a href="dailyhd/filter/state/open">State : Open</a></li>
-                  <li><a href="dailyhd/filter/state/done">State : Done</a></li>
-                  <li class="divider" ></li>
-                  <li><a href="dailyhd/filter/invoice_state/open">Invoice State : Open</a></li>
-                  <li><a href="dailyhd/filter/invoice_state/paid">Invoice State : Paid</a></li>
-                </ul>
-            </div> -->
             <div class="btn-group">
                 <a  class="btn bg-maroon dropdown-toggle" data-toggle="dropdown">
                     <i class="fa fa-th-large" ></i>
                     Group by
                 </a>
                 <ul class="dropdown-menu">
-                  <li><a href="dailyhd/groupby/customer">Customer</a></li>
-                  <li><a href="dailyhd/groupby/pekerjaan">Pekerjaan</a></li>
+                  <li><a href="dailyhd/group-by/alat_id">Alat</a></li>
+                  <li><a href="dailyhd/group-by/lokasi_galian_id">Lokasi Galian</a></li>
+                  <li><a href="dailyhd/group-by/pengawas_id">Pengawas</a></li>
+                  <li><a href="dailyhd/group-by/operator_id">Operator</a></li>
                 </ul>
             </div>
             <a class="btn btn-danger hide" id="btn-delete" href="#" ><i class="fa fa-trash" ></i> Delete</a>

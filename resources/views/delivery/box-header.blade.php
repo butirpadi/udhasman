@@ -25,7 +25,7 @@
                 </ul>
             </div>
             <a class="btn btn-danger hide" id="btn-delete" href="#" ><i class="fa fa-trash" ></i> Delete</a>
-
+            <a class="btn bg-purple" href="delivery/import" ><i class="fa fa-upload" ></i> Import</a>
             <div class="pull-right" >
                 <div class="box-tools" style="margin-top: 6px;">
                     <form method="GET" action="delivery/search" >

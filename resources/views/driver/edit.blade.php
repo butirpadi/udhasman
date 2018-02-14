@@ -31,7 +31,7 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        <a href="master/staff" >Data Driver</a>
+        <a href="master/driver" >Data Driver</a>
         <i class="fa fa-angle-double-right" ></i> {{$data->kode}}
     </h1>
 </section>
@@ -39,7 +39,7 @@
 <!-- Main content -->
 <section class="content">
     <div class="box box-solid" >
-        <form enctype="multipart/form-data" method="POST" action="master/staff/update" >
+        <form enctype="multipart/form-data" method="POST" action="master/driver/update" >
             <div class="box-header with-border" style="padding-top:5px;padding-bottom:5px;" >
                 <label><h3 style="margin:0;padding:0;font-weight:bold;" >{{$data->kode}}</h3></label>
             </div>
@@ -48,7 +48,7 @@
                     <div class="col-xs-5" >
                         <div class="radio hide">
                             <label class="radio-inline" >
-                                <input type="radio" name="partner_type" value="partner" {{$data->customer == 'N' && $data->supplier == 'N' && $data->driver == 'N' && $data->staff == 'N' ? 'checked':'' }} >
+                                <input type="radio" name="partner_type" value="partner" {{$data->customer == 'N' && $data->supplier == 'N' && $data->driver == 'N' && $data->driver == 'N' ? 'checked':'' }} >
                                 Staff
                             </label>
                             <label class="radio-inline" >
@@ -60,7 +60,7 @@
                                 Supplier
                             </label>
                             <label class="radio-inline" >
-                                <input type="radio" name="partner_type" value="staff" {{$data->staff == 'Y' ? 'checked':''}} >
+                                <input type="radio" name="partner_type" value="driver" {{$data->driver == 'Y' ? 'checked':''}} >
                                 Staff
                             </label>
                             <label class="radio-inline" >
@@ -157,7 +157,7 @@
             </div>
             <div class="box-footer">
                 <button type="submit" class="btn btn-primary" id="btn-save" ><i class="fa fa-save" ></i> Save</button>
-                <a class="btn btn-danger" href="master/staff" ><i class="fa fa-close" ></i> Close</a>
+                <a class="btn btn-danger" href="master/driver" ><i class="fa fa-close" ></i> Close</a>
             </div>
         </form>
     </div>
@@ -313,7 +313,7 @@
                 $('#input-gaji').hide();
                 $('#input-owner').hide();
                 $('#input-npwp').hide();
-            }else if(type == 'staff'){
+            }else if(type == 'driver'){
                 $('#input-owner').hide();
                 $('#input-npwp').hide();
                 $('#input-armada').hide();
