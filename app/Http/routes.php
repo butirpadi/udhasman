@@ -615,9 +615,14 @@ Route::group(['middleware' => ['web','auth']], function () {
 
     Route::group(['prefix' => 'report'], function () {
         // REPORT PEMBELIAN
-        Route::get('pembelian','ReportPembelianController@index');
-        Route::post('pembelian/default-report','ReportPembelianController@defaultReport');
-        Route::post('pembelian/group-report','ReportPembelianController@groupReport');
+        Route::group(['prefix' => 'pembelian'], function () {
+            Route::get('/','ReportPembelianController@index');
+            Route::post('default-report','ReportPembelianController@defaultReport');
+            Route::post('group-report','ReportPembelianController@groupReport');
+            Route::post('submit','ReportPembelianController@submit');
+            Route::post('submit-pdf','ReportPembelianController@submitPdf');
+            Route::post('submit-excel','ReportPembelianController@submitExcel');
+        });
 
         // REPORT PENGIRIMAN
         Route::get('pengiriman','ReportPengirimanController@index');

@@ -342,7 +342,9 @@
         });
     $('input[name=volume], input[name=netto]').autoNumeric('init',{
             vMin:'0.00',
-            vMax:'9999999999.00'
+            vMax:'9999999999.00',
+            aSep: ',',
+            aDec: '.'
         });
 
     // SET DATEPICKER

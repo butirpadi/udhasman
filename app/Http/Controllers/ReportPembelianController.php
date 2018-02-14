@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Spipu\Html2Pdf\Html2Pdf;
+use Dompdf\Dompdf;
 
 class ReportPembelianController extends Controller
 {
@@ -77,7 +78,7 @@ class ReportPembelianController extends Controller
 		return view('report.pembelian.default-report-single',$data);	
 	}
 
-	public function groupReport(Request $req){
+	public function submitExcel(Request $req){
 		// Generate Tanggal
         $awal = $req->tanggal_awal;
         $arr_tgl = explode('-',$awal);
@@ -96,16 +97,88 @@ class ReportPembelianController extends Controller
         	$where_supplier = 'supplier_id = ' . $req->supplier;
         }
 
-        // $where_paid = 'true';
-        // if($req->bill_state != ''){
-        // 	$where_paid = 'bill_state = "' . $req->bill_state . '"';
-        // 	if($req->bill_state !='P'){
-        // 		$where_paid = '(bill_state != "P" or bill_state is null)';
-        // 	}
-        // }
+
+		$group_report = \DB::table('view_pembelian')
+					->select('view_pembelian.*',\DB::raw('sum(total) as total'))
+					->whereBetween('tanggal',[$tgl_awal_str,$tgl_akhir_str])
+					->whereRaw($where_supplier)
+					->orderBy('tanggal','asc')
+					->groupBy('supplier_id')
+					->get();
+
+		$sum_total = \DB::table('view_pembelian')
+					->whereBetween('tanggal',[$tgl_awal_str,$tgl_akhir_str])
+					->whereRaw($where_supplier)
+					->sum('total');
+
+		foreach($group_report as $dt){
+			$dt->po = \DB::table('view_pembelian')
+							->whereBetween('tanggal',[$tgl_awal_str,$tgl_akhir_str])
+							->whereSupplierId($dt->supplier_id)
+							->get();	
+
+			foreach($dt->po as $rp){
+				$rp->products = \DB::table('view_pembelian_detail')
+								->where('pembelian_id',$rp->id)
+								->get();
+			}		
+		}
+
+		$reportOptions = [
+        		'tanggal_awal' => $awal,
+				'tanggal_akhir' => $akhir,
+				'pembelian' => $group_report,
+				'sum_total' => $sum_total,
+				'tipe_report' =>$req->tipe_report
+			];
+
+        	\Excel::create('Laporan_Pembelian_'.date('dmY_His'), function($excel) use($reportOptions)  {
+	            $excel->sheet('Report', function($sheet) use($reportOptions) {
+	                $sheet->loadView('report.pembelian.excel',$reportOptions);
+	            });
+
+	        })->download('xlsx');
+
+	        // return view('report.pembelian.excel',$reportOptions);
+       
+	}
+
+	public function submitPdf(Request $req){
+		$dompdf = new Dompdf();
+        $dompdf->set_option('isHtml5ParserEnabled', true);
+        $dompdf->setPaper('A4', 'landscape');
+
+        // Show Report
+        $dompdf->loadHtml($this->submit($req,'report.pembelian.pdf'));
+
+        $dompdf->render();
+        $dompdf->stream("ReportPembelian.pdf", array("Attachment" => false));
+        exit(0);
+	}
+
+	// public function groupReport(Request $req){
+	public function submit(Request $req, $defaultView = 'report.pembelian.default', $excel = false){
+		// Generate Tanggal
+        $awal = $req->tanggal_awal;
+        $arr_tgl = explode('-',$awal);
+        $tgl_awal = new \DateTime();
+        $tgl_awal->setDate($arr_tgl[2],$arr_tgl[1],$arr_tgl[0]); 
+        $tgl_awal_str = $arr_tgl[2].'-'.$arr_tgl[1].'-'.$arr_tgl[0];
+
+        $akhir = $req->tanggal_akhir;
+        $arr_tgl = explode('-',$akhir);
+        $tgl_akhir = new \DateTime();
+        $tgl_akhir->setDate($arr_tgl[2],$arr_tgl[1],$arr_tgl[0]); 
+        $tgl_akhir_str = $arr_tgl[2].'-'.$arr_tgl[1].'-'.$arr_tgl[0];
+
+        $where_supplier = 'true';
+        if($req->supplier != '' ){
+        	$where_supplier = 'supplier_id = ' . $req->supplier;
+        }
 
 
 		$group_report = \DB::table('view_pembelian')
+					->select('view_pembelian.*',\DB::raw('sum(total) as total'))
 					->whereBetween('tanggal',[$tgl_awal_str,$tgl_akhir_str])
 					->whereRaw($where_supplier)
 					->orderBy('tanggal','asc')
@@ -130,15 +203,36 @@ class ReportPembelianController extends Controller
 			}		
 		}
 
-		$html2pdf = new Html2Pdf('L', 'A4', 'en');
+		$reportOptions = [
+        		'tanggal_awal' => $awal,
+				'tanggal_akhir' => $akhir,
+				'pembelian' => $group_report,
+				'sum_total' => $sum_total,
+				'tipe_report' =>$req->tipe_report
+			];
+
+		if($excel){
+        	// \Excel::create('Laporan_Pembelian_'.date('dmY_His'), function($excel) use($defaultView,$reportOptions)  {
+	        //     $excel->sheet('Report', function($sheet) use($defaultView,$reportOptions) {
+	        //         $sheet->loadView($defaultView,$reportOptions);
+	        //     });
+
+	        // })->download('xlsx');;
+	        return view($defaultView,$reportOptions);
+        }else{
+	        return view($defaultView,$reportOptions);
+        	
+        }
+
+		// $html2pdf = new Html2Pdf('L', 'A4', 'en');
         
-		$html2pdf->writeHTML(view('report.pembelian.group-report',[
-			'tanggal_awal' => $awal,
-			'tanggal_akhir' => $akhir,
-			'pembelian' => $group_report,
-			'sum_total' => $sum_total,
-		]));
-		$html2pdf->output();
+		// $html2pdf->writeHTML(view('report.pembelian.group-report',[
+		// 	'tanggal_awal' => $awal,
+		// 	'tanggal_akhir' => $akhir,
+		// 	'pembelian' => $group_report,
+		// 	'sum_total' => $sum_total,
+		// ]));
+		// $html2pdf->output();
 	}
 
 }

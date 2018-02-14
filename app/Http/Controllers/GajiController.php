@@ -245,10 +245,14 @@ class GajiController extends Controller
         $tanggal = new \DateTime();
         $tanggal->setDate($arr_tgl[2],$arr_tgl[1],$arr_tgl[0]);
 
-        // generate payroll
-        $counter = \DB::table('appsetting')->whereName('payroll_counter')->first()->value;
-        $prefix = \DB::table('appsetting')->whereName('payroll_prefix')->first()->value;
-        $payroll_number  = $prefix . '/'.date('Y').'/'.date('m').$counter++;
+        // generate payroll number
+        // $counter = \DB::table('appsetting')->whereName('payroll_counter')->first()->value;
+        // $prefix = \DB::table('appsetting')->whereName('payroll_prefix')->first()->value;
+        // $payroll_number  = $prefix . '/'.date('Y').'/'.date('m').$counter++;
+        // // update counter
+        // \DB::table('appsetting')
+        // 	->whereName('payroll_counter')
+        // 	->update(['value'=>$counter]);
 
         // Generate tanggal
         $tanggal_awal = new \DateTime();
@@ -260,7 +264,7 @@ class GajiController extends Controller
 
 		$payroll_id = \DB::table('payroll_driver')->insertGetId([
 				'state' => 'draft',
-				'payroll_number' => $payroll_number,
+				// 'payroll_number' => $payroll_number,
 				'payment_date' => $tanggal,
 				'tanggal_awal' => $tanggal_awal,
 				'tanggal_akhir' => $tanggal_akhir,
@@ -268,10 +272,7 @@ class GajiController extends Controller
 				'user_id' => \Auth::user()->id
 			]);
 
-        // update counter
-        \DB::table('appsetting')
-        	->whereName('payroll_counter')
-        	->update(['value'=>$counter]);
+        
   	}
 
   	public function editPay($payroll_id){
@@ -356,12 +357,13 @@ class GajiController extends Controller
 		$awal->setDate($arr_tgl_awal[2],$arr_tgl_awal[1],$arr_tgl_awal[0]);
 		$akhir->setDate($arr_tgl_akhir[2],$arr_tgl_akhir[1],$arr_tgl_akhir[0]);
   		$data = \DB::table('view_new_pengiriman')
-  					// ->select('*',\DB::raw('sum(qty) as sum_rit'),\DB::raw('sum(volume) as sum_vol'),\DB::raw('sum(netto) as sum_net'))
+  					->select('*',\DB::raw('sum(qty) as sum_rit'),\DB::raw('sum(volume) as sum_vol'),\DB::raw('sum(netto) as sum_net'))
   					->whereBetween('order_date',[$awal,$akhir])
   					->whereKaryawanId($karyawan_id)
-  					// ->groupBy('pekerjaan_id')
-  					// ->groupBy('material_id')
-  					// ->groupBy('kalkulasi')
+  					->whereState('done')
+  					->groupBy('pekerjaan_id')
+  					->groupBy('material_id')
+  					->groupBy('kalkulasi')
   					->get();
   		return json_encode($data);
   	}

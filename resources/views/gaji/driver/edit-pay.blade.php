@@ -26,7 +26,7 @@
 	<section class="content">
 		<div class="box box-solid">
 			<div class="box-header with-border"  >
-				<label><h3 style="margin:0;padding:0;font-weight:bold;" >{{$data->payroll_number}}</h3></label>
+				<label><h3 style="margin:0;padding:0;font-weight:bold;" >{{$data->payroll_number != '' ? $data->payroll_number : 'Draft'}}</h3></label>
 				<label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
 				<a class="btn btn-arrow-right pull-right disabled {{$data->state == 'paid' ? 'bg-blue' : 'bg-gray'}}" >Paid</a>
 				<label class="pull-right" >&nbsp;&nbsp;&nbsp;</label>
@@ -63,6 +63,7 @@
 		    					<tr>
 		    						<th>MATERIAL</th>
 		    						<th>PEKERJAAN</th>
+		    						<th>KALKULASI</th>
 		    						<th>RIT</th>
 		    						<th>VOL</th>
 		    						<th>NET</th>
@@ -97,6 +98,7 @@
 <script src="plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
 <script src="plugins/jqueryform/jquery.form.min.js" type="text/javascript"></script>
+<script src="plugins/autonumeric/autoNumeric-min.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 (function ($) {
@@ -107,28 +109,54 @@
 		var tanggal_akhir = $('input[name=tanggal_akhir]').val();
 		var payment_id = $(this).data('paymentid');
 		var url = 'gaji/driver/get-pengiriman/' + karyawan_id + '/' + tanggal_awal + '/' + tanggal_akhir;
-		// alert(url);
 		var table = $('#table-data');
 		$.getJSON(url,function(res){
 			if(!table.parent().is(":visible")){
 				table.parent().hide();
 				table.parent().removeClass('hide');
-				table.parent().slideDown();		
+				table.parent().slideDown(function(){
+					// hide tombol calculate
+		        	$('#btn-calculate').hide();
+				});		
 
 				// add item
 				$.each(res,function(i,data){
 					table.append($('<tr>')
 									.append($('<td>').text(data.material))
 									.append($('<td>').text(data.pekerjaan))
-									.append($('<td>').css('text-align','right').text(data.order_date + ' - ' + data.sum_rit))
-									.append($('<td>').css('text-align','right').text(data.sum_vol))
-									.append($('<td>').css('text-align','right').text(data.sum_net))
-									.append($('<td>').append($('<input>').addClass('form-control')))
-									.append($('<td>').append($('<input>').addClass('form-control')))
+									.append($('<td>').addClass('col-kal').text(data.kalkulasi))
+									.append($('<td>').addClass('col-rit').css('text-align','right').text(data.sum_rit))
+									.append($('<td>').addClass('col-vol').css('text-align','right').text(data.sum_vol))
+									.append($('<td>').addClass('col-net').css('text-align','right').text(data.sum_net))
+									.append($('<td>').append($('<input>').addClass('form-control input-harga text-right')))
+									.append($('<td>').addClass('col-jumlah text-right'))
 								);
-				});		
+				});
+
+				// format autonumeric
+				$('.input-harga, .col-jumlah').autoNumeric('init',{
+		            vMin:'0.00',
+		            vMax:'9999999999.00',
+		            aSep: ',',
+		            aDec: '.'
+		        });
+
+
+
 			}
 		});
+	});
+
+	// calculate jumlah
+	$(document).on('keyup','.input-harga',function(){
+		var row = $(this).parent().parent();
+		var kalkulasi = row.find('.col-kal').text().trim();
+		var harga = Number($(this).autoNumeric('get'));
+		var jumlah = 0;
+		var qty = Number(kalkulasi == 'rit' ? row.find('.col-rit').text() : (kalkulasi == 'kubik' ? row.find('.col-vol').text() : (kalkulasi == 'ton' ? row.find('.col-net').text() : 0 ) ));
+		var jumlah = qty * harga;
+		row.find('.col-jumlah').autoNumeric('set',jumlah);
+
 	});
 
 })(jQuery);
