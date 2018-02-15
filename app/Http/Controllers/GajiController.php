@@ -245,7 +245,7 @@ class GajiController extends Controller
         $tanggal = new \DateTime();
         $tanggal->setDate($arr_tgl[2],$arr_tgl[1],$arr_tgl[0]);
 
-        // generate payroll number
+        // // generate payroll number
         // $counter = \DB::table('appsetting')->whereName('payroll_counter')->first()->value;
         // $prefix = \DB::table('appsetting')->whereName('payroll_prefix')->first()->value;
         // $payroll_number  = $prefix . '/'.date('Y').'/'.date('m').$counter++;
@@ -299,42 +299,22 @@ class GajiController extends Controller
 			$tanggal_akhir_siang_for_table_presensi->setDate($arr_tgl[2],$arr_tgl[1],$arr_tgl[0]);
 			$tanggal_akhir_siang_for_table_presensi->modify('-1 day');
 
+			// data payrol detail
+			$data->detail = \DB::table('view_payroll_driver_detail')
+						->wherePayrollDriverId($payroll_id)
+						->get();
 
-	  // 		$data->total_hadir_pagi  = \DB::table('attend')
-			// 					->select('pagi')
-			// 					->whereBetween('tgl',[$tanggal_awal->format('Y-m-d'),$tanggal_akhir->format('Y-m-d')])
-			// 					->whereKaryawanId($data->karyawan_id)
-			// 					->where('pagi','Y')
-			// 					->count();
-			// $data->total_hadir_siang = \DB::table('attend')
-			// 						->select('siang')
-			// 						->whereBetween('tgl',[$tanggal_awal->format('Y-m-d'),$tanggal_akhir->format('Y-m-d')])
-			// 						->whereKaryawanId($data->karyawan_id)
-			// 						->where('siang','Y')
-			// 						->count();
-			// $data->presensi_pagi = \DB::table('attend')
-			// 						->select('pagi','tgl')
-			// 						->whereBetween('tgl',[$tanggal_awal->format('Y-m-d'),$tanggal_akhir->format('Y-m-d')])
-			// 						->whereKaryawanId($data->karyawan_id)
-			// 						->orderBy('tgl')
-			// 						->get();
-			// $data->presensi_siang = \DB::table('attend')
-			// 						->select('siang','tgl')
-			// 						->whereBetween('tgl',[$tanggal_awal->format('Y-m-d'),$tanggal_akhir->format('Y-m-d')])
-			// 						->whereKaryawanId($data->karyawan_id)
-			// 						->orderBy('tgl')
-			// 						->get();
 
-  		// cek apakah sudah ter-validate
-  		if($data->state == 'paid'){
-  			return view('gaji/driver/validated-pay',[
-	  				'data' => $data,
-	  				'tanggal_awal' => $tanggal_awal,
-		  			'tanggal_akhir' => $tanggal_akhir,
-		  			// 'tanggal_awal_siang_for_table_presensi' => $tanggal_awal_siang_for_table_presensi,
-		  			// 'tanggal_akhir_siang_for_table_presensi' => $tanggal_akhir_siang_for_table_presensi,
-	  			]);
-  		}else{
+  		// // cek apakah sudah ter-validate
+  		// if($data->state == 'paid'){
+  		// 	return view('gaji/driver/validated-pay',[
+	  	// 			'data' => $data,
+	  	// 			'tanggal_awal' => $tanggal_awal,
+		  // 			'tanggal_akhir' => $tanggal_akhir,
+		  // 			// 'tanggal_awal_siang_for_table_presensi' => $tanggal_awal_siang_for_table_presensi,
+		  // 			// 'tanggal_akhir_siang_for_table_presensi' => $tanggal_akhir_siang_for_table_presensi,
+	  	// 		]);
+  		// }else{
 	  		
 	  		return view('gaji/driver/edit-pay',[
 	  				'data' => $data,
@@ -344,11 +324,11 @@ class GajiController extends Controller
 		  			// 'tanggal_akhir_siang_for_table_presensi' => $tanggal_akhir_siang_for_table_presensi,
 	  			]);
   			
-  		}
+  		// }
 
   	}
 
-  	public function getPengiriman($karyawan_id,$tanggal_awal,$tanggal_akhir){
+  	public function getPengiriman($karyawan_id,$tanggal_awal,$tanggal_akhir,$pay_id = 0){
   		// generate tanggal
   		$arr_tgl_awal = explode('-',$tanggal_awal);
   		$arr_tgl_akhir = explode('-',$tanggal_akhir);
@@ -365,7 +345,57 @@ class GajiController extends Controller
   					->groupBy('material_id')
   					->groupBy('kalkulasi')
   					->get();
+
+  		if(count($data) > 0){
+	  		\DB::transaction(function()use($karyawan_id,$awal,$akhir,$pay_id,$data){
+
+		  		// insert data pengiriman ke payrol_driver_detail
+		  		\DB::select("insert into payroll_pengiriman_driver (payroll_driver_id, new_pengiriman_id) select " . $pay_id . ",id from new_pengiriman
+								where order_date between '" . $awal->format('Y-m-d') . "' and '" . $akhir->format('Y-m-d') . "'
+								and karyawan_id = " . $karyawan_id . "
+								and new_pengiriman.state  = 'done'");
+
+		  		// insert data payroll_driver_detail
+		  	// 	\DB::select("insert into payroll_driver_detail (payroll_driver_id,material_id,kalkulasi,volume,netto,qty)
+					// select " . $pay_id . ",material_id,kalkulasi,sum(volume) as volume, sum(netto) as netto,sum(qty) as qty 
+					// from new_pengiriman
+					// where order_date between '" . $awal->format('Y-m-d') . "' and '" . $akhir->format('Y-m-d') . "'
+					// and karyawan_id = " . $karyawan_id . "
+					// group by material_id, kalkulasi");
+
+		  		foreach($data as $dt){
+		  			\DB::table('payroll_driver_detail')
+		  					->insert([
+		  						'payroll_driver_id'=>$pay_id,
+		  						'pekerjaan_id'=>$dt->pekerjaan_id,
+		  						'material_id'=>$dt->material_id,
+		  						'kalkulasi'=>$dt->kalkulasi,
+		  						'volume'=>$dt->sum_vol,
+		  						'netto'=>$dt->sum_net,
+		  						'qty'=>$dt->sum_rit
+		  					]);
+		  		}
+
+		  		// generate payroll number
+		        $counter = \DB::table('appsetting')->whereName('payroll_counter')->first()->value;
+		        $prefix = \DB::table('appsetting')->whereName('payroll_prefix')->first()->value;
+		        $payroll_number  = $prefix . '/'.date('Y').'/'.date('m').$counter++;
+		        // update counter
+		        \DB::table('appsetting')
+		        	->whereName('payroll_counter')
+		        	->update(['value'=>$counter]);
+		        // update pay number
+		        \DB::table('payroll_driver')
+		        	->whereId($pay_id)
+		        	->update([
+		        			'payroll_number' => $payroll_number,
+		        			'state' => 'open'
+		        		]);
+	  		});  			
+  		}
+  		
   		return json_encode($data);
+
   	}
 
 

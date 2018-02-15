@@ -35,27 +35,29 @@
 				<a class="btn btn-arrow-right pull-right disabled {{$data->state == 'draft' ? 'bg-blue' : 'bg-gray'}}" >Draft</a>
 			</div>
 			<div class="box-body">
+				<input type="hidden" name="pay_id" value="{{$data->id}}">
 		    	<div class="row" >
 		    		<div class="col-xs-6" >
 		    			<div class="form-group" >
-		    				<label>Tanggal Pembayaran</label>
+		    				<label>Tanggal Gaji</label>
 		    				<input type="text" readonly  name="periode_pembayaran" class="form-control" value="{{$data->payment_date_formatted}}" />
 		    				<input type="hidden" name="tanggal_awal" value="{{$tanggal_awal}}" />
 		    				<input type="hidden" name="tanggal_akhir" value="{{$tanggal_akhir}}" />
 		    			</div>
-		    			<div class="form-group" >
-		    				<label>Nama</label>
-		    				<input type="text" readonly  name="nama" class="form-control" value="{{$data->karyawan}}" />
-		    			</div>
+		    			
 		    		</div>
 		    		<div class="col-xs-6" >
 		    			<div class="form-group" >
+		    				<label>Driver</label>
+		    				<input type="text" readonly  name="nama" class="form-control" value="{{$data->kode_karyawan . ' - ' . $data->karyawan}}" />
+		    			</div>
+		    			<div class="form-group hide" >
 		    				<label>Kode Karyawan</label>
 		    				<input type="text" readonly  name="kode" class="form-control" value="{{$data->kode_karyawan}}" />
 		    			</div>
 		    		</div>
 
-		    		<div class="col-xs-12 hide" >
+		    		<div class="col-xs-12 {{$data->state =='draft' ? 'hide':''}}" >
 		    			<h4 class="page-header" style="font-size:14px;color:#3C8DBC"><strong>DATA PENGIRIMAN</strong></h4>
 
 		    			<table class="table table-bordered table-condensed" id="table-data" >
@@ -63,7 +65,7 @@
 		    					<tr>
 		    						<th>MATERIAL</th>
 		    						<th>PEKERJAAN</th>
-		    						<th>KALKULASI</th>
+		    						<th class="hide" >KALKULASI</th>
 		    						<th>RIT</th>
 		    						<th>VOL</th>
 		    						<th>NET</th>
@@ -72,7 +74,18 @@
 		    					</tr>
 		    				</thead>
 		    				<tbody>
-		    					
+		    					@foreach($data->detail as $dt)
+		    						<tr>
+		    							<td>{{$dt->material}}</td>
+		    							<td>{{$dt->pekerjaan}}</td>
+		    							<td class="col-kal hide" >{{$dt->kalkulasi}}</td>
+		    							<td class="col-rit" align="right" >{{$dt->qty}}</td>
+		    							<td class="col-vol"  align="right" >{{$dt->volume}}</td>
+		    							<td class="col-net" align="right" >{{$dt->netto}}</td>
+		    							<td  ><input type="text" class="form-control input-harga text-right input-sm no-border" style="background-color: whitesmoke;" value="{{$dt->harga_satuan}}"  ></td>
+		    							<td class="col-jumlah text-right" >{{$dt->jumlah}}</td>
+		    						</tr>
+		    					@endforeach
 		    				</tbody>
 		    			</table>
 		    		</div>
@@ -80,8 +93,11 @@
 		    </div>
 		    <div class="box-footer" >
 		    	@if($data->state == 'draft')
-		    		<a class="btn btn-primary" id="btn-calculate" data-paymentid="{{$data->id}}" data-karyawanid="{{$data->karyawan_id}}" data-tanggal="{{$data->payment_date_formatted}}" ><i class="fa fa-hourglass-half" ></i> Calculate</a>
+		    		<a class="btn btn-primary" id="btn-confirm" data-paymentid="{{$data->id}}" data-karyawanid="{{$data->karyawan_id}}" data-tanggal="{{$data->payment_date_formatted}}" ><i class="fa fa-check" ></i> Confirm</a>
+		    	@elseif($data->state == 'open')
+		    		<a class="btn btn-primary" data-paymentid="{{$data->id}}" data-karyawanid="{{$data->karyawan_id}}" data-tanggal="{{$data->payment_date_formatted}}" ><i class="fa fa-save" ></i> Save</a>		    	
 		    	@endif
+		    	<a class="btn btn-danger" href="gaji/driver/show-payroll-table/{{$data->payment_date_formatted}}" ><i class="fa fa-close" ></i> Close</a>
 
 		    	<!-- <a class="btn btn-success" href="payroll/payroll-staff/validate-pay/{{$data->id}}" ><i class="fa fa-check" ></i> Validate</a>
 		    	<a class="btn btn-primary" id="btn-save-payroll" ><i class="fa fa-save" ></i> Save</a>
@@ -103,45 +119,53 @@
 <script type="text/javascript">
 (function ($) {
 
-	$('#btn-calculate').click(function(){
+	function formatNumeric(){
+		// format autonumeric
+		$('.input-harga, .col-jumlah').autoNumeric('init',{
+            vMin:'0.00',
+            vMax:'9999999999.00',
+            aSep: ',',
+            aDec: '.'
+        });
+	}
+
+	formatNumeric();
+
+	$('#btn-confirm').click(function(){
+		var pay_id = $('input[name=pay_id]').val();
 		var karyawan_id = $(this).data('karyawanid');
 		var tanggal_awal = $('input[name=tanggal_awal]').val();
 		var tanggal_akhir = $('input[name=tanggal_akhir]').val();
 		var payment_id = $(this).data('paymentid');
-		var url = 'gaji/driver/get-pengiriman/' + karyawan_id + '/' + tanggal_awal + '/' + tanggal_akhir;
+		var url = 'gaji/driver/get-pengiriman/' + karyawan_id + '/' + tanggal_awal + '/' + tanggal_akhir + '/' + pay_id;
+		// window.open(url,'_blank');
 		var table = $('#table-data');
 		$.getJSON(url,function(res){
 			if(!table.parent().is(":visible")){
 				table.parent().hide();
 				table.parent().removeClass('hide');
-				table.parent().slideDown(function(){
-					// hide tombol calculate
-		        	$('#btn-calculate').hide();
-				});		
+				// table.parent().slideDown();		
 
-				// add item
-				$.each(res,function(i,data){
-					table.append($('<tr>')
-									.append($('<td>').text(data.material))
-									.append($('<td>').text(data.pekerjaan))
-									.append($('<td>').addClass('col-kal').text(data.kalkulasi))
-									.append($('<td>').addClass('col-rit').css('text-align','right').text(data.sum_rit))
-									.append($('<td>').addClass('col-vol').css('text-align','right').text(data.sum_vol))
-									.append($('<td>').addClass('col-net').css('text-align','right').text(data.sum_net))
-									.append($('<td>').append($('<input>').addClass('form-control input-harga text-right')))
-									.append($('<td>').addClass('col-jumlah text-right'))
-								);
-				});
+				// // add item
+				// $.each(res,function(i,data){
+				// 	table.append($('<tr>')
+				// 					.append($('<td>').text(data.material))
+				// 					.append($('<td>').text(data.pekerjaan))
+				// 					.append($('<td>').addClass('col-kal').text(data.kalkulasi))
+				// 					.append($('<td>').addClass('col-rit').css('text-align','right').text(data.sum_rit))
+				// 					.append($('<td>').addClass('col-vol').css('text-align','right').text(data.sum_vol))
+				// 					.append($('<td>').addClass('col-net').css('text-align','right').text(data.sum_net))
+				// 					.append($('<td>').append($('<input>').addClass('form-control input-harga text-right')))
+				// 					.append($('<td>').addClass('col-jumlah text-right'))
+				// 				);
+				// });
 
-				// format autonumeric
-				$('.input-harga, .col-jumlah').autoNumeric('init',{
-		            vMin:'0.00',
-		            vMax:'9999999999.00',
-		            aSep: ',',
-		            aDec: '.'
-		        });
+				// formatNumeric();
 
+				// hide tombol calculate
+	        	$('#btn-confirm').hide();
 
+	        	location.reload();
 
 			}
 		});

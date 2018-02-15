@@ -148,7 +148,10 @@ class PaymentController extends Controller
         if(strlen($counter) == 1){
             $counter = '0'.$counter;
         }
-        $nomor_inv = $prefix.'/'.date('Y/m').$counter;
+        // $nomor_inv = $prefix.'/'.date('Y/m').$counter;
+        $month=date("m");
+        $year=date("Y");
+        $nomor_inv = $prefix . '/'.$year.'/'.$month. $counter;
 
         \DB::table('payment')
             ->whereId($id)

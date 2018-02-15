@@ -35,10 +35,14 @@ from cashbook");
 		return \DB::transaction(function()use($req){
 			// generate cahsbook number
 			$cashbook_counter = \DB::table('appsetting')->whereName('cashbook_counter')->first()->value;
+			$month=date("m");
+			$year=date("Y");
 			if($req->jenis_kas == 'I'){
-				$cashbook_num = 'CASH.IN/'.date('Y').'/000'.$cashbook_counter++;	
+				// $cashbook_num = 'CASH.IN/'.date('Y').'/000'.$cashbook_counter++;	
+		        $cashbook_num = 'CASH.IN/' . '/'.$year.'/'.$month. $cashbook_counter++;
 			}else{
-				$cashbook_num = 'CASH.OUT/'.date('Y').'/000'.$cashbook_counter++;	
+				// $cashbook_num = 'CASH.OUT/'.date('Y').'/000'.$cashbook_counter++;	
+		        $cashbook_num = 'CASH.OUT/' . '/'.$year.'/'.$month. $cashbook_counter++;
 			}
 			// update counter
 			\DB::table('appsetting')->whereName('cashbook_counter')->update([

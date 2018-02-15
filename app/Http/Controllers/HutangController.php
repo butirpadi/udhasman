@@ -120,8 +120,11 @@ class HutangController extends Controller
 		// generate nomor hutang
         $prefix = Appsetting('hutang_prefix');
         $counter = Appsetting('hutang_counter');
-        $nomor_inv = $prefix.'/'.date('Y/m').$counter++;
+        $month=date("m");
+		$year=date("Y");
+        $nomor_inv = $prefix . '/'.$year.'/'.$month. $counter++;
         UpdateAppsetting('hutang_counter',$counter);
+        // $nomor_inv = $prefix.'/'.date('Y/m').$counter++;
 
         // generate tanggal
         $arr_tgl = explode('-',$req->tanggal);

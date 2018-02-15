@@ -32,7 +32,7 @@
     <!-- Default box -->
     <div class="box box-solid">
         <div class="box-header with-border" style="padding-top:5px;padding-bottom:5px;" >
-            <label><h3 style="margin:0;padding:0;font-weight:bold;" >{{$tanggal_penggajian}}</h3></label>
+            <label><h3 style="margin:0;padding:0;font-weight:bold;" >Tanggal Penggajian : {{$tanggal_penggajian}}</h3></label>
         </div>
         <div class="box-body">
             
@@ -42,7 +42,7 @@
                 <thead>
                     <tr>
                         <th>Ref#</th>
-                        <th>Tanggal Pembayaran</th>
+                        <!-- <th>Tanggal Pembayaran</th> -->
                         <th class="col-sm-2 col-md-2 col-lg-2" >Kode Karyawan</th>
                         <th>Nama</th>
                         {{-- <th>Total Gaji</th> --}}
@@ -58,11 +58,11 @@
                                 {{$dt->payroll->payroll_number}}
                             @endif
                         </td>
-                        <td class="text-center" >
+                        <!-- <td class="text-center" >
                             @if($dt->payroll)
                                 {{$dt->payroll->payment_date_formatted}}
                             @endif
-                        </td>
+                        </td> -->
                         <td class="text-center" >
                             {{$dt->kode}}
                         </td>

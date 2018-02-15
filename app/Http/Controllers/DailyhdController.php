@@ -64,7 +64,11 @@ class DailyhdController extends Controller
 			// generate number
 			$dailyhd_counter = \DB::table('appsetting')->whereName('dailyhd_counter')->first()->value;
 			$prefix = Appsetting('operasional_alat_prefix');
-			$dailyhd_number = $prefix .'/'. date('Y') . '/000' . $dailyhd_counter++;
+			$month=date("m");
+			$year=date("Y");
+			// $dailyhd_number = $prefix .'/'. date('Y') . '/000' . $dailyhd_counter++;
+			$dailyhd_number = $prefix . '/'.$year.'/'.$month. $dailyhd_counter++;
+
 			\DB::table('appsetting')
 				->whereName('dailyhd_counter')
 				->update(['value'=>$dailyhd_counter]);
