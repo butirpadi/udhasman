@@ -61,20 +61,7 @@ class ReportPiutangController extends Controller
     	}
 
 		$data_group = \DB::table('view_piutang')
-					->select('partner_id','partner',\DB::raw('sum(jumlah) as sum_jumlah'),\DB::raw('sum(amount_due) as sum_amount_due'),
-							\DB::raw("(select sum(jumlah) from piutang
-										where piutang.partner_id = view_piutang.partner_id
-										and piutang.tanggal < '" . $tgl_awal->format('Y-m-d') . "') as begining_jumlah"),
-							\DB::raw("(select sum(jumlah) from piutang
-										where piutang.partner_id = view_piutang.partner_id
-										and piutang.tanggal > '" . $tgl_akhir->format('Y-m-d') . "') as ending_jumlah"),
-							\DB::raw("(select sum(amount_due) from piutang
-										where piutang.partner_id = view_piutang.partner_id
-										and piutang.tanggal < '" . $tgl_awal->format('Y-m-d') . "') as begining_amount_due"),
-							\DB::raw("(select sum(amount_due) from piutang
-										where piutang.partner_id = view_piutang.partner_id
-										and piutang.tanggal > '" . $tgl_akhir->format('Y-m-d') . "') as ending_amount_due")
-							)
+					->select('partner_id','partner',\DB::raw('sum(jumlah) as sum_jumlah'),\DB::raw('sum(amount_due) as sum_amount_due'))
 					->whereBetween('tanggal',[$tgl_awal_str,$tgl_akhir_str])
 					->whereRaw($where)
 					->groupBy($req->group_by)
