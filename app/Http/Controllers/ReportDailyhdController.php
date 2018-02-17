@@ -47,16 +47,30 @@ class ReportDailyhdController extends Controller
 	}
 
 	public function submitPdf(Request $req){
-		$dompdf = new Dompdf();
-        $dompdf->set_option('isHtml5ParserEnabled', true);
-        $dompdf->setPaper('A4', 'landscape');
+		// $dompdf = new Dompdf();
+  //       $dompdf->set_option('isHtml5ParserEnabled', true);
+  //       $dompdf->setPaper('A4', 'landscape');
 
-        // Show Report
-        $dompdf->loadHtml($this->submit($req,'report.dailyhd.report-pdf'));
+  //       // Show Report
+  //       $dompdf->loadHtml($this->submit($req,'report.dailyhd.report-pdf'));
 
-        $dompdf->render();
-        $dompdf->stream('Laporan_Detail_Operasional_Alat_Berat_'.date('dmY_His').".pdf", array("Attachment" => false));
-        exit(0);
+  //       $dompdf->render();
+  //       $dompdf->stream('Laporan_Detail_Operasional_Alat_Berat_'.date('dmY_His').".pdf", array("Attachment" => false));
+  //       exit(0);
+
+		$pdf = \App::make('snappy.pdf.wrapper');
+		$pdf->setOption('margin-top', 15);
+		$pdf->setOption('margin-bottom', 10);
+		$pdf->setOption('margin-left', 10);
+		$pdf->setOption('margin-right', 10);
+		$pdf->setOption('orientation', 'landscape');
+		// $pdf->setOption('header-html','<!DOCTYPE html><html>Laporan Piutang</html>');
+		$pdf->setOption('footer-font-size','8');
+		$pdf->setOption('footer-left','Rekapitulasi Operasional Alat Berat');
+		$pdf->setOption('footer-right','Printed at : ' . date('d-m-Y H:i:s'));
+		$pdf->setOption('footer-center','Page [page] of [topage]');
+		$pdf->loadHTML($this->submit($req,'report.dailyhd.pdf-wkhtml'));
+		return $pdf->inline();
 	}
 
 	public function submit(Request $req, $defaultView = 'report.dailyhd.report', $excel = false){

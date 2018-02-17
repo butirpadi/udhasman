@@ -47,7 +47,7 @@ class ReportPiutangController extends Controller
 		// $pdf->setOption('header-html','<!DOCTYPE html><html>Laporan Piutang</html>');
 		$pdf->setOption('footer-font-size','8');
 		$pdf->setOption('footer-left','Rekapitulasi Piutang');
-		$pdf->setOption('footer-right','Printed at : ' . date('d-m-Y H:m:s'));
+		$pdf->setOption('footer-right','Printed at : ' . date('d-m-Y H:i:s'));
 		$pdf->setOption('footer-center','Page [page] of [topage]');
 		$pdf->loadHTML($this->submit($req,'report.piutang.pdf-wkhtml'));
 		return $pdf->inline();

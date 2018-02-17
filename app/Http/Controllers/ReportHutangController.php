@@ -27,16 +27,30 @@ class ReportHutangController extends Controller
 	}
 
 	public function submitPdf(Request $req){
-		$dompdf = new Dompdf();
-        $dompdf->set_option('isHtml5ParserEnabled', true);
-        $dompdf->setPaper('A4', 'potrait');
+		// $dompdf = new Dompdf();
+  //       $dompdf->set_option('isHtml5ParserEnabled', true);
+  //       $dompdf->setPaper('A4', 'potrait');
 
-        // Show Report
-        $dompdf->loadHtml($this->submit($req,'report.hutang.report-pdf'));
+  //       // Show Report
+  //       $dompdf->loadHtml($this->submit($req,'report.hutang.report-pdf'));
 
-        $dompdf->render();
-        $dompdf->stream("ReportHutang.pdf", array("Attachment" => false));
-        exit(0);
+  //       $dompdf->render();
+  //       $dompdf->stream("ReportHutang.pdf", array("Attachment" => false));
+  //       exit(0);
+
+		// using WKHTML
+		$pdf = \App::make('snappy.pdf.wrapper');
+		$pdf->setOption('margin-top', 15);
+		$pdf->setOption('margin-bottom', 10);
+		$pdf->setOption('margin-left', 10);
+		$pdf->setOption('margin-right', 10);
+		// $pdf->setOption('header-html','<!DOCTYPE html><html>Laporan Piutang</html>');
+		$pdf->setOption('footer-font-size','8');
+		$pdf->setOption('footer-left','Rekapitulasi Piutang');
+		$pdf->setOption('footer-right','Printed at : ' . date('d-m-Y H:i:s'));
+		$pdf->setOption('footer-center','Page [page] of [topage]');
+		$pdf->loadHTML($this->submit($req,'report.hutang.pdf-wkhtml'));
+		return $pdf->inline();
 	}
 
 	public function submit(Request $req, $defaultView = 'report.hutang.report', $excel = false){

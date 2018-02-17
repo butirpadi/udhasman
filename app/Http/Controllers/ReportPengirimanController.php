@@ -528,16 +528,40 @@ class ReportPengirimanController extends Controller
             }        
 
         //Show PDF Report
-        $dompdf->loadHtml($this->groupDetailReportHtml([
+        // $dompdf->loadHtml($this->groupDetailReportHtml([
+        //         'pengiriman_by_group' => $pengiriman_by_group,
+        //         'tanggal_awal' => $awal,
+        //         'tanggal_akhir' => $akhir,
+        //         'group_by' => $req->group_by,
+        //         'dicetak'=>date('d-m-Y H:i:s')
+        //     ]));
+        // $dompdf->render();
+        // $dompdf->stream("ReportPengiriman.pdf", array("Attachment" => false));
+        // exit(0);
+
+        // using wkhtml
+        $pdf = \App::make('snappy.pdf.wrapper');
+        $pdf->setOption('margin-top', 15);
+        $pdf->setOption('margin-bottom', 10);
+        $pdf->setOption('margin-left', 10);
+        $pdf->setOption('margin-right', 10);
+        $pdf->setOption('orientation', 'landscape');
+        // $pdf->setOption('header-html','<!DOCTYPE html><html>Laporan Piutang</html>');
+        $pdf->setOption('footer-font-size','8');
+        $pdf->setOption('footer-left','Rekapitulasi Pengiriman Material');
+        $pdf->setOption('footer-right','Printed at : ' . date('d-m-Y H:i:s'));
+        $pdf->setOption('footer-center','Page [page] of [topage]');
+
+        $reportOption = [
                 'pengiriman_by_group' => $pengiriman_by_group,
                 'tanggal_awal' => $awal,
                 'tanggal_akhir' => $akhir,
                 'group_by' => $req->group_by,
                 'dicetak'=>date('d-m-Y H:i:s')
-            ]));
-        $dompdf->render();
-        $dompdf->stream("ReportPengiriman.pdf", array("Attachment" => false));
-        exit(0);
+            ];
+
+        $pdf->loadHTML(view('report.pengiriman.pdf-wkhtml',$reportOption));
+        return $pdf->inline();
 
        
     }

@@ -144,16 +144,40 @@ class ReportPembelianController extends Controller
 	}
 
 	public function submitPdf(Request $req){
-		$dompdf = new Dompdf();
-        $dompdf->set_option('isHtml5ParserEnabled', true);
-        $dompdf->setPaper('A4', 'landscape');
+		// $dompdf = new Dompdf();
+  //       $dompdf->set_option('isHtml5ParserEnabled', true);
+  //       $dompdf->setPaper('A4', 'landscape');
 
-        // Show Report
-        $dompdf->loadHtml($this->submit($req,'report.pembelian.pdf'));
+  //       // Show Report
+  //       $dompdf->loadHtml($this->submit($req,'report.pembelian.pdf'));
 
-        $dompdf->render();
-        $dompdf->stream("ReportPembelian.pdf", array("Attachment" => false));
-        exit(0);
+  //       $dompdf->render();
+  //       $dompdf->stream("ReportPembelian.pdf", array("Attachment" => false));
+  //       exit(0);
+
+		// using wkhtml
+		$pdf = \App::make('snappy.pdf.wrapper');
+        $pdf->setOption('margin-top', 15);
+        $pdf->setOption('margin-bottom', 10);
+        $pdf->setOption('margin-left', 10);
+        $pdf->setOption('margin-right', 10);
+        // $pdf->setOption('orientation', 'landscape');
+        // $pdf->setOption('header-html','<!DOCTYPE html><html>Laporan Piutang</html>');
+        $pdf->setOption('footer-font-size','8');
+        $pdf->setOption('footer-left','Rekapitulasi Pembelian');
+        $pdf->setOption('footer-right','Printed at : ' . date('d-m-Y H:i:s'));
+        $pdf->setOption('footer-center','Page [page] of [topage]');
+
+        // $reportOption = [
+        //         'pengiriman_by_group' => $pengiriman_by_group,
+        //         'tanggal_awal' => $awal,
+        //         'tanggal_akhir' => $akhir,
+        //         'group_by' => $req->group_by,
+        //         'dicetak'=>date('d-m-Y H:i:s')
+        //     ];
+
+        $pdf->loadHTML($this->submit($req,'report.pembelian.pdf-wkhtml'));
+        return $pdf->inline();
 	}
 
 	// public function groupReport(Request $req){
