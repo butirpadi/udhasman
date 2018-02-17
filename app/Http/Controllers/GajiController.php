@@ -9,11 +9,42 @@ use App\Http\Controllers\Controller;
 class GajiController extends Controller
 {
 
+	public function savePay(Request $req){
+		$payDetail = json_decode($req->pay_detail);
+
+		return \DB::transaction(function()use($payDetail){
+			$total = 0;
+			foreach($payDetail as $dt){
+				\DB::select("update payroll_driver_detail 
+						set harga_satuan = " . $dt->harga_satuan . ", 
+						jumlah = case 
+							when kalkulasi = 'rit' then qty * harga_satuan
+							when kalkulasi = 'ton' then netto * harga_satuan
+							else volume * harga_satuan 
+						end
+						where id = " . $dt->payroll_driver_detail_id);
+
+				$payroll_driver_id = \DB::table('payroll_driver_detail')->find($dt->payroll_driver_detail_id)->payroll_driver_id;
+
+				// query set total
+				\DB::select("update payroll_driver set total = (select sum(jumlah) 
+						from payroll_driver_detail where payroll_driver_id = " . $payroll_driver_id . ") 
+						where payroll_driver.id = " . $payroll_driver_id);
+			}
+
+
+			return redirect()->back();
+			
+		});
+
+	}
+
 	public function indexDriver(){
 		$data = \DB::table('view_payroll_driver')
 				->groupBy('bulan')
 				->orderBy('payment_date','desc')
-				->get();
+				->paginate(Appsetting('paging_item_number'));
+				// ->get();
 		return view('gaji.driver.index',[
 			'data' => $data
 		]);	

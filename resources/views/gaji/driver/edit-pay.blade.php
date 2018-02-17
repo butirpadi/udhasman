@@ -82,20 +82,55 @@
 		    							<td class="col-rit" align="right" >{{$dt->qty}}</td>
 		    							<td class="col-vol"  align="right" >{{$dt->volume}}</td>
 		    							<td class="col-net" align="right" >{{$dt->netto}}</td>
-		    							<td  ><input type="text" class="form-control input-harga text-right input-sm no-border" style="background-color: whitesmoke;" value="{{$dt->harga_satuan}}"  ></td>
+		    							<td  >
+		    								<input type="text" class="form-control input-harga text-right input-sm no-border" style="background-color: azure;" value="{{$dt->harga_satuan}}" data-payrolldetailid="{{$dt->id}}" >
+		    							</td>
 		    							<td class="col-jumlah text-right" >{{$dt->jumlah}}</td>
 		    						</tr>
 		    					@endforeach
 		    				</tbody>
 		    			</table>
 		    		</div>
+
+		    		<div class="col-xs-4 pull-right {{$data->state =='draft' ? 'hide':''}}" >
+		    			<table class="table table-condensed" >
+		    				<tbody>
+		    					<tr>
+		    						<td class="text-bold" >Jumlah</td>
+		    						<td class="text-bold" >:</td>
+		    						<td class="uang text-right text-bold">{{$data->total}}</td>
+		    					</tr>
+		    					<tr>
+		    						<td class="text-bold" >Sisa Bayaran</td>
+		    						<td class="text-bold" >:</td>
+		    						<td class=""><input type="text" name="sisa_bayaran" class="form-control uang text-right text-bold no-border" style="border-bottom: solid 1px darkgrey!important;" value="{{$data->sisa_bayaran}}" ></td>
+		    					</tr>
+		    					<tr>
+		    						<td class="text-bold" >DP</td>
+		    						<td class="text-bold" >:</td>
+		    						<td class=""><input type="text" name="dp" class="form-control uang text-right text-bold no-border" style="border-bottom: solid 1px darkgrey!important;" value="{{$data->sisa_bayaran}}" ></td>
+		    					</tr>
+		    					<tr>
+		    						<td class="text-bold" >Potongan Bahan</td>
+		    						<td class="text-bold" >:</td>
+		    						<td class=""><input type="text" name="potongan_bahan" class="form-control uang text-right text-bold no-border" style="border-bottom: solid 1px darkgrey!important;" value="{{$data->sisa_bayaran}}" ></td>
+		    					</tr>
+		    					<tr>
+		    						<td class="text-bold" >Potongan Bon</td>
+		    						<td class="text-bold" >:</td>
+		    						<td class=""><input type="text" name="potongan_bon" class="form-control uang text-right text-bold no-border" style="border-bottom: solid 1px darkgrey!important;" value="{{$data->sisa_bayaran}}" ></td>
+		    					</tr>
+		    				</tbody>
+		    			</table>
+		    		</div>
+
 		    	</div>
 		    </div>
 		    <div class="box-footer" >
 		    	@if($data->state == 'draft')
 		    		<a class="btn btn-primary" id="btn-confirm" data-paymentid="{{$data->id}}" data-karyawanid="{{$data->karyawan_id}}" data-tanggal="{{$data->payment_date_formatted}}" ><i class="fa fa-check" ></i> Confirm</a>
 		    	@elseif($data->state == 'open')
-		    		<a class="btn btn-primary" data-paymentid="{{$data->id}}" data-karyawanid="{{$data->karyawan_id}}" data-tanggal="{{$data->payment_date_formatted}}" ><i class="fa fa-save" ></i> Save</a>		    	
+		    		<a class="btn btn-primary" id="btn-save" data-paymentid="{{$data->id}}" data-karyawanid="{{$data->karyawan_id}}" data-tanggal="{{$data->payment_date_formatted}}" ><i class="fa fa-save" ></i> Save</a>		    	
 		    	@endif
 		    	<a class="btn btn-danger" href="gaji/driver/show-payroll-table/{{$data->payment_date_formatted}}" ><i class="fa fa-close" ></i> Close</a>
 
@@ -106,7 +141,8 @@
 		    </div>
 		</div>
 	</section>
-</div>
+
+	<div id="detail-form" ></div>
 
 @append
 
@@ -121,7 +157,7 @@
 
 	function formatNumeric(){
 		// format autonumeric
-		$('.input-harga, .col-jumlah').autoNumeric('init',{
+		$('.input-harga, .col-jumlah, .uang').autoNumeric('init',{
             vMin:'0.00',
             vMax:'9999999999.00',
             aSep: ',',
@@ -180,6 +216,24 @@
 		var qty = Number(kalkulasi == 'rit' ? row.find('.col-rit').text() : (kalkulasi == 'kubik' ? row.find('.col-vol').text() : (kalkulasi == 'ton' ? row.find('.col-net').text() : 0 ) ));
 		var jumlah = qty * harga;
 		row.find('.col-jumlah').autoNumeric('set',jumlah);
+
+	});
+
+	$('#btn-save').click(function(){
+		jsonData = [];
+		$('.input-harga').each(function(i,item){
+			item = {};
+			item['payroll_driver_detail_id'] = $(this).data('payrolldetailid');
+			item['harga_satuan'] = $(this).autoNumeric('get') == '' ? 0 : $(this).autoNumeric('get');
+			jsonData.push(item);
+		});
+
+		// $.post('gaji/driver/save-pay',function(){
+
+		// });
+		var form = $('<form>').attr('method','POST').attr('action','gaji/driver/save-pay').append($('<input>').attr('type','text').attr('name','pay_detail').val(JSON.stringify(jsonData)));
+		$('#detail-form').append(form);
+		form.submit();
 
 	});
 

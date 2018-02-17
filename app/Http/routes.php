@@ -771,6 +771,7 @@ Route::group(['middleware' => ['web','auth']], function () {
         Route::get('driver/pay/{karyawan_id}/{tanggal}','GajiController@addPay');
         Route::get('driver/get-payroll-at-month/{bulan}','GajiController@getPayrollAtMonth');
         Route::get('driver/get-pengiriman/{karyawanid}/{tanggal_awal}/{tanggal_akhir}/{pay_id}','GajiController@getPengiriman');
+        Route::post('driver/save-pay','GajiController@savePay');
     });
 
 

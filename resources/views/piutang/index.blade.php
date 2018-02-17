@@ -24,9 +24,6 @@
             <table class="table table-bordered table-condensed table-striped " id="table-data" >
                 <thead>
                     <tr>
-                        <!-- <th style="width:25px;" class="text-center">
-                            <input type="checkbox" name="ck_all" style="margin-left:15px;padding:0;" >
-                        </th> -->
                         <th>ref#</th>
                         <th>Tanggal</th>
                         <th>tipe</th>
@@ -41,9 +38,6 @@
                 <tbody>
                     @foreach($data as $dt)
                     <tr data-rowid="{{$rownum}}" data-id="{{$dt->id}}" class="{{$dt->state == 'draft' ? 'text-maroon':''}}">
-                        <!-- <td class="text-center" >
-                                <input type="checkbox" class="ck_row" >
-                        </td> -->
                         <td class="text-center" >
                             {{$dt->name}}
                         </td>
