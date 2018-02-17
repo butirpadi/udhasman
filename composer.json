@@ -12,7 +12,8 @@
         "setasign/fpdf": "^1.8",
         "spipu/html2pdf": "^5.0",
         "dompdf/dompdf": "^0.8.2",
-        "maatwebsite/excel": "~2.1.0"
+        "maatwebsite/excel": "~2.1.0",
+        "barryvdh/laravel-snappy": "^0.4.1"
 
     },
     "require-dev": {

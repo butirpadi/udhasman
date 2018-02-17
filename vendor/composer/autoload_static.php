@@ -12,8 +12,8 @@ class ComposerStaticInit8db49a01901a8cb2d64458d8e9c81ff1
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
         'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
         '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
-        'e7223560d890eab89cda23685e711e2c' => __DIR__ . '/..' . '/psy/psysh/src/Psy/functions.php',
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
+        'e7223560d890eab89cda23685e711e2c' => __DIR__ . '/..' . '/psy/psysh/src/Psy/functions.php',
         'f0906e6318348a765ffb6eb24e0d0938' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/helpers.php',
         '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
         'f18cc91337d49233e5754e93f3ed9ec3' => __DIR__ . '/..' . '/laravelcollective/html/src/helpers.php',
@@ -76,6 +76,10 @@ class ComposerStaticInit8db49a01901a8cb2d64458d8e9c81ff1
         array (
             'League\\Flysystem\\' => 17,
         ),
+        'K' => 
+        array (
+            'Knp\\Snappy\\' => 11,
+        ),
         'I' => 
         array (
             'Illuminate\\' => 11,
@@ -100,6 +104,7 @@ class ComposerStaticInit8db49a01901a8cb2d64458d8e9c81ff1
         ),
         'B' => 
         array (
+            'Barryvdh\\Snappy\\' => 16,
             'Barryvdh\\LaravelIdeHelper\\' => 26,
         ),
         'A' => 
@@ -112,8 +117,8 @@ class ComposerStaticInit8db49a01901a8cb2d64458d8e9c81ff1
         'phpDocumentor\\Reflection\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
-            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
-            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
         ),
         'browner12\\helpers\\' => 
         array (
@@ -227,6 +232,10 @@ class ComposerStaticInit8db49a01901a8cb2d64458d8e9c81ff1
         array (
             0 => __DIR__ . '/..' . '/league/flysystem/src',
         ),
+        'Knp\\Snappy\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/knplabs/knp-snappy/src/Knp/Snappy',
+        ),
         'Illuminate\\' => 
         array (
             0 => __DIR__ . '/..' . '/laravel/framework/src/Illuminate',
@@ -266,6 +275,10 @@ class ComposerStaticInit8db49a01901a8cb2d64458d8e9c81ff1
         'Carbon\\' => 
         array (
             0 => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon',
+        ),
+        'Barryvdh\\Snappy\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/barryvdh/laravel-snappy/src',
         ),
         'Barryvdh\\LaravelIdeHelper\\' => 
         array (
@@ -359,40 +372,44 @@ class ComposerStaticInit8db49a01901a8cb2d64458d8e9c81ff1
         'App\\Http\\Controllers\\CustomerInvoiceController' => __DIR__ . '/../..' . '/app/Http/Controllers/CustomerInvoiceController.php',
         'App\\Http\\Controllers\\DailyhdController' => __DIR__ . '/../..' . '/app/Http/Controllers/DailyhdController.php',
         'App\\Http\\Controllers\\DeliveryController' => __DIR__ . '/../..' . '/app/Http/Controllers/DeliveryController.php',
-        'App\\Http\\Controllers\\DeliveryOrderController' => __DIR__ . '/../..' . '/app/Http/Controllers/_DeliveryOrderController.php',
+        'App\\Http\\Controllers\\DeliveryOrderController' => __DIR__ . '/../..' . '/app/Http/Controllers/trash/_DeliveryOrderController.php',
         'App\\Http\\Controllers\\DriverController' => __DIR__ . '/../..' . '/app/Http/Controllers/DriverController.php',
         'App\\Http\\Controllers\\GajiController' => __DIR__ . '/../..' . '/app/Http/Controllers/GajiController.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
         'App\\Http\\Controllers\\HutangController' => __DIR__ . '/../..' . '/app/Http/Controllers/HutangController.php',
         'App\\Http\\Controllers\\JabatanController' => __DIR__ . '/../..' . '/app/Http/Controllers/JabatanController.php',
-        'App\\Http\\Controllers\\KalkulasiController' => __DIR__ . '/../..' . '/app/Http/Controllers/_KalkulasiController.php',
+        'App\\Http\\Controllers\\KalkulasiController' => __DIR__ . '/../..' . '/app/Http/Controllers/trash/_KalkulasiController.php',
         'App\\Http\\Controllers\\KaryawanController' => __DIR__ . '/../..' . '/app/Http/Controllers/KaryawanController.php',
         'App\\Http\\Controllers\\LokasiGalianController' => __DIR__ . '/../..' . '/app/Http/Controllers/LokasiGalianController.php',
         'App\\Http\\Controllers\\MaterialController' => __DIR__ . '/../..' . '/app/Http/Controllers/MaterialController.php',
         'App\\Http\\Controllers\\PartnerController' => __DIR__ . '/../..' . '/app/Http/Controllers/PartnerController.php',
         'App\\Http\\Controllers\\PaymentController' => __DIR__ . '/../..' . '/app/Http/Controllers/PaymentController.php',
         'App\\Http\\Controllers\\PayrollController' => __DIR__ . '/../..' . '/app/Http/Controllers/PayrollController.php',
-        'App\\Http\\Controllers\\PayrollDriverController' => __DIR__ . '/../..' . '/app/Http/Controllers/_PayrollDriverController.php',
+        'App\\Http\\Controllers\\PayrollDriverController' => __DIR__ . '/../..' . '/app/Http/Controllers/PayrollDriverController.php',
         'App\\Http\\Controllers\\PayrollStaffController' => __DIR__ . '/../..' . '/app/Http/Controllers/PayrollStaffController.php',
         'App\\Http\\Controllers\\PekerjaanController' => __DIR__ . '/../..' . '/app/Http/Controllers/PekerjaanController.php',
         'App\\Http\\Controllers\\PembelianController' => __DIR__ . '/../..' . '/app/Http/Controllers/PembelianController.php',
-        'App\\Http\\Controllers\\PengirimanController' => __DIR__ . '/../..' . '/app/Http/Controllers/_PengirimanController.php',
-        'App\\Http\\Controllers\\PenjualanController' => __DIR__ . '/../..' . '/app/Http/Controllers/_PenjualanController.php',
+        'App\\Http\\Controllers\\PengirimanController' => __DIR__ . '/../..' . '/app/Http/Controllers/trash/_PengirimanController.php',
+        'App\\Http\\Controllers\\PenjualanController' => __DIR__ . '/../..' . '/app/Http/Controllers/trash/_PenjualanController.php',
         'App\\Http\\Controllers\\PiutangController' => __DIR__ . '/../..' . '/app/Http/Controllers/PiutangController.php',
         'App\\Http\\Controllers\\PresensiController' => __DIR__ . '/../..' . '/app/Http/Controllers/PresensiController.php',
         'App\\Http\\Controllers\\ProductController' => __DIR__ . '/../..' . '/app/Http/Controllers/ProductController.php',
         'App\\Http\\Controllers\\ProductUnitController' => __DIR__ . '/../..' . '/app/Http/Controllers/ProductUnitController.php',
-        'App\\Http\\Controllers\\PurchaseOrderController' => __DIR__ . '/../..' . '/app/Http/Controllers/_PurchaseOrderController.php',
-        'App\\Http\\Controllers\\ReportDeliveryController' => __DIR__ . '/../..' . '/app/Http/Controllers/_ReportDeliveryController.php',
+        'App\\Http\\Controllers\\PurchaseOrderController' => __DIR__ . '/../..' . '/app/Http/Controllers/trash/_PurchaseOrderController.php',
+        'App\\Http\\Controllers\\ReportDailyhdController' => __DIR__ . '/../..' . '/app/Http/Controllers/ReportDailyhdController.php',
+        'App\\Http\\Controllers\\ReportDeliveryController' => __DIR__ . '/../..' . '/app/Http/Controllers/trash/_ReportDeliveryController.php',
+        'App\\Http\\Controllers\\ReportHutangController' => __DIR__ . '/../..' . '/app/Http/Controllers/ReportHutangController.php',
         'App\\Http\\Controllers\\ReportPembelianController' => __DIR__ . '/../..' . '/app/Http/Controllers/ReportPembelianController.php',
         'App\\Http\\Controllers\\ReportPengirimanController' => __DIR__ . '/../..' . '/app/Http/Controllers/ReportPengirimanController.php',
-        'App\\Http\\Controllers\\ReportPurchaseController' => __DIR__ . '/../..' . '/app/Http/Controllers/_ReportPurchaseController.php',
-        'App\\Http\\Controllers\\ReportSalesController' => __DIR__ . '/../..' . '/app/Http/Controllers/_ReportSalesController.php',
+        'App\\Http\\Controllers\\ReportPiutangController' => __DIR__ . '/../..' . '/app/Http/Controllers/ReportPiutangController.php',
+        'App\\Http\\Controllers\\ReportPresensiController' => __DIR__ . '/../..' . '/app/Http/Controllers/ReportPresensiController.php',
+        'App\\Http\\Controllers\\ReportPurchaseController' => __DIR__ . '/../..' . '/app/Http/Controllers/trash/_ReportPurchaseController.php',
+        'App\\Http\\Controllers\\ReportSalesController' => __DIR__ . '/../..' . '/app/Http/Controllers/trash/_ReportSalesController.php',
         'App\\Http\\Controllers\\SalesOrderController' => __DIR__ . '/../..' . '/app/Http/Controllers/SalesOrderController.php',
         'App\\Http\\Controllers\\StaffController' => __DIR__ . '/../..' . '/app/Http/Controllers/StaffController.php',
-        'App\\Http\\Controllers\\SupplierBillController' => __DIR__ . '/../..' . '/app/Http/Controllers/_SupplierBillController.php',
+        'App\\Http\\Controllers\\SupplierBillController' => __DIR__ . '/../..' . '/app/Http/Controllers/trash/_SupplierBillController.php',
         'App\\Http\\Controllers\\SupplierController' => __DIR__ . '/../..' . '/app/Http/Controllers/SupplierController.php',
-        'App\\Http\\Controllers\\TagihanCustomerController' => __DIR__ . '/../..' . '/app/Http/Controllers/_TagihanCustomerController.php',
+        'App\\Http\\Controllers\\TagihanCustomerController' => __DIR__ . '/../..' . '/app/Http/Controllers/trash/_TagihanCustomerController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
         'App\\Http\\Middleware\\EncryptCookies' => __DIR__ . '/../..' . '/app/Http/Middleware/EncryptCookies.php',
@@ -439,6 +456,14 @@ class ComposerStaticInit8db49a01901a8cb2d64458d8e9c81ff1
         'Barryvdh\\Reflection\\DocBlock\\Tag\\VarTag' => __DIR__ . '/..' . '/barryvdh/reflection-docblock/src/Barryvdh/Reflection/DocBlock/Tag/VarTag.php',
         'Barryvdh\\Reflection\\DocBlock\\Tag\\VersionTag' => __DIR__ . '/..' . '/barryvdh/reflection-docblock/src/Barryvdh/Reflection/DocBlock/Tag/VersionTag.php',
         'Barryvdh\\Reflection\\DocBlock\\Type\\Collection' => __DIR__ . '/..' . '/barryvdh/reflection-docblock/src/Barryvdh/Reflection/DocBlock/Type/Collection.php',
+        'Barryvdh\\Snappy\\Facades\\SnappyImage' => __DIR__ . '/..' . '/barryvdh/laravel-snappy/src/Facades/SnappyImage.php',
+        'Barryvdh\\Snappy\\Facades\\SnappyPdf' => __DIR__ . '/..' . '/barryvdh/laravel-snappy/src/Facades/SnappyPdf.php',
+        'Barryvdh\\Snappy\\IlluminateSnappyImage' => __DIR__ . '/..' . '/barryvdh/laravel-snappy/src/IlluminateSnappyImage.php',
+        'Barryvdh\\Snappy\\IlluminateSnappyPdf' => __DIR__ . '/..' . '/barryvdh/laravel-snappy/src/IlluminateSnappyPdf.php',
+        'Barryvdh\\Snappy\\ImageWrapper' => __DIR__ . '/..' . '/barryvdh/laravel-snappy/src/ImageWrapper.php',
+        'Barryvdh\\Snappy\\LumenServiceProvider' => __DIR__ . '/..' . '/barryvdh/laravel-snappy/src/LumenServiceProvider.php',
+        'Barryvdh\\Snappy\\PdfWrapper' => __DIR__ . '/..' . '/barryvdh/laravel-snappy/src/PdfWrapper.php',
+        'Barryvdh\\Snappy\\ServiceProvider' => __DIR__ . '/..' . '/barryvdh/laravel-snappy/src/ServiceProvider.php',
         'Carbon\\Carbon' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Carbon.php',
         'Carbon\\CarbonInterval' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/CarbonInterval.php',
         'Carbon\\Exceptions\\InvalidDateException' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Exceptions/InvalidDateException.php',
@@ -1670,6 +1695,11 @@ class ComposerStaticInit8db49a01901a8cb2d64458d8e9c81ff1
         'JakubOnderka\\PhpConsoleColor\\ConsoleColor' => __DIR__ . '/..' . '/jakub-onderka/php-console-color/src/JakubOnderka/PhpConsoleColor/ConsoleColor.php',
         'JakubOnderka\\PhpConsoleColor\\InvalidStyleException' => __DIR__ . '/..' . '/jakub-onderka/php-console-color/src/JakubOnderka/PhpConsoleColor/InvalidStyleException.php',
         'JakubOnderka\\PhpConsoleHighlighter\\Highlighter' => __DIR__ . '/..' . '/jakub-onderka/php-console-highlighter/src/JakubOnderka/PhpConsoleHighlighter/Highlighter.php',
+        'Knp\\Snappy\\AbstractGenerator' => __DIR__ . '/..' . '/knplabs/knp-snappy/src/Knp/Snappy/AbstractGenerator.php',
+        'Knp\\Snappy\\Exception\\FileAlreadyExistsException' => __DIR__ . '/..' . '/knplabs/knp-snappy/src/Knp/Snappy/Exception/FileAlreadyExistsException.php',
+        'Knp\\Snappy\\GeneratorInterface' => __DIR__ . '/..' . '/knplabs/knp-snappy/src/Knp/Snappy/GeneratorInterface.php',
+        'Knp\\Snappy\\Image' => __DIR__ . '/..' . '/knplabs/knp-snappy/src/Knp/Snappy/Image.php',
+        'Knp\\Snappy\\Pdf' => __DIR__ . '/..' . '/knplabs/knp-snappy/src/Knp/Snappy/Pdf.php',
         'League\\Flysystem\\AdapterInterface' => __DIR__ . '/..' . '/league/flysystem/src/AdapterInterface.php',
         'League\\Flysystem\\Adapter\\AbstractAdapter' => __DIR__ . '/..' . '/league/flysystem/src/Adapter/AbstractAdapter.php',
         'League\\Flysystem\\Adapter\\AbstractFtpAdapter' => __DIR__ . '/..' . '/league/flysystem/src/Adapter/AbstractFtpAdapter.php',
