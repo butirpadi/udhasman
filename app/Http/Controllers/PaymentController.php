@@ -234,7 +234,7 @@ class PaymentController extends Controller
 
     public function getAmountDue($customer_id){
         $amount_due = \DB::table('view_piutang')
-                        ->where('customer_id',$customer_id)
+                        ->where('partner_id',$customer_id)
                         ->where('state','open')
                         ->sum('amount_due');
         return $amount_due == '' ? 0 : $amount_due;

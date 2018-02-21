@@ -23,36 +23,50 @@
     </head>
     <body  >
         <div style="width: 100%;text-align: center;border: solid thin black;padding: 5px;" >
-            <strong style="margin: 0;padding: 0;font-size: 11px;" >UD. HASIL MANCING</strong>
+            <strong style="margin: 0;padding: 0;font-size: 11px;" >{{Appsetting('company_name')}}</strong>
             <h4 style="margin: 0;padding: 0;font-size: 12px;" >BUKTI KAS MASUK</h4>
         </div>
         <table style="width: 100%;padding:5px;font-size: 11px;border-left:thin solid black;border-right:thin solid black;padding-top: 15px;padding-bottom: 15px;" >
             <tbody>
+                <tr>
+                    <td style="width: 10%;" >
+                        <strong>Tanggal</strong>
+                    </td>
+                    <td style="width: 2%;" >:</td>
+                    <td style="width: 38%;" >
+                        {{$data->tanggal_format}}
+                    </td>
+
+                    <td style="width: 10%;" >
+                        <strong>Ref#</strong>
+                    </td>
+                    <td style="width: 2%;" >:</td>
+                    <td style="width: 28%;" >
+                        {{$data->name}}
+                    </td>
+                    
+
+                    
+                </tr>
                 <tr>
                     <td style="vertical-align: top;width: 20%;" >
                         <strong>Diterima dari</strong>
                     </td>
                     <td style="width:2%;vertical-align: top;" >:</td>
                     <td style="width:38%;vertical-align: top;" >
-                        @if($data->piutang->type == 'pk')
-                            {{$data->piutang->karyawan}}
-                        @elseif($data->piutang->type == 'pl')
-                            {{$data->piutang->penerima}}
-                        @else
-                         	{{$data->piutang->customer}}
-                        @endif
+                        {{$data->piutang->partner}}
                     </td>
-
-                    <td style="width: 10%;" >
-                        <strong>Tanggal</strong>
+                   
+                    <td style="vertical-align: top;" >
+                        <strong>Jumlah</strong>
                     </td>
-                    <td style="width: 2%;" >:</td>
-                    <td style="width: 28%;" >
-                        {{$data->tanggal_format}}
+                    <td style="vertical-align: top;" >:</td>
+                    <td style="vertical-align: top;" >
+                        {{number_format($data->jumlah,2,'.',',')}}
                     </td>
                 </tr>
                 <tr>
-                    <td style="vertical-align: top;" >
+                     <td style="vertical-align: top;" >
                         <strong>Keterangan</strong>
                     </td>
                     <td style="vertical-align: top;" >:</td>
@@ -62,31 +76,17 @@
                         @elseif($data->piutang->type == 'pl')
                             Pembayaran Piutang Lain-lain <br/>
                         @else
-                        	Pembayaran Invoice <br/>
+                            Pembayaran Invoice <br/>
                         @endif
                         <i>{{$data->piutang->desc}}</i>
                     </td>
-                    <td style="" >
-                        <strong>Ref#</strong>
-                    </td>
-                    <td style="" >:</td>
-                    <td style="" >
-                        {{$data->name}}
-                    </td>
-                </tr>
-                <tr>
+
                     <td style="" >
                         
                     </td>
                     <td style="" ></td>
                     
-                    <td style="vertical-align: top;" >
-                        <strong>Jumlah</strong>
-                    </td>
-                    <td style="vertical-align: top;" >:</td>
-                    <td style="vertical-align: top;" >
-                        {{number_format($data->jumlah,2,'.',',')}}
-                    </td>
+                    
                 </tr>
             </tbody>
         </table>    
@@ -120,36 +120,50 @@
 
         <!-- Invoice Copy -->
         <div style="width: 100%;text-align: center;border: solid thin black;padding: 5px;" >
-            <strong style="margin: 0;padding: 0;font-size: 11px;" >UD. HASIL MANCING</strong>
+            <strong style="margin: 0;padding: 0;font-size: 11px;" >{{Appsetting('company_name')}}</strong>
             <h4 style="margin: 0;padding: 0;font-size: 12px;" >BUKTI KAS MASUK (LEMBAR COPY)</h4>
         </div>
         <table style="width: 100%;padding:5px;font-size: 11px;border-left:thin solid black;border-right:thin solid black;padding-top: 15px;padding-bottom: 15px;" >
             <tbody>
+                <tr>
+                    <td style="width: 10%;" >
+                        <strong>Tanggal</strong>
+                    </td>
+                    <td style="width: 2%;" >:</td>
+                    <td style="width: 38%;" >
+                        {{$data->tanggal_format}}
+                    </td>
+
+                    <td style="width: 10%;" >
+                        <strong>Ref#</strong>
+                    </td>
+                    <td style="width: 2%;" >:</td>
+                    <td style="width: 28%;" >
+                        {{$data->name}}
+                    </td>
+                    
+
+                    
+                </tr>
                 <tr>
                     <td style="vertical-align: top;width: 20%;" >
                         <strong>Diterima dari</strong>
                     </td>
                     <td style="width:2%;vertical-align: top;" >:</td>
                     <td style="width:38%;vertical-align: top;" >
-                        @if($data->piutang->type == 'pk')
-                            {{$data->piutang->karyawan}}
-                        @elseif($data->piutang->type == 'pl')
-                            {{$data->piutang->penerima}}
-                        @else
-                         	{{$data->piutang->customer}}
-                        @endif
+                        {{$data->piutang->partner}}
                     </td>
-
-                    <td style="width: 10%;" >
-                        <strong>Tanggal</strong>
+                   
+                    <td style="vertical-align: top;" >
+                        <strong>Jumlah</strong>
                     </td>
-                    <td style="width: 2%;" >:</td>
-                    <td style="width: 28%;" >
-                        {{$data->tanggal_format}}
+                    <td style="vertical-align: top;" >:</td>
+                    <td style="vertical-align: top;" >
+                        {{number_format($data->jumlah,2,'.',',')}}
                     </td>
                 </tr>
                 <tr>
-                    <td style="vertical-align: top;" >
+                     <td style="vertical-align: top;" >
                         <strong>Keterangan</strong>
                     </td>
                     <td style="vertical-align: top;" >:</td>
@@ -159,31 +173,17 @@
                         @elseif($data->piutang->type == 'pl')
                             Pembayaran Piutang Lain-lain <br/>
                         @else
-                        	Pembayaran Invoice <br/>
+                            Pembayaran Invoice <br/>
                         @endif
                         <i>{{$data->piutang->desc}}</i>
                     </td>
-                    <td style="" >
-                        <strong>Ref#</strong>
-                    </td>
-                    <td style="" >:</td>
-                    <td style="" >
-                        {{$data->name}}
-                    </td>
-                </tr>
-                <tr>
+
                     <td style="" >
                         
                     </td>
                     <td style="" ></td>
                     
-                    <td style="vertical-align: top;" >
-                        <strong>Jumlah</strong>
-                    </td>
-                    <td style="vertical-align: top;" >:</td>
-                    <td style="vertical-align: top;" >
-                        {{number_format($data->jumlah,2,'.',',')}}
-                    </td>
+                    
                 </tr>
             </tbody>
         </table>    

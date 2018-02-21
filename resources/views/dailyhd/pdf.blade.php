@@ -2,12 +2,13 @@
 <html>
     <head>
         <base href="{{ URL::to('/') }}/" />
+        <title>.:: Form Operasional Alat Berat ::.</title>
         <style>
             table.table-product {
                 border-collapse: collapse;
               }
             table.table-product th, table.table-product td {
-                border: 1px solid black;
+                border:0.5px solid black;
                 padding: 10px;
                 text-align: left;
               }
@@ -25,10 +26,10 @@
                         <img src="img/logo.png" style="width: 90%;" />
                     </td>
                     <td style="width: 30%;" >
-                        <strong>UD. HASIL MANCING</strong><br/>
-                        Jl. Kaliurang B-133<br/>
-                        Banyuwangi, Jawa Timur<br/>
-                        Phone. (053)-8053603
+                        <strong>{{Appsetting('company_name')}}</strong><br/>
+                        {{Appsetting('alamat_1')}}<br/>
+                        {{Appsetting('alamat_2')}}<br/>
+                        Phone. {{Appsetting('telp')}}
                     </td>
                     <td style="margin:0;padding:0;width: 55%;text-align: right;" >
                         <h3 style="margin:0;padding:0;">FORM OPERASIONAL ALAT BERAT</h3>
@@ -49,13 +50,48 @@
                     <td style="width: 30%;"  >
                         {{$data->tanggal_format}}
                     </td>
+
                     <td style="width: 20%;" >
+                        <strong>Jam Kerja</strong>
+                    </td>
+                    <td style="width: 30%;">
+                        {{$data->mulai . ' - ' .$data->selesai}}
+                    </td>
+                    
+                </tr>
+                <tr>
+                    <td  >
+                        <strong>Lokasi Galian</strong>
+                    </td>
+                    <td  >
+                        {{$data->lokasi_galian}}
+                    </td>
+                    
+                    <td >
+                        <strong>Istirahat</strong>
+                    </td>
+                    <td >
+                        {{$data->istirahat_mulai . ' - ' .$data->istirahat_selesai}}
+                    </td> 
+                    
+                </tr>
+
+                <tr>
+                    <td  >
                         <strong>Alat</strong>
                     </td>
-                    <td style="width: 30%;" >
+                    <td  >
                         {{$data->kode_alat . ' - ' . $data->alat}}
                     </td>
+                                       
+                    <td  >
+                        <strong>Total Jam Kerja</strong>
+                    </td>
+                    <td align="right" >
+                        {{$data->jam_kerja}}
+                    </td>
                 </tr>
+
                 <tr>
                     <td  >
                         <strong>Pengawas</strong>
@@ -63,40 +99,27 @@
                     <td  >
                         {{$data->kode_pengawas . ' - ' .$data->pengawas}}
                     </td>
+                    <td >
+                        <strong>Konsumsi Solar (liter)</strong>
+                    </td>
+                    <td align="right" >
+                        {{$data->solar}}
+                    </td>
+                    
+                </tr>
+                <tr>
                     <td  >
                         <strong>Operator</strong>
                     </td>
                     <td  >
                         {{$data->kode_operator . ' - ' .$data->operator}}
                     </td>
-                </tr>
 
-                <tr>
-                    <td >
-                        <strong>Jam Kerja</strong>
-                    </td>
-                    <td >
-                        {{$data->mulai . ' - ' .$data->selesai}}
-                    </td>
-                    <td >
-                        <strong>Istirahat</strong>
-                    </td>
-                    <td >
-                        {{$data->istirahat_mulai . ' - ' .$data->istirahat_selesai}}
-                    </td>
-                </tr>
-
-                <tr>
-                    <td >
-                        <strong>Konsumsi Solar (liter)</strong>
-                    </td>
-                    <td >
-                        {{$data->solar}}
-                    </td>
+                    
                     <td >
                         <strong>Konsumsi Oli (liter)</strong>
                     </td>
-                    <td >
+                    <td align="right" >
                         {{$data->oli}}
                     </td>
                 </tr>

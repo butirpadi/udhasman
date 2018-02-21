@@ -15,7 +15,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
-            <span style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; " >UD HASIL MANCING</span>
+            <span style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; " >{{Appsetting('company_name')}}</span>
         </a>
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">

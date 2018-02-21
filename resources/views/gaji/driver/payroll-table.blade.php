@@ -100,11 +100,13 @@
 
                                 <!-- @if($dt->payroll->state == 'P') -->
                                     <a target="_blank" class="btn btn-danger btn-xs" data-toggle="tooltip" data-title="Print PDF"  href="gaji/driver/print-pdf/{{$dt->payroll->id}}" ><i class="fa fa-file-pdf-o" ></i></a>
+
                                     <a target="_blank" class="btn btn-primary btn-xs" data-toggle="tooltip" data-title="Print & Copy" href="gaji/driver/print-copy/{{$dt->payroll->id}}" ><i class="fa fa-copy" ></i></a>
+                                    
                                     <a target="_blank" class="btn btn-warning btn-xs" data-toggle="tooltip" data-title="Direct Print" href="gaji/driver/print-direct/{{$dt->payroll->id}}" ><i class="fa fa-print" ></i></a>
                                 <!-- @endif -->
                             @else
-                                <a class="btn btn-primary btn-xs" href="gaji/driver/pay/{{$dt->id}}/{{$tanggal_penggajian}}" ><i class="fa fa-edit" ></i></a>
+                                <!-- <a class="btn btn-primary btn-xs" href="gaji/driver/pay/{{$dt->id}}/{{$tanggal_penggajian}}" ><i class="fa fa-edit" ></i></a> -->
                                 
                             @endif
 

@@ -28,7 +28,7 @@ class GajiController extends Controller
 
 				// query set total
 				\DB::select("update payroll_driver set total = (select sum(jumlah) 
-						from payroll_driver_detail where payroll_driver_id = " . $payroll_driver_id . ") 
+						from payroll_driver_detail where payroll_driver_id = " . $payroll_driver_id . ") , amount_due = total
 						where payroll_driver.id = " . $payroll_driver_id);
 			}
 
@@ -379,6 +379,14 @@ class GajiController extends Controller
 
   		if(count($data) > 0){
 	  		\DB::transaction(function()use($karyawan_id,$awal,$akhir,$pay_id,$data){
+
+	  			// delete data lama , hanya untuk mode development saja
+	  			\DB::table('payroll_pengiriman_driver')
+	  					->where('payroll_driver_id',$pay_id)
+	  					->delete();
+	  			\DB::table('payroll_driver_detail')
+	  					->where('payroll_driver_id',$pay_id)
+	  					->delete();
 
 		  		// insert data pengiriman ke payrol_driver_detail
 		  		\DB::select("insert into payroll_pengiriman_driver (payroll_driver_id, new_pengiriman_id) select " . $pay_id . ",id from new_pengiriman

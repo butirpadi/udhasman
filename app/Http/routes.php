@@ -483,66 +483,70 @@ Route::group(['middleware' => ['web','auth']], function () {
         Route::post('get-attendance-table','AttendanceController@getAttendanceTable');
     });
 
-    Route::group(['prefix' => 'payroll'], function () {
-        // Default Payroll System
-        Route::get('/','PayrollController@index');
-        Route::get('/{val}','PayrollController@index');
-        Route::get('addnew','PayrollController@addnew');
-        Route::get('payroll/show-payroll-table/{tanggal}/{kode_jabatan}','PayrollController@showPayrollTable');
-        Route::post('payroll/get-pay-day','PayrollController@getPayDay');
+    // Route::group(['prefix' => 'payroll'], function () {
+
+
+
+
+    //     // // Default Payroll System
+    //     // Route::get('/','PayrollController@index');
+    //     // Route::get('/{val}','PayrollController@index');
+    //     // Route::get('addnew','PayrollController@addnew');
+    //     // Route::get('payroll/show-payroll-table/{tanggal}/{kode_jabatan}','PayrollController@showPayrollTable');
+    //     // Route::post('payroll/get-pay-day','PayrollController@getPayDay');
         
 
-        // PAYROLL STAFF
-        Route::get('payroll-staff/show-payroll-table/{tanggal}','PayrollStaffController@showPayrollTable');
-        Route::get('payroll-staff/pay/{karyawan_id}/{tanggal}','PayrollStaffController@addPay');
-        Route::get('payroll-staff/edit-pay/{payroll_id}','PayrollStaffController@editPay');
-        Route::post('payroll-staff/insert-pay','PayrollStaffController@insertPay');
-        Route::post('payroll-staff/update-pay','PayrollStaffController@updatePay');
-        Route::get('payroll-staff/validate-pay/{payroll_id}','PayrollStaffController@validatePay');
-        Route::get('payroll-staff/reset/{payroll_id}','PayrollStaffController@resetPay');
-        Route::get('payroll-staff/print-pdf/{payroll_id}','PayrollStaffController@printPdf');
-        Route::get('payroll-staff/print-copy/{payroll_id}','PayrollStaffController@printCopy');
-        Route::get('payroll-staff/print-direct/{payroll_id}','PayrollStaffController@printDirect');
+    //     // // PAYROLL STAFF
+    //     // Route::get('payroll-staff/show-payroll-table/{tanggal}','PayrollStaffController@showPayrollTable');
+    //     // Route::get('payroll-staff/pay/{karyawan_id}/{tanggal}','PayrollStaffController@addPay');
+    //     // Route::get('payroll-staff/edit-pay/{payroll_id}','PayrollStaffController@editPay');
+    //     // Route::post('payroll-staff/insert-pay','PayrollStaffController@insertPay');
+    //     // Route::post('payroll-staff/update-pay','PayrollStaffController@updatePay');
+    //     // Route::get('payroll-staff/validate-pay/{payroll_id}','PayrollStaffController@validatePay');
+    //     // Route::get('payroll-staff/reset/{payroll_id}','PayrollStaffController@resetPay');
+    //     // Route::get('payroll-staff/print-pdf/{payroll_id}','PayrollStaffController@printPdf');
+    //     // Route::get('payroll-staff/print-copy/{payroll_id}','PayrollStaffController@printCopy');
+    //     // Route::get('payroll-staff/print-direct/{payroll_id}','PayrollStaffController@printDirect');
 
 
-        // PAYROLL DRIVER
-        Route::get('driver/show-payroll-table/{tanggal}','PayrollDriverController@showPayrollTable');
-        Route::get('driver/pay/{karyawan_id}/{tanggal}','PayrollDriverController@addPay');
-        Route::get('driver/edit-pay/{payroll_id}','PayrollDriverController@editPay');
-        Route::post('driver/insert-pay','PayrollDriverController@insertPay');
-        Route::post('driver/update-pay','PayrollDriverController@updatePay');
-        Route::get('driver/validate-pay/{payroll_id}','PayrollDriverController@validatePay');
-        Route::get('driver/reset/{payroll_id}','PayrollDriverController@resetPay');
-        Route::get('driver/print-pdf/{payroll_id}','PayrollDriverController@printPdf');
-        Route::get('driver/print-copy/{payroll_id}','PayrollDriverController@printCopy');
-        Route::get('driver/print-direct/{payroll_id}','PayrollDriverController@printDirect');
+    //     // // PAYROLL DRIVER
+    //     // Route::get('driver/show-payroll-table/{tanggal}','PayrollDriverController@showPayrollTable');
+    //     // Route::get('driver/pay/{karyawan_id}/{tanggal}','PayrollDriverController@addPay');
+    //     // Route::get('driver/edit-pay/{payroll_id}','PayrollDriverController@editPay');
+    //     // Route::post('driver/insert-pay','PayrollDriverController@insertPay');
+    //     // Route::post('driver/update-pay','PayrollDriverController@updatePay');
+    //     // Route::get('driver/validate-pay/{payroll_id}','PayrollDriverController@validatePay');
+    //     // Route::get('driver/reset/{payroll_id}','PayrollDriverController@resetPay');
+    //     // Route::get('driver/print-pdf/{payroll_id}','PayrollDriverController@printPdf');
+    //     // Route::get('driver/print-copy/{payroll_id}','PayrollDriverController@printCopy');
+    //     // Route::get('driver/print-direct/{payroll_id}','PayrollDriverController@printDirect');
 
-        // // PAYROLL STAFF
-        // // Route::get('staff','PayrollDriverController@staff');
+    //     // // PAYROLL STAFF
+    //     // // Route::get('staff','PayrollDriverController@staff');
 
-        // // PAYROLL DRIVER
-        // Route::get('driver','PayrollDriverController@driver');
-        // Route::get('driver/create','PayrollDriverController@driverCreate');
-        // Route::post('driver/insert','PayrollDriverController@insert');
-        // Route::post('driver/update','PayrollDriverController@update');
-        // Route::get('driver/delete/{payroll_id}','PayrollDriverController@deletePayroll');
-        // Route::get('driver/edit/{payroll_id}','PayrollDriverController@edit');
-        // Route::get('driver/validate/{payroll_id}','PayrollDriverController@validatePayroll');
-        // Route::get('driver/cancel-payroll/{payroll_id}','PayrollDriverController@cancelPayroll');
-        // Route::get('driver/get-delivery-order/{driver_id}/{start_date}/{end_date}','PayrollDriverController@getDeliveryOrderList');
+    //     // // PAYROLL DRIVER
+    //     // Route::get('driver','PayrollDriverController@driver');
+    //     // Route::get('driver/create','PayrollDriverController@driverCreate');
+    //     // Route::post('driver/insert','PayrollDriverController@insert');
+    //     // Route::post('driver/update','PayrollDriverController@update');
+    //     // Route::get('driver/delete/{payroll_id}','PayrollDriverController@deletePayroll');
+    //     // Route::get('driver/edit/{payroll_id}','PayrollDriverController@edit');
+    //     // Route::get('driver/validate/{payroll_id}','PayrollDriverController@validatePayroll');
+    //     // Route::get('driver/cancel-payroll/{payroll_id}','PayrollDriverController@cancelPayroll');
+    //     // Route::get('driver/get-delivery-order/{driver_id}/{start_date}/{end_date}','PayrollDriverController@getDeliveryOrderList');
 
-        // // PAYROLL STAFF
-        // Route::get('staff','PayrollStaffController@index');
-        // Route::get('staff/create','PayrollStaffController@create');
-        // Route::get('staff/edit/{payroll_id}','PayrollStaffController@edit');
-        // Route::post('staff/insert','PayrollStaffController@insert');
-        // Route::post('staff/update','PayrollStaffController@update');
-        // Route::get('staff/get-attendance/{staff_id}/{awal}/{akhir}','PayrollStaffController@getAttendance');
-        // Route::get('staff/get-workday/{staff_id}/{awal}/{akhir}','PayrollStaffController@getWorkday');
-        // Route::get('staff/validate/{payroll_id}','PayrollStaffController@validatePayroll');
-        // Route::get('staff/cancel-payroll/{payroll_id}','PayrollStaffController@cancelPayroll');
+    //     // // PAYROLL STAFF
+    //     // Route::get('staff','PayrollStaffController@index');
+    //     // Route::get('staff/create','PayrollStaffController@create');
+    //     // Route::get('staff/edit/{payroll_id}','PayrollStaffController@edit');
+    //     // Route::post('staff/insert','PayrollStaffController@insert');
+    //     // Route::post('staff/update','PayrollStaffController@update');
+    //     // Route::get('staff/get-attendance/{staff_id}/{awal}/{akhir}','PayrollStaffController@getAttendance');
+    //     // Route::get('staff/get-workday/{staff_id}/{awal}/{akhir}','PayrollStaffController@getWorkday');
+    //     // Route::get('staff/validate/{payroll_id}','PayrollStaffController@validatePayroll');
+    //     // Route::get('staff/cancel-payroll/{payroll_id}','PayrollStaffController@cancelPayroll');
 
-    });
+    // });
 
     Route::group(['prefix' => 'sales'], function () {
         // ORDERS
@@ -772,6 +776,29 @@ Route::group(['middleware' => ['web','auth']], function () {
         Route::get('driver/get-payroll-at-month/{bulan}','GajiController@getPayrollAtMonth');
         Route::get('driver/get-pengiriman/{karyawanid}/{tanggal_awal}/{tanggal_akhir}/{pay_id}','GajiController@getPengiriman');
         Route::post('driver/save-pay','GajiController@savePay');
+
+        // Gaji Driver Revisi
+        Route::group(['prefix'=>'gaji-driver'],function(){
+            Route::get('','GajiDriverController@index');
+            Route::get('create','GajiDriverController@create');
+            Route::post('save','GajiDriverController@save');
+            Route::get('edit/{id}','GajiDriverController@edit');
+            Route::post('get-pay-day','GajiDriverController@getPayDay');
+            Route::post('update','GajiDriverController@update');
+            Route::get('confirm/{id}','GajiDriverController@confirm');
+            Route::get('delete/{id}','GajiDriverController@delete');
+            Route::post('save-payment','GajiDriverController@savePayment');
+            Route::get('validate/{id}','GajiDriverController@toValidate');
+            Route::get('print-pdf/{id}','GajiDriverController@printPdf');
+            Route::get('get-payment-info/{payment_id}','GajiDriverController@getPaymentInfo');
+            Route::get('delete-dp/{payment_id}','GajiDriverController@deleteDP');
+            Route::get('to-cancel/{id}','GajiDriverController@toCancel');
+            Route::get('payment-to-print/{payment_id}','GajiDriverController@paymentToPrint');
+            Route::get('search', 'GajiDriverController@getSearch');
+            Route::get('filter/{filterby}/{val}','GajiDriverController@filter');
+            Route::get('group-by/{val}','GajiDriverController@groupby');
+            Route::get('group-detail/{groupby}/{id}','GajiDriverController@groupdetail');
+        });
     });
 
 
