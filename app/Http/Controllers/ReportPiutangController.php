@@ -79,6 +79,7 @@ class ReportPiutangController extends Controller
 					->select('partner_id','partner',\DB::raw('sum(jumlah) as sum_jumlah'),\DB::raw('sum(amount_due) as sum_amount_due'))
 					->whereBetween('tanggal',[$tgl_awal_str,$tgl_akhir_str])
 					->whereRaw($where)
+					->whereState('open')
 					->groupBy($req->group_by)
 					->orderBy('tanggal','desc')
 					->get();
@@ -89,6 +90,7 @@ class ReportPiutangController extends Controller
 				$dg->detail = \DB::table('view_piutang')
 						->whereBetween('tanggal',[$tgl_awal_str,$tgl_akhir_str])
 						->wherePartnerId($dg->partner_id)
+						->whereState('open')
 						->orderBy('tanggal','desc')
 						->get();
 			}
@@ -98,11 +100,13 @@ class ReportPiutangController extends Controller
         $sum_amount_due = \DB::table('view_piutang')
 						->whereBetween('tanggal',[$tgl_awal_str,$tgl_akhir_str])
 						->whereRaw($where)
+						->whereState('open')
 						->sum('amount_due');
 
 		$sum_jumlah = \DB::table('view_piutang')
 					->whereBetween('tanggal',[$tgl_awal_str,$tgl_akhir_str])
 					->whereRaw($where)
+					->whereState('open')
 					->sum('jumlah');
 
         $reportOptions = [

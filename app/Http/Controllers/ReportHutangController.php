@@ -82,6 +82,7 @@ class ReportHutangController extends Controller
 						->whereRaw($where)
 						->groupBy($req->group_by)
 						->orderBy('tanggal','desc')
+						->whereState('open')
 						->get();
 
 			foreach($data_group as $dg){
@@ -94,6 +95,7 @@ class ReportHutangController extends Controller
 				$dg->detail = \DB::table('view_hutang')
 						->whereBetween('tanggal',[$tgl_awal_str,$tgl_akhir_str])
 						->wherePartnerId($dg->partner_id)
+						->whereState('open')
 						->orderBy('tanggal','desc')
 						->get();
 			}
@@ -101,11 +103,13 @@ class ReportHutangController extends Controller
 			$sum_amount_due = \DB::table('view_hutang')
 						->whereBetween('tanggal',[$tgl_awal_str,$tgl_akhir_str])
 						->whereRaw($where)
+						->whereState('open')
 						->sum('amount_due');
 
 			$sum_jumlah = \DB::table('view_hutang')
 						->whereBetween('tanggal',[$tgl_awal_str,$tgl_akhir_str])
 						->whereRaw($where)
+						->whereState('open')
 						->sum('jumlah');
 			
         }
