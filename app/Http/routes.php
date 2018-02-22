@@ -799,6 +799,26 @@ Route::group(['middleware' => ['web','auth']], function () {
             Route::get('group-by/{val}','GajiDriverController@groupby');
             Route::get('group-detail/{groupby}/{id}','GajiDriverController@groupdetail');
         });
+
+        // Gaji Driver Revisi
+        Route::group(['prefix'=>'gaji-staff'],function(){
+            Route::get('','GajiStaffController@index');
+            Route::get('create','GajiStaffController@create');
+            Route::post('save','GajiStaffController@save');
+            Route::get('edit/{id}','GajiStaffController@edit');
+            Route::post('update','GajiStaffController@update');
+            Route::get('confirm/{id}','GajiStaffController@confirm');
+            Route::get('delete/{id}','GajiStaffController@delete');
+            Route::get('validate/{id}','GajiStaffController@toValidate');
+            Route::post('save-payment','GajiStaffController@savePayment');
+            Route::get('get-payment-info/{payment_id}','GajiStaffController@getPaymentInfo');
+            Route::get('delete-dp/{payment_id}','GajiStaffController@deleteDP');
+            Route::get('to-cancel/{id}','GajiStaffController@toCancel');
+            Route::get('print-pdf/{id}','GajiStaffController@printPdf');
+            Route::get('payment-to-print/{payment_id}','GajiStaffController@paymentToPrint');
+            
+        });
+
     });
 
 

@@ -93,24 +93,36 @@ class GajiDriverController extends Controller
 			$tanggal_awal->modify('-7 day');
 			$tanggal_akhir->modify('-1 day');
 
-			// insert ke table gaji driver
-	        $id  = \DB::table('gaji_driver')
-	        	->insertGetId([
-	        		'tanggal_gaji' => $tanggal_gaji,
-	        		'partner_id' => $req->partner,
-	        		'tanggal_awal' => $tanggal_awal,
-	        		'tanggal_akhir' => $tanggal_akhir,
-	        		'bulan' => $req->bulan,
-	        		'state' => 'draft'
-	        	]);
+			// cek data tersedia
+			$ketemu = \DB::table('gaji_driver')
+						->where('tanggal_gaji',$tanggal_gaji->format('Y-m-d'))
+						->where('partner_id', $req->partner)
+						->first();
 
-	        // insert ke table gaji driver detail
-	        $data_pengiriman = \DB::select("insert into gaji_driver_detail (gaji_driver_id,material_id,pekerjaan_id,kalkulasi,volume,netto, rit) select 
-	        	?, material_id,pekerjaan_id,kalkulasi,sum(volume)as sum_vol,sum(netto) as sum_net,sum(qty) as sum_rit
-											from new_pengiriman
-											where karyawan_id = ?
-											and order_date between ? and ?
-											group by material_id,pekerjaan_id,kalkulasi",[$id,$req->partner, $tanggal_awal,$tanggal_akhir]);
+			if($ketemu){
+				$id = $ketemu->id;
+			}else{
+				// insert ke table gaji driver
+		        $id  = \DB::table('gaji_driver')
+		        	->insertGetId([
+		        		'tanggal_gaji' => $tanggal_gaji,
+		        		'partner_id' => $req->partner,
+		        		'tanggal_awal' => $tanggal_awal,
+		        		'tanggal_akhir' => $tanggal_akhir,
+		        		'bulan' => $req->bulan,
+		        		'state' => 'draft'
+		        	]);
+
+		        // insert ke table gaji driver detail
+		        $data_pengiriman = \DB::select("insert into gaji_driver_detail (gaji_driver_id,material_id,pekerjaan_id,kalkulasi,volume,netto, rit) select 
+		        	?, material_id,pekerjaan_id,kalkulasi,sum(volume)as sum_vol,sum(netto) as sum_net,sum(qty) as sum_rit
+												from new_pengiriman
+												where karyawan_id = ?
+												and order_date between ? and ?
+												group by material_id,pekerjaan_id,kalkulasi",[$id,$req->partner, $tanggal_awal->format('Y-m-d'),$tanggal_akhir->format('Y-m-d')]);
+				
+			}
+
 
 
 	        return redirect('gaji/gaji-driver/edit/'.$id);
