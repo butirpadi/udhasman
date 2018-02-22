@@ -238,6 +238,11 @@ class GajiDriverController extends Controller
 	        	->whereName('dp_counter')
 	        	->update(['value'=>$counter+1]);
 
+	        // get payment counter
+	        $dp_counter = \DB::table('gaji_driver_payment')
+	        			->where('gaji_driver_id',$pay->gaji_driver_id)
+	        			->max('order');
+
 	       	// insert payment
 			$paymentId = \DB::table('gaji_driver_payment')
 				->insertGetId([
@@ -245,6 +250,7 @@ class GajiDriverController extends Controller
 					'gaji_driver_id' => $pay->gaji_driver_id,
 					'jumlah' => $pay->jumlah,
 					'tanggal' => date('Y-m-d'),
+					'order' => $dp_counter + 1
 				]);
 
 			// update amount due
@@ -374,7 +380,8 @@ class GajiDriverController extends Controller
     				->find($paymentId);
 
     	$paymentBefore = \DB::table('view_gaji_driver_payment')
-    						->where('tanggal','<',$payment->tanggal)
+    						->where('gaji_driver_id',$payment->gaji_driver_id)
+    						->where('created_at','<',$payment->created_at)
     						->get();
 
     	$data = \DB::table('view_gaji_driver')
@@ -391,7 +398,7 @@ class GajiDriverController extends Controller
 		$pdf->setOption('margin-right', 10);
 		$pdf->loadHTML(view('gaji.gaji_driver.pdf',[
 			'data' => $data,
-			'dp' => $payment->jumlah,
+			'payment' => $payment,
 			'amount_due' => $payment->amount_due,
 			'paymentBefore' => $paymentBefore
 		]));

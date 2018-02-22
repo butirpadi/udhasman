@@ -113,7 +113,7 @@
                                 <tbody>
                                     <tr >
                                         <td class="text-bold text-right" >Gaji Pokok Harian</td>
-                                        <td class="col-xs-6"  ><input name="jumlah" class="uang text-right text-bold form-control no-border no-padding " style="background-color: white;" readonly id="total-jumlah" value="{{$data->partner_data->gaji_pokok}}" ></td>
+                                        <td class="col-xs-6"  ><input name="jumlah" class="uang text-right text-bold form-control no-border no-padding " style="background-color: white;" readonly id="total-jumlah" value="{{$data->gaji_pokok}}" ></td>
                                     </tr>
                                     <tr>
                                         <td class="text-bold text-right" >Total Kehadiran</td>

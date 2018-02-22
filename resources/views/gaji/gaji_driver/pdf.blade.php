@@ -64,7 +64,7 @@
 				<tr>
 					<th style="width:50%;padding-left: 5px;" align="left" colspan="3" rowspan="2"  >
 						{{Appsetting('company_name')}}<br/>
-						SLIP GAJI - {{$data->name}}
+						SLIP GAJI - {{$data->name . ($data->dp == 'Y' ? '-'.Appsetting('dp_pay_prefix') . $payment->order : '' )}}
 					</th>
 					<th style="width: 18%;" align="left" >Kode Karyawan</th>
 					<th style="width: 2%;" >:</th>
@@ -146,7 +146,7 @@
 				@endforeach
 				@endif
 				<tr >
-					<td style="padding-top: 20px;" colspan="6"  vertical-align: middle;" ><b>GAJI DITERIMA<span style="float: right;" >{{number_format($dp,2,'.',',')}}</span></b></td>
+					<td style="padding-top: 20px;" colspan="6"  vertical-align: middle;" ><b>GAJI DITERIMA<span style="float: right;" >{{number_format($payment->jumlah,2,'.',',')}}</span></b></td>
 				</tr>
 				<tr >
 					<td colspan="6"  vertical-align: middle;" style="border-bottom: 0.5px solid darkgrey;border-top: 0.5px solid darkgrey;" ><i>AMOUNT DUE<span style="float: right;" >{{number_format($amount_due,2,'.',',')}}</span></i></td>
@@ -190,7 +190,7 @@
 				<tr>
 					<th style="width:50%;padding-left: 5px;" align="left" colspan="3" rowspan="2"  >
 						{{Appsetting('company_name')}}<br/>
-						SLIP GAJI - {{$data->name}}
+						SLIP GAJI - {{$data->name . ($data->dp == 'Y' ? '-'.Appsetting('dp_pay_prefix') . $payment->order : '' )}}
 					</th>
 					<th style="width: 18%;" align="left" >Kode Karyawan</th>
 					<th style="width: 2%;" >:</th>
@@ -272,7 +272,7 @@
 				@endforeach
 				@endif
 				<tr >
-					<td style="padding-top: 20px;" colspan="6"  vertical-align: middle;" ><b>GAJI DITERIMA<span style="float: right;" >{{number_format($dp,2,'.',',')}}</span></b></td>
+					<td style="padding-top: 20px;" colspan="6"  vertical-align: middle;" ><b>GAJI DITERIMA<span style="float: right;" >{{number_format($payment->jumlah,2,'.',',')}}</span></b></td>
 				</tr>
 				<tr >
 					<td colspan="6"  vertical-align: middle;" style="border-bottom: 0.5px solid darkgrey;border-top: 0.5px solid darkgrey;" ><i>AMOUNT DUE<span style="float: right;" >{{number_format($amount_due,2,'.',',')}}</span></i></td>
@@ -306,6 +306,7 @@
 				</tr>
 			</tbody>
 		</table>	
+			
 	</div>
 	
 </body>

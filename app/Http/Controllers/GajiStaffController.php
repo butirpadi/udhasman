@@ -86,6 +86,7 @@ class GajiStaffController extends Controller
 		        		'jumlah' => $jumlah,
 		        		'gaji_nett' => $jumlah,
 		        		'amount_due' => $jumlah,
+		        		'gaji_pokok' => $partner->gaji_pokok
 		        	]);
 				
 			}
@@ -124,25 +125,53 @@ class GajiStaffController extends Controller
 
 	public function update(Request $req){
 		return \DB::transaction(function()use($req){
+			$partner = \DB::table('res_partner')
+								->find($req->partner);
+
+			// generate tanggal
+			$tanggal = $req->tanggal;
+	        $arr_tgl = explode('-',$tanggal);
+			$tanggal_gaji = new \DateTime();
+			$tanggal_awal = new \DateTime();
+			$tanggal_akhir = new \DateTime();
+			$tanggal_gaji->setDate($arr_tgl[2],$arr_tgl[1],$arr_tgl[0]);
+			$tanggal_awal->setDate($arr_tgl[2],$arr_tgl[1],$arr_tgl[0]);
+			$tanggal_akhir->setDate($arr_tgl[2],$arr_tgl[1],$arr_tgl[0]);
+			$tanggal_awal->modify('-7 day');
+			$tanggal_akhir->modify('-1 day');
+
+			// get kehadiran
+	        $pagi = \DB::table('presensi')
+			        	->whereKaryawanId($req->partner)
+			        	->whereBetween('tgl',[$tanggal_awal->format('Y-m-d'),$tanggal_akhir->format('Y-m-d')])
+			        	->wherePagi('Y')
+			        	->count('id');
+			$siang = \DB::table('presensi')
+			        	->whereKaryawanId($req->partner)
+			        	->whereBetween('tgl',[$tanggal_awal->format('Y-m-d'),$tanggal_akhir->format('Y-m-d')])
+			        	->whereSiang('Y')
+			        	->count('id');
+
+			// hitung gaji
+			$jumlah = $partner->gaji_pokok * ($pagi+$siang) / 2;
+
 			// update gaji staff
 			\DB::table('gaji_staff')
 				->where('id',$req->gaji_staff_id)
 				->update([
-					'potongan_bahan' => $req->potongan_bahan,
-					'gaji_nett' => $req->gaji_nett,
-					'jumlah' => $req->jumlah,
-					'amount_due' => $req->gaji_nett,
+					'tanggal_gaji' => $tanggal_gaji,
+	        		'partner_id' => $req->partner,
+	        		'tanggal_awal' => $tanggal_awal,
+	        		'tanggal_akhir' => $tanggal_akhir,
+	        		'bulan' => $req->bulan,
+	        		'masuk_pagi' => $pagi,
+	        		'masuk_siang' => $siang,
+	        		'state' => 'draft',
+	        		'jumlah' => $jumlah,
+	        		'gaji_nett' => $jumlah,
+	        		'amount_due' => $jumlah,
+	        		'gaji_pokok' => $partner->gaji_pokok
 				]);
-
-			$updateData = json_decode($req->update_data);
-			foreach($updateData as $dt){
-				\DB::table('gaji_staff_detail')
-					->whereId($dt->gaji_staff_detail_id)
-					->update([
-						'harga' => $dt->harga,
-						'jumlah' => \DB::raw("case when kalkulasi = 'rit' then rit * harga when kalkulasi = 'kubik' then volume * harga else netto * harga end")
-					]);
-			}
 
 			return redirect()->back();
 
@@ -209,6 +238,11 @@ class GajiStaffController extends Controller
 	        	->whereName('dp_counter')
 	        	->update(['value'=>$counter+1]);
 
+	        // get payment counter
+	        $dp_counter = \DB::table('gaji_staff_payment')
+	        			->where('gaji_staff_id',$pay->gaji_staff_id)
+	        			->max('order');
+
 	       	// insert payment
 			$paymentId = \DB::table('gaji_staff_payment')
 				->insertGetId([
@@ -216,6 +250,7 @@ class GajiStaffController extends Controller
 					'gaji_staff_id' => $pay->gaji_staff_id,
 					'jumlah' => $pay->jumlah,
 					'tanggal' => date('Y-m-d'),
+					'order' => $dp_counter+1
 				]);
 
 			// update amount due
@@ -273,7 +308,8 @@ class GajiStaffController extends Controller
     				->find($paymentId);
 
     	$paymentBefore = \DB::table('view_gaji_staff_payment')
-    						->where('tanggal','<',$payment->tanggal)
+    						->where('gaji_staff_id',$payment->gaji_staff_id)
+    						->where('created_at','<',$payment->created_at)
     						->get();
 
     	$data = \DB::table('view_gaji_staff')
@@ -289,7 +325,7 @@ class GajiStaffController extends Controller
 		$pdf->setOption('margin-right', 10);
 		$pdf->loadHTML(view('gaji.gaji_staff.pdf',[
 			'data' => $data,
-			'dp' => $payment->jumlah,
+			'payment' => $payment,
 			'amount_due' => $payment->amount_due,
 			'paymentBefore' => $paymentBefore
 		]));
@@ -314,6 +350,38 @@ class GajiStaffController extends Controller
 		]));
 		return $pdf->inline();
 	}
+
+	public function filter($filterby,$val){
+		$data = \DB::table('view_gaji_staff')
+		->where($filterby,$val)
+		->orderBy('tanggal_gaji','desc')
+		->paginate(Appsetting('paging_item_number'));
+
+		return view('gaji.gaji_staff.filter',[
+				'data' => $data,
+				'filterby' => $filterby,
+				'filter' => $val,
+			]);
+	}
+
+	public function getSearch(){
+    	$val = \Input::get('val');						
+
+		$data = \DB::table('view_gaji_staff')
+					->where('name','like','%' . trim($val) . '%')
+					->orWhere('partner','like','%' . $val . '%')
+					->orWhere('kode_partner','like','%' . $val . '%')
+					->orWhere('state','like','%' . $val . '%')
+					->orderBy('tanggal_gaji','desc')
+					->paginate(Appsetting('paging_item_number'));
+
+		$data->appends(['val'=>$val]);
+
+		return view('gaji.gaji_staff.search',[
+				'data' => $data,     
+				'search_val' => $val
+			]);
+    }
 
 
 

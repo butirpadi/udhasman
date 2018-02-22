@@ -11,7 +11,7 @@
           <li><a href="gaji/gaji-driver/filter/state/paid">State : Paid</a></li>
         </ul>
     </div>
-    <div class="btn-group">
+    <!-- <div class="btn-group">
         <a  class="btn bg-maroon dropdown-toggle" data-toggle="dropdown">
             <i class="fa fa-th-large" ></i>
             Group by
@@ -19,7 +19,7 @@
         <ul class="dropdown-menu">
           <li><a href="gaji/gaji-driver/group-by/partner_id">Driver</a></li>
         </ul>
-    </div>
+    </div> -->
     <a class="btn btn-danger hide" id="btn-delete" href="#" ><i class="fa fa-trash" ></i> Delete</a>
 
     <div class="pull-right" >

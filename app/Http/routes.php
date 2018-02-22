@@ -816,6 +816,8 @@ Route::group(['middleware' => ['web','auth']], function () {
             Route::get('to-cancel/{id}','GajiStaffController@toCancel');
             Route::get('print-pdf/{id}','GajiStaffController@printPdf');
             Route::get('payment-to-print/{payment_id}','GajiStaffController@paymentToPrint');
+            Route::get('filter/{filterby}/{val}','GajiStaffController@filter');
+            Route::get('search', 'GajiStaffController@getSearch');
             
         });
 
