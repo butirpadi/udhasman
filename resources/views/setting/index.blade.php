@@ -127,7 +127,7 @@
                             </div>
                             <div class="form-group">
                                 <label >Kas Keluar Prefix</label>
-                                <input type="text" name="alat_prefix" value="{{Appsetting('cashbook_credit_prefix')}}" class="form-control"  placeholder="Kas Keluar Prefix" >
+                                <input type="text" name="cashbook_credit_prefix" value="{{Appsetting('cashbook_credit_prefix')}}" class="form-control"  placeholder="Kas Keluar Prefix" >
                             </div>
                             <div class="form-group">
                                 <label >Multi Payment Prefix</label>

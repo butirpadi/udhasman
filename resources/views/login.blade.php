@@ -25,7 +25,7 @@
     <![endif]-->
     <style>
       body{
-        background: url({{$login_background}}) no-repeat center center fixed !important; 
+        background: url(img/{{Appsetting('login_background')}}) no-repeat center center fixed !important; 
         -webkit-background-size: cover;
         -moz-background-size: cover;
         -o-background-size: cover;
@@ -36,44 +36,33 @@
   <body class="hold-transition login-page">
     <div class="login-box">
       
-      <div class="login-box-body">
+    <div class="login-box-body" >
         <div class="login-logo">
-        <img src="img/{{Appsetting('company_logo')}}" class="img-responsive">
-      </div><!-- /.login-logo -->
+            <img src="img/{{Appsetting('company_logo')}}" class="img-responsive">
+        </div><!-- /.login-logo -->
         <p class="login-box-msg">Sign in to start your session</p>
-        <form action="login" method="post">
-          <div class="form-group has-feedback">
-            <input type="text" class="form-control" placeholder="Username" name="username" autofocus>
-            <span class="glyphicon glyphicon-user form-control-feedback"></span>
-          </div>
-          <div class="form-group has-feedback">
-            <input type="password" class="form-control" placeholder="Password" name="password">
-            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-          </div>
-          <div class="row">
-            <div class="col-xs-8">
-              <!-- <div class="checkbox icheck">
-                <label>
-                  <input type="checkbox"> Remember Me
-                </label>
-              </div> -->
-            </div><!-- /.col -->
-            <div class="col-xs-4">
-              <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
-            </div><!-- /.col -->
-          </div>
-        </form>
-
-        <!-- <div class="social-auth-links text-center">
-          <p>- OR -</p>
-          <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign in using Facebook</a>
-          <a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-google-plus"></i> Sign in using Google+</a>
-        </div> -->
-        <!-- /.social-auth-links -->
-
-        <!-- <a href="#">I forgot my password</a><br>
-        <a href="register.html" class="text-center">Register a new membership</a> -->
-
+            <form action="login" method="post">
+              <div class="form-group has-feedback">
+                <input type="text" class="form-control" placeholder="Username" name="username" autofocus>
+                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+              </div>
+              <div class="form-group has-feedback">
+                <input type="password" class="form-control" placeholder="Password" name="password">
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+              </div>
+              <div class="row">
+                <div class="col-xs-8">
+                  <!-- <div class="checkbox icheck">
+                    <label>
+                      <input type="checkbox"> Remember Me
+                    </label>
+                  </div> -->
+                </div><!-- /.col -->
+                <div class="col-xs-4">
+                  <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                </div><!-- /.col -->
+              </div>
+            </form>
       </div><!-- /.login-box-body -->
     </div><!-- /.login-box -->
 
