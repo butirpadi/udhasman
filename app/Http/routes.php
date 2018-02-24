@@ -90,6 +90,8 @@ Route::group(['middleware' => ['web','auth']], function () {
         Route::post('update', 'CashbookController@update');
         Route::get('edit/{cashbook_id}', 'CashbookController@edit');
         Route::get('delete/{cashbook_id}', 'CashbookController@delete');
+        Route::get('confirm/{cashbook_id}', 'CashbookController@confirm');
+        Route::get('print-pdf/{cashbook_id}', 'CashbookController@printPdf');
     });
 
     Route::group(['prefix' => 'finance/hutang'], function () {
@@ -672,6 +674,13 @@ Route::group(['middleware' => ['web','auth']], function () {
             Route::post('submit-excel','ReportPresensiController@submitExcel');
         });
 
+        // REPORT GAJI DRIVER
+        Route::group(['prefix' => 'gaji-driver'], function () {
+            Route::get('/','ReportGajiDriverController@index');
+            Route::post('submit','ReportGajiDriverController@submit');
+            Route::post('submit-pdf','ReportGajiDriverController@submitPdf');
+        });
+
 
         // // REPORT PURCHASE
         // Route::get('purchase','ReportPurchaseController@index');
@@ -821,6 +830,13 @@ Route::group(['middleware' => ['web','auth']], function () {
             
         });
 
+    });
+
+    Route::group(['prefix'=>'setting'],function(){
+        Route::group(['prefix'=>'system'],function(){
+            Route::get('','SettingController@index');
+            Route::post('update','SettingController@update');
+        });
     });
 
 

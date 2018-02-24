@@ -64,7 +64,7 @@
 				<tr>
 					<th style="width:50%;padding-left: 5px;" align="left" colspan="3" rowspan="2"  >
 						{{Appsetting('company_name')}}<br/>
-						SLIP GAJI - {{$data->name }}
+						SLIP GAJI - {{$data->name . '-' . Appsetting('dp_pay_prefix') . $payment->order}}
 					</th>
 					<th style="width: 18%;" align="left" >Kode Karyawan</th>
 					<th style="width: 2%;" >:</th>
@@ -138,9 +138,15 @@
 				<tr style="border-top: 0.5px solid darkgrey;" >
 					<td colspan="6" vertical-align: middle;" >NETT GAJI <span style="float: right;" >{{number_format($data->gaji_nett,2,'.',',')}}</span></td>
 				</tr>
-				
+				@if(isset($paymentBefore))
+				@foreach($paymentBefore as $pay)
 				<tr >
-					<td style="padding-top: 20px;" colspan="6"  vertical-align: middle;" ><b>GAJI DITERIMA<span style="float: right;" >{{number_format($data->gaji_nett,2,'.',',')}}</span></b></td>
+					<td colspan="6"  style="vertical-align: middle;padding-top: 0;padding-bottom: 0;" ><i>Dibayar tanggal {{$pay->tanggal_format}} <span style="float: right;" >{{number_format($pay->jumlah,2,'.',',')}}</span></i></td>
+				</tr>
+				@endforeach
+				@endif
+				<tr >
+					<td style="padding-top: 20px;" colspan="6"  vertical-align: middle;" ><b>GAJI DITERIMA<span style="float: right;" >{{number_format($payment->jumlah,2,'.',',')}}</span></b></td>
 				</tr>
 				<tr >
 					<td colspan="6"  vertical-align: middle;" style="border-bottom: 0.5px solid darkgrey;border-top: 0.5px solid darkgrey;" ><i>AMOUNT DUE<span style="float: right;" >{{number_format($amount_due,2,'.',',')}}</span></i></td>
@@ -184,7 +190,7 @@
 				<tr>
 					<th style="width:50%;padding-left: 5px;" align="left" colspan="3" rowspan="2"  >
 						{{Appsetting('company_name')}}<br/>
-						COPY SLIP GAJI - {{$data->name }}
+						SLIP GAJI - {{$data->name . '-' . Appsetting('dp_pay_prefix') . $payment->order}}
 					</th>
 					<th style="width: 18%;" align="left" >Kode Karyawan</th>
 					<th style="width: 2%;" >:</th>
@@ -258,9 +264,15 @@
 				<tr style="border-top: 0.5px solid darkgrey;" >
 					<td colspan="6" vertical-align: middle;" >NETT GAJI <span style="float: right;" >{{number_format($data->gaji_nett,2,'.',',')}}</span></td>
 				</tr>
-				
+				@if(isset($paymentBefore))
+				@foreach($paymentBefore as $pay)
 				<tr >
-					<td style="padding-top: 20px;" colspan="6"  vertical-align: middle;" ><b>GAJI DITERIMA<span style="float: right;" >{{number_format($data->gaji_nett,2,'.',',')}}</span></b></td>
+					<td colspan="6"  style="vertical-align: middle;padding-top: 0;padding-bottom: 0;" ><i>Dibayar tanggal {{$pay->tanggal_format}} <span style="float: right;" >{{number_format($pay->jumlah,2,'.',',')}}</span></i></td>
+				</tr>
+				@endforeach
+				@endif
+				<tr >
+					<td style="padding-top: 20px;" colspan="6"  vertical-align: middle;" ><b>GAJI DITERIMA<span style="float: right;" >{{number_format($payment->jumlah,2,'.',',')}}</span></b></td>
 				</tr>
 				<tr >
 					<td colspan="6"  vertical-align: middle;" style="border-bottom: 0.5px solid darkgrey;border-top: 0.5px solid darkgrey;" ><i>AMOUNT DUE<span style="float: right;" >{{number_format($amount_due,2,'.',',')}}</span></i></td>
@@ -293,7 +305,7 @@
 					</td>
 				</tr>
 			</tbody>
-		</table>
+		</table>		
 		
 	</div>
 	

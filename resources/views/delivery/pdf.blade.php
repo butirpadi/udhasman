@@ -150,7 +150,7 @@
             </tbody>
         </table>
 
-        @if(Appsetting('surat_jalan_copy') == 'Y')
+        
         <br />
         <br />
         <hr style="border:0.5px dashed black;">
@@ -287,7 +287,6 @@
                 </tr>
             </tbody>
         </table>
-        @endif
 
     </body>
 </html>

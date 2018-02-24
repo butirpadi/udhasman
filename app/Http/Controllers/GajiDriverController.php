@@ -163,25 +163,74 @@ class GajiDriverController extends Controller
 
 	public function update(Request $req){
 		return \DB::transaction(function()use($req){
-			// update gaji driver
-			\DB::table('gaji_driver')
+			// get data yang lama
+			$gaji_driver = \DB::table('gaji_driver')
+								->find($req->gaji_driver_id);
+
+			// generate tanggal
+			$tanggal = $req->tanggal;
+	        $arr_tgl = explode('-',$tanggal);
+			$tanggal_gaji = new \DateTime();
+			$tanggal_awal = new \DateTime();
+			$tanggal_akhir = new \DateTime();
+			$tanggal_gaji->setDate($arr_tgl[2],$arr_tgl[1],$arr_tgl[0]);
+			$tanggal_awal->setDate($arr_tgl[2],$arr_tgl[1],$arr_tgl[0]);
+			$tanggal_akhir->setDate($arr_tgl[2],$arr_tgl[1],$arr_tgl[0]);
+			$tanggal_awal->modify('-7 day');
+			$tanggal_akhir->modify('-1 day');
+
+			if($gaji_driver->tanggal_gaji != $tanggal_gaji->format('Y-m-d') || $gaji_driver->partner_id != $req->partner){
+				// hapus data lama
+				\DB::table('gaji_driver_detail')
+					->where('gaji_driver_id',$req->gaji_driver_id)
+					->delete();
+
+				// update data
+				\DB::table('gaji_driver')
 				->where('id',$req->gaji_driver_id)
 				->update([
-					'potongan_bahan' => $req->potongan_bahan,
-					'gaji_nett' => $req->gaji_nett,
-					'jumlah' => $req->jumlah,
-					'amount_due' => $req->gaji_nett,
+					'potongan_bahan' => 0,
+					'jumlah' => 0,
+					'gaji_nett' => 0,
+					'amount_due' => 0,
+					'tanggal_gaji' => $tanggal_gaji,
+	        		'partner_id' => $req->partner,
+	        		'tanggal_awal' => $tanggal_awal,
+	        		'tanggal_akhir' => $tanggal_akhir,
+	        		'bulan' => $req->bulan,
 				]);
 
-			$updateData = json_decode($req->update_data);
-			foreach($updateData as $dt){
-				\DB::table('gaji_driver_detail')
-					->whereId($dt->gaji_driver_detail_id)
+				// generate gaji detail
+		        $data_pengiriman = \DB::select("insert into gaji_driver_detail (gaji_driver_id,material_id,pekerjaan_id,kalkulasi,volume,netto, rit) select 
+		        	?, material_id,pekerjaan_id,kalkulasi,sum(volume)as sum_vol,sum(netto) as sum_net,sum(qty) as sum_rit
+												from new_pengiriman
+												where karyawan_id = ?
+												and order_date between ? and ?
+												group by material_id,pekerjaan_id,kalkulasi",[$req->gaji_driver_id,$req->partner, $tanggal_awal->format('Y-m-d'),$tanggal_akhir->format('Y-m-d')]);
+			}else{
+				// update gaji driver
+
+				\DB::table('gaji_driver')
+					->where('id',$req->gaji_driver_id)
 					->update([
-						'harga' => $dt->harga,
-						'jumlah' => \DB::raw("case when kalkulasi = 'rit' then rit * harga when kalkulasi = 'kubik' then volume * harga else netto * harga end")
+						'potongan_bahan' => $req->potongan_bahan,
+						'gaji_nett' => $req->gaji_nett,
+						'jumlah' => $req->jumlah,
+						'amount_due' => $req->gaji_nett,
 					]);
+
+				$updateData = json_decode($req->update_data);
+				foreach($updateData as $dt){
+					\DB::table('gaji_driver_detail')
+						->whereId($dt->gaji_driver_detail_id)
+						->update([
+							'harga' => $dt->harga,
+							'jumlah' => \DB::raw("case when kalkulasi = 'rit' then rit * harga when kalkulasi = 'kubik' then volume * harga else netto * harga end")
+						]);
+				}
+				
 			}
+
 
 			return redirect()->back();
 
@@ -302,7 +351,6 @@ class GajiDriverController extends Controller
 		$pdf->setOption('margin-right', 10);
 		$pdf->loadHTML(view('gaji.gaji_driver.pdf',[
 			'data' => $data,
-			'dp' => $data->gaji_nett,
 			'amount_due' => 0,
 		]));
 		return $pdf->inline();
@@ -396,7 +444,7 @@ class GajiDriverController extends Controller
 		$pdf->setOption('margin-bottom', 10);
 		$pdf->setOption('margin-left', 10);
 		$pdf->setOption('margin-right', 10);
-		$pdf->loadHTML(view('gaji.gaji_driver.pdf',[
+		$pdf->loadHTML(view('gaji.gaji_driver.pdf-dp',[
 			'data' => $data,
 			'payment' => $payment,
 			'amount_due' => $payment->amount_due,

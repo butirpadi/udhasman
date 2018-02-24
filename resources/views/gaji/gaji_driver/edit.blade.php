@@ -81,33 +81,27 @@
                         <div class="col-xs-6" >
                             <div class="form-group">
                                 <label >Bulan</label>
-                                @if($data->state == 'draft')
-                                    <input type="text" name="bulan" class="form-control" value="{{$data->bulan}}" required>
-                                @else 
+                                
                                     <div class="hide" ><input type="text" name="bulan" class="form-control" value="{{$data->bulan}}" required></div>
                                     <input type="text" name="input_bulan" class="form-control" readonly value="{{$data->bulan}}" >
-                                @endif
+                                
                             </div>  
                             <div class="form-group">
                                 <label >Driver</label>
-                                @if($data->state == 'draft')
-                                {!! Form::select('partner',$partners,$data->partner_id,['class'=>'form-control select2','required']) !!}
-                                @else
+                                
                                     <div class="hide" >{!! Form::select('partner',$partners,$data->partner_id,['class'=>'form-control select2','required']) !!}</div>
                                     <input type="text" name="input_partner" class="form-control" readonly value="{{$data->partner}}" >
-                                @endif
+                               
                             </div>
                         </div>
                         
                         <div class="col-xs-6" >
                             <div class="form-group">
                                 <label>Periode Pembayaran</label>
-                                @if($data->state == 'draft')
-                                    <select data-default="{{$data->tanggal_format}}" name="tanggal" class="form-control"></select>                                    
-                                @else 
+                                
                                     <div class="hide" ><select data-default="{{$data->tanggal_format}}" name="tanggal" class="form-control"></select></div>
                                     <input type="text" name="input_tanggal" class="form-control" readonly value="{{$data->tanggal_format}}" >
-                                @endif
+                                
                             </div>
                         </div>
 

@@ -26,48 +26,63 @@
 
 <!-- Main content -->
 <section class="content">
-  <form method="POST" action="finance/cashbook/update" >
-    <input type="hidden" name="cashbook_id" value="{{$data->id}}">
-    <div class="box box-solid" >
-        @include('cashbook.form-header')
-      <div class="box-body" >
-        <table class="table table-condensed" >
-            <tbody>
-                <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
-                        <label>Jenis Kas</label>
-                    </td>
-                    <td class="col-lg-4 col-md-4 col-sm-4" >
-                        <input type="text" name="jenis_kas" class="form-control" value="{{$data->in_out == 'I' ? 'Debit' :'Credit'}}" readonly> 
-                    </td>
-                    <td class="col-lg-2 col-md-2 col-sm-2" ><label>Tanggal</label></td>
-                    <td class="col-lg-4 col-md-4 col-sm-4" >
-                        <input type="text" class="form-control input-date" name="tanggal" value="{{$data->tanggal_formatted}}" required autocomplete="off">
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-lg-2 col-md-2 col-sm-2" >
-                        <label>Keterangan</label>
-                    </td>
-                    <td>
-                        <input type="text" name="keterangan" class="form-control" required autocomplete="off" value="{{$data->desc}}" >
-                    </td>
-                    <td><label>Jumlah</label></td>
-                    <td>
-                        <input type="text" name="jumlah" class="form-control uang text-right" value="{{$data->jumlah}}" required > 
-                    </td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>
-                        <button type="submit" class="btn btn-primary" id="btn-save" ><i class="fa fa-save" ></i> Save</button>
-                        <a class="btn btn-danger" href="finance/cashbook" ><i class="fa fa-close" ></i> Close</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-  </form>
+    <form method="POST" action="finance/cashbook/update" >
+        <input type="hidden" name="cashbook_id" value="{{$data->id}}">
+        <div class="box box-solid" >
+            @include('cashbook.form-header')
+          <div class="box-body" >
+            <table class="table table-condensed" >
+                <tbody>
+                    <tr>
+                        <td class="col-lg-2 col-md-2 col-sm-2" >
+                            <label>Jenis Kas</label>
+                        </td>
+                        <td class="col-lg-4 col-md-4 col-sm-4" >
+                            @if($data->state == 'draft')
+                            {{Form::select('jenis_kas',['I'=>'Debit','O'=>'Credit'],$data->in_out,['class'=>'form-control'])}}
+                            @else 
+                                <div class="hide" >
+                                    {{Form::select('jenis_kas',['I'=>'Debit','O'=>'Credit'],$data->in_out,['class'=>'form-control'])}}
+                                </div>
+                                <input type="text" name="jenis_kas_input" class="form-control" readonly value="{{$data->in_out == 'I' ? 'DEBIT' : 'CREDIT'}}">
+                            @endif
+                        </td>
+                        <td class="col-lg-2 col-md-2 col-sm-2" ><label>Tanggal</label></td>
+                        <td class="col-lg-4 col-md-4 col-sm-4" >
+                            <input type="text" class="form-control input-date" name="tanggal" value="{{$data->tanggal_formatted}}" required autocomplete="off" {{$data->state == 'draft' ? '' : 'readonly'}} >
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-lg-2 col-md-2 col-sm-2" >
+                            <label>Keterangan</label>
+                        </td>
+                        <td>
+                            <input type="text" name="keterangan" class="form-control" required autocomplete="off" value="{{$data->desc}}" {{$data->state == 'draft' ? '' : 'readonly'}} >
+                        </td>
+                        <td><label>Jumlah</label></td>
+                        <td>
+                            <input type="text" name="jumlah" class="form-control uang text-right" value="{{$data->jumlah}}" required {{$data->state == 'draft' ? '' : 'readonly'}} > 
+                        </td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+        </div>
+        <div class="box-footer" >
+            @if($data->state == 'draft')
+                <button type="submit" class="btn btn-primary" id="btn-save" ><i class="fa fa-save" ></i> Save</button>
+            @endif
+            <a class="btn btn-danger" href="finance/cashbook" ><i class="fa fa-close" ></i> Close</a>
+            
+            @if($data->state == 'draft')
+                <a class="btn btn-success pull-right" href="finance/cashbook/confirm/{{$data->id}}" ><i class="fa fa-check" ></i> Confirm</a>
+                <a class="text-red btn pull-right " id="btn-delete" style="margin-right: 10px;" data-href="finance/cashbook/delete/{{$data->id}}" href="{{url()->current()}}#btn-delete" ><i class="fa fa-close" ></i> Delete</a>
+            @endif
+            @if($data->state == 'post')
+                <a class="btn btn-success pull-right " id="btn-pdf" style="margin-right: 10px;" href="finance/cashbook/print-pdf/{{$data->id}}" target="_blank" ><i class="fa fa-file-pdf-o" ></i> PDF</a>
+            @endif
+        </div>
+    </form>
 </section><!-- /.content -->
 
 @stop
@@ -98,25 +113,14 @@
     });
     // END OF AUTONUMERIC
    
-    // SAVE LOKASI GALIAN
-   
-    // $('#btn-save').click(function(){
-    //     // cek kelengkapan data
-    //     var nama = $('input[name=nama]').val();
-    //     var kode = $('input[name=kode]').val();
-        
+    $('#btn-delete').click(function(){
+        if(confirm('Anda akan menghapus data ini?')){
+            url = $(this).data('href');
+            alert(url);
+        }
 
-    //     if(nama != "" ){
-    //         var formdata = $('<form>').attr('method','POST').attr('action','master/alat/insert');
-    //         formdata.append($('<input>').attr('type','hidden').attr('name','kode').val(kode));
-    //         formdata.append($('<input>').attr('type','hidden').attr('name','nama').val(nama));
-    //         formdata.submit();
-    //     }else{
-    //         alert('Lengkapi data yang kosong.');
-    //     }
-    // });
-
-    // END OF LOKASI GALIAN
+        return false;
+    });
 
 // alert('pret');
 })(jQuery);

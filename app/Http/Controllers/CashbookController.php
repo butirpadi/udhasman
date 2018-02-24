@@ -11,12 +11,13 @@ class CashbookController extends Controller
 	public function index(){
 		$data = \DB::table('cashbook')
 				->select('cashbook.*',\DB::raw('date_format(tanggal,"%d-%m-%Y") as tanggal_formatted'))
-				->orderBy('tanggal','asc')
-				// ->orderBy('created_at','asc')
-				->get();
+				->orderBy('tanggal','desc')
+				->paginate(Appsetting('paging_item_number'));
+				// ->get();
+
 		// $balance = \DB::table('cashbook')->orderBy('created_at','desc')->first()->saldo;
-		$debit_credit = \DB::select("select sum( case when in_out = 'I' then jumlah end) as debit, sum( case when in_out = 'O' then jumlah end) as credit
-from cashbook");
+		$debit_credit = \DB::select("select sum( case when in_out = 'I' then jumlah end) as debit, 							sum( case when in_out = 'O' then jumlah end) as credit
+									from cashbook where state = 'post'");
 
 		$balance = $debit_credit[0]->debit - $debit_credit[0]->credit;
 
@@ -34,20 +35,21 @@ from cashbook");
 	public function insert(Request $req){
 		return \DB::transaction(function()use($req){
 			// generate cahsbook number
-			$cashbook_counter = \DB::table('appsetting')->whereName('cashbook_counter')->first()->value;
+			$cashbook_counter = Appsetting('cashbook_counter');//\DB::table('appsetting')->whereName('cashbook_counter')->first()->value;
 			$month=date("m");
 			$year=date("Y");
 			if($req->jenis_kas == 'I'){
 				// $cashbook_num = 'CASH.IN/'.date('Y').'/000'.$cashbook_counter++;	
-		        $cashbook_num = 'CASH.IN/' . '/'.$year.'/'.$month. $cashbook_counter++;
+		        $cashbook_num = Appsetting('cashbook_debit_prefix') . '/'.$year.'/'.$month. $cashbook_counter++;
 			}else{
 				// $cashbook_num = 'CASH.OUT/'.date('Y').'/000'.$cashbook_counter++;	
-		        $cashbook_num = 'CASH.OUT/' . '/'.$year.'/'.$month. $cashbook_counter++;
+		        $cashbook_num = Appsetting('cashbook_credit_prefix') . '/'.$year.'/'.$month. $cashbook_counter++;
 			}
 			// update counter
-			\DB::table('appsetting')->whereName('cashbook_counter')->update([
-					'value' => $cashbook_counter
-				]);
+			// \DB::table('appsetting')->whereName('cashbook_counter')->update([
+			// 		'value' => $cashbook_counter
+			// 	]);
+			UpdateAppsetting('cashbook_counter',$cashbook_counter);
 
 			// generate tanggal
             $cash_date = $req->tanggal;
@@ -105,7 +107,7 @@ from cashbook");
 			// 		'saldo' => $saldo_baru ]);
 			// }
 
-			return redirect('finance/cashbook');
+			return redirect('finance/cashbook/edit/'.$cashbook_id);
 		});
 	}
 
@@ -152,6 +154,37 @@ from cashbook");
 				->delete($cashbook_id);
 
 		return $data;
+	}
+
+	public function confirm($id){
+		\DB::table('cashbook')
+			->whereId($id)
+			->update([
+				'state' => 'post'
+			]);
+
+		return redirect()->back();
+	}
+
+	public function printPdf($id){
+		$data=\DB::table('view_cashbook')
+				->find($id);
+		$data->terbilang = \Helper::convertTerbilang(intval($data->jumlah));
+
+		$pdf = \App::make('snappy.pdf.wrapper');
+        $pdf->setOption('margin-top', 15);
+        $pdf->setOption('margin-bottom', 10);
+        $pdf->setOption('margin-left', 10);
+        $pdf->setOption('margin-right', 10);
+        
+        $reportOption = [
+                'data' => $data,
+                'dicetak'=>date('d-m-Y H:i:s')
+            ];
+
+        $pdf->loadHTML(view('cashbook.pdf',$reportOption));
+        return $pdf->inline();
+
 	}
 
 

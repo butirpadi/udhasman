@@ -38,7 +38,7 @@
       
       <div class="login-box-body">
         <div class="login-logo">
-        <img src="img/logo.png" class="img-responsive">
+        <img src="img/{{Appsetting('company_logo')}}" class="img-responsive">
       </div><!-- /.login-logo -->
         <p class="login-box-msg">Sign in to start your session</p>
         <form action="login" method="post">

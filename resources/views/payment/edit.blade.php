@@ -225,7 +225,7 @@
                     <button type="submit" class="btn btn-primary " id="btn-save"  ><i class="fa fa-save" ></i> Save</button>
                 @endif
                 
-                @if($data->type != 'draft')
+                @if($data->state != 'draft')
                 <a class="btn btn-success" target="_blank" href="finance/payment/print/{{$data->id}}" ><i class="fa fa-print" ></i> Print</a>                
                 @endif
 

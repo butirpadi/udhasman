@@ -61,9 +61,6 @@
         </div>
 
         <div class="box-body">
-            {{-- <div class="clearfix" ></div>
-            <br/> --}}
-
             <?php $rownum=1; ?>
             <?php $balance=0; ?>
             <?php $debit=0;; ?>
@@ -72,14 +69,14 @@
                 <thead>
                     <tr>
                         <th style="width:25px;">
-                            <input type="checkbox" name="ck_all" style="margin-left:15px;padding:0;" >
+                            <input type="checkbox" name="ck_all" style="padding:0;" >
                         </th>
-                        {{-- <th style="width:25px;">No</th> --}}
-                        <th class="col-sm-1 col-md-1 col-lg-1" >Ref#</th>
+                        <th class="col-sm-1 col-md-1 col-lg-1" >#</th>
                         <th  >Tanggal</th>
                         <th>Desc</th>
                         <th  >Debit</th>
                         <th  >Credit</th>
+                        <th>State</th>
                         <!-- <th style="background-color: #ECF0F5;" >Balance</th> -->
                         <th style="width:50px;"></th>
                     </tr>
@@ -98,9 +95,6 @@
                         <td class="text-center" >
                             <input type="checkbox" class="ck_row">
                         </td>
-                        {{-- <td>
-                            {{$rownum++}}
-                        </td> --}}
                         <td>
                             {{$dt->cash_number}}
                         </td>
@@ -124,6 +118,13 @@
                             -
                             @endif
                         </td>
+                        <td align="center" >
+                            @if($dt->state == 'draft')
+                                <label class="label label-danger" >DRAFT</label>
+                            @else 
+                                <label class="label label-success" >POSTED</label>
+                            @endif
+                        </td>
                         <!-- <td style="background-color: #ECF0F5;" class="uang text-right balance-on-row" >
                             {{number_format($balance,0,'.',',' )}}
                         </td> -->
@@ -134,21 +135,14 @@
                     </tr>
                     @endforeach
                 </tbody>
-                <!-- <tfoot  >
-                    <td style="border-top: darkgrey solid 2px;" colspan="4" ></td>
-                    <td style="border-top: darkgrey solid 2px;" class="text-right" >
-                        <label>{{number_format($debit,0,'.',',')}}</label>
-                    </td>
-                    <td style="border-top: darkgrey solid 2px;" class="text-right" >
-                        <label>{{number_format($credit,0,'.',',')}}</label>
-                    </td>
-                    <td style="border-top: darkgrey solid 2px; background-color: #ECF0F5;" class="text-right" >
-                        <label>{{number_format($balance,0,'.',',')}}</label>
-                    </td>
-                    <td style="border-top: darkgrey solid 2px;" ></td>
-                </tfoot> -->
             </table>
         </div><!-- /.box-body -->
+        <div class="box-footer" >
+            <i>Showing {{($data->currentpage()-1)*$data->perpage()+1}} to {{(($data->currentpage()-1)*$data->perpage())+$data->count()}} of {{$data->total()}} entries</i>
+            <div class="pull-right" >
+                {{$data->links()}}
+            </div>
+        </div>
     </div><!-- /.box -->
 
 </section><!-- /.content -->
@@ -164,18 +158,18 @@
 <script type="text/javascript">
 (function ($) {
 
-    var TBL_KATEGORI = $('#table-data').DataTable({
-        sort:false,
-        "initComplete": function (oSettings) {
+    // var TBL_KATEGORI = $('#table-data').DataTable({
+    //     sort:false,
+    //     "initComplete": function (oSettings) {
 
-            var oTable = this;
-            var totalRows = oTable.fnGetData().length;
+    //         var oTable = this;
+    //         var totalRows = oTable.fnGetData().length;
 
 
-            oTable.fnPageChange('last');
-            page = Math.ceil(oSettings._iDisplayStart / oSettings._iDisplayLength);
-        }
-    });
+    //         oTable.fnPageChange('last');
+    //         page = Math.ceil(oSettings._iDisplayStart / oSettings._iDisplayLength);
+    //     }
+    // });
 
 
     // check all
