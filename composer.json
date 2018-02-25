@@ -13,7 +13,8 @@
         "spipu/html2pdf": "^5.0",
         "dompdf/dompdf": "^0.8.2",
         "maatwebsite/excel": "~2.1.0",
-        "barryvdh/laravel-snappy": "^0.4.1"
+        "barryvdh/laravel-snappy": "^0.4.1",
+	"orangehill/iseed": "2.2"
 
     },
     "require-dev": {

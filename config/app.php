@@ -167,6 +167,7 @@ return [
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Barryvdh\Snappy\ServiceProvider::class,
+        Orangehill\Iseed\IseedServiceProvider::class
 
 
     ],

@@ -45,17 +45,17 @@ class TagParser
             $e->setInvalidTag($code);
             throw $e;
         }
-        $close     = ($match[1] == '/' ? true : false);
+        $close     = ($match[1] === '/' ? true : false);
         $autoclose = preg_match('/\/>$/isU', $code);
         $name      = strtolower($match[2]);
 
         // required parameters (depends on the tag name)
         $defaultParams = array();
         $defaultParams['style'] = '';
-        if ($name == 'img') {
+        if ($name === 'img') {
             $defaultParams['alt'] = '';
             $defaultParams['src'] = '';
-        } elseif ($name == 'a') {
+        } elseif ($name === 'a') {
             $defaultParams['href'] = '';
         }
 
@@ -122,7 +122,7 @@ class TagParser
                     if (!$val) {
                         $val = 1;
                     }
-                    $param[$key] = $val;
+                    $param[$key] = (int) $val;
                     break;
 
                 case 'color':
@@ -136,13 +136,13 @@ class TagParser
 
         // compliance of the border
         if ($border !== null) {
-            if ($border) {
-                $border = 'border: solid '.$border.' '.$color;
+            if ($border && $border !== '0px') {
+                $border = 'solid '.$border.' '.$color;
             } else {
-                $border = 'border: none';
+                $border = 'none';
             }
 
-            $param['style'] .= $border.'; ';
+            $param['style'] .= 'border: '.$border.'; ';
             $param['border'] = $border;
         }
 
@@ -211,7 +211,8 @@ class TagParser
 
         foreach ($regexes as $regex) {
             preg_match_all('/'.$regex.'/is', $code, $match);
-            for ($k = 0; $k < count($match[0]); $k++) {
+            $amountMatch = count($match[0]);
+            for ($k = 0; $k < $amountMatch; $k++) {
                 $param[trim(strtolower($match[1][$k]))] = trim($match[2][$k]);
             }
         }
