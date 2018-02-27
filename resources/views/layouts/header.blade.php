@@ -79,7 +79,7 @@
                         <li class="user-header">
                             <img src="img/avatar04.png" class="img-circle" alt="User Image">
                             <p>
-                                {{ucwords(Auth::user()->username)}} - 
+                                {{ucwords(Auth::user()->username)}} - {{ucwords(Auth::user()->roles()->first()->description)}}
                             </p>
                         </li>
                         <!-- Menu Body -->

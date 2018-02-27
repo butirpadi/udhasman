@@ -840,6 +840,12 @@ Route::group(['middleware' => ['web','auth']], function () {
 
         Route::group(['prefix'=>'user'],function(){
             Route::get('','UserController@index');
+            // Route::get('register','UserController@register');
+            Route::get('create','UserController@create');
+            Route::post('insert','UserController@insert');
+            Route::post('delete','UserController@delete');
+            Route::get('get-role-permissions/{id}','UserController@getRolePermission');
+            Route::post('update-role-permissions','UserController@updateRolePermissions');
         });
     });
 
