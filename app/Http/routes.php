@@ -837,6 +837,10 @@ Route::group(['middleware' => ['web','auth']], function () {
             Route::get('','SettingController@index');
             Route::post('update','SettingController@update');
         });
+
+        Route::group(['prefix'=>'user'],function(){
+            Route::get('','UserController@index');
+        });
     });
 
 

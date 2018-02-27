@@ -165,26 +165,6 @@
 <script type="text/javascript">
 (function ($) {
 
-    // var TBL_KATEGORI = $('#table-data').DataTable({
-    //     "columns": [
-    //         {className: "text-right","orderable": false},
-    //         {className: "text-left"},
-    //         null,
-    //         null,
-    //         null,
-    //         null,
-    //         null,
-    //         null,
-    //         null,
-    //         // null,
-    //         // null,
-    //         // null,
-    //         {className: "text-center","orderable": false},
-    //         // {className: "text-center"}
-    //     ],
-    //     sort: false,
-    // });
-
     // ==========================================================================
     // FILTER SECTION
     $('select[name=select_filter_by]').change(function(){
