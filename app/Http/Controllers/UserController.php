@@ -109,4 +109,45 @@ class UserController extends Controller
 		});
 	}
 
+	public function edit($id){
+		$data = User::find($id);
+
+		$roles = \DB::table('roles')
+				->get();
+		$selectRole = [];
+		foreach($roles as $rl){
+			$selectRole[$rl->id] = $rl->description;
+		}
+
+		return view('user.edit',[
+			'data' => $data,
+			'role' => $selectRole
+
+		]);
+	}
+
+	public function update(Request $req){
+		return \DB::transaction(function()use($req){
+			$user = User::find($req->user_id);
+			if($req->password != '' ){
+				$user->password = bcrypt($req->password);
+			}
+
+			if($req->role){
+				$user->roles()->first()->pivot->delete();
+				$role = Role::find($req->role);
+
+				$user->roles()->attach($role);
+
+				$user->save();
+				
+			}			
+
+
+			return redirect()->back();
+			
+		});
+	}
+
+
 }
