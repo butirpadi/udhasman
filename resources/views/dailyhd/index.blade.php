@@ -10,7 +10,7 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Operasional Alat Berat
+        OP Excavator
     </h1>
 </section>
 
@@ -54,16 +54,20 @@
                             {{$dt->tanggal_format}}
                         </td>
                         <td>
-                            {{'['.$dt->kode_alat . '] ' .$dt->alat}}
+                            <!-- {{'['.$dt->kode_alat . '] ' .$dt->alat}} -->
+                            {{$dt->alat}}
                         </td>
                         <td>
-                            {{'['.$dt->kode_lokasi . '] ' .$dt->lokasi_galian}}
+                            <!-- {{'['.$dt->kode_lokasi . '] ' .$dt->lokasi_galian}} -->
+                            {{$dt->lokasi_galian}}
                         </td>
                         <td>
-                            {{'['.$dt->kode_pengawas . '] ' .$dt->pengawas}}
+                            <!-- {{'['.$dt->kode_pengawas . '] ' .$dt->pengawas}} -->
+                            {{$dt->pengawas}}
                         </td>
                         <td>
-                            {{'['.$dt->kode_operator . '] ' .$dt->operator}}
+                            <!-- {{'['.$dt->kode_operator . '] ' .$dt->operator}} -->
+                            {{$dt->operator}}
                         </td>
                         <td class="text-right" >
                             {{$dt->solar}}

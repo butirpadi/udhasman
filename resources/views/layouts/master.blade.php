@@ -202,6 +202,10 @@
             .text-darkred{
                 color:#720000;
             }
+
+            .content-header > h1 {
+              text-transform: uppercase;
+            }
         </style>
 
         @yield('styles')

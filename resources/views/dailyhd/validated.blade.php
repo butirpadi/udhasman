@@ -19,7 +19,7 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        <a href="dailyhd" >Harian Alat Berat</a> 
+        <a href="dailyhd" >OP Excavator</a> 
         <i class="fa fa-angle-double-right" ></i> {{$data->ref}}
     </h1>
 </section>
