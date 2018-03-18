@@ -1,7 +1,7 @@
 --
 -- DbNinja v3.2.7 for MySQL
 --
--- Dump date: 2018-03-18 12:54:50 (UTC)
+-- Dump date: 2018-03-18 14:18:58 (UTC)
 -- Server version: 10.1.28-MariaDB
 -- Database: udhdev
 --
@@ -873,13 +873,6 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP VIEW IF EXISTS `view_dailyhd`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `udhdev`.`view_dailyhd` AS select `udhdev`.`dailyhd`.`id` AS `id`,`udhdev`.`dailyhd`.`ref` AS `ref`,`udhdev`.`dailyhd`.`status` AS `status`,`udhdev`.`dailyhd`.`created_at` AS `created_at`,`udhdev`.`dailyhd`.`tanggal` AS `tanggal`,date_format(`udhdev`.`dailyhd`.`tanggal`,'%d-%m-%Y') AS `tanggal_format`,`udhdev`.`lokasi_galian`.`kode` AS `kode_lokasi`,`udhdev`.`lokasi_galian`.`nama` AS `lokasi_galian`,`udhdev`.`dailyhd`.`alat_id` AS `alat_id`,`udhdev`.`dailyhd`.`lokasi_galian_id` AS `lokasi_galian_id`,`udhdev`.`dailyhd`.`mulai` AS `mulai`,`udhdev`.`dailyhd`.`selesai` AS `selesai`,`udhdev`.`dailyhd`.`istirahat_mulai` AS `istirahat_mulai`,`udhdev`.`dailyhd`.`istirahat_selesai` AS `istirahat_selesai`,`udhdev`.`dailyhd`.`jam_kerja` AS `jam_kerja`,`udhdev`.`dailyhd`.`solar` AS `solar`,`udhdev`.`dailyhd`.`oli` AS `oli`,`udhdev`.`dailyhd`.`desc` AS `desc`,`udhdev`.`dailyhd`.`pengawas_id` AS `pengawas_id`,`udhdev`.`dailyhd`.`operator_id` AS `operator_id`,`udhdev`.`alat`.`kode` AS `kode_alat`,`udhdev`.`alat`.`nama` AS `alat`,`pengawas`.`kode` AS `kode_pengawas`,`pengawas`.`nama` AS `pengawas`,`operator`.`kode` AS `kode_operator`,`operator`.`nama` AS `operator` from ((((`udhdev`.`alat` join `udhdev`.`dailyhd` on((`udhdev`.`alat`.`id` = `udhdev`.`dailyhd`.`alat_id`))) join `udhdev`.`res_partner` `pengawas` on((`udhdev`.`dailyhd`.`pengawas_id` = `pengawas`.`id`))) join `udhdev`.`res_partner` `operator` on((`udhdev`.`dailyhd`.`operator_id` = `operator`.`id`))) join `udhdev`.`lokasi_galian` on((`udhdev`.`dailyhd`.`lokasi_galian_id` = `udhdev`.`lokasi_galian`.`id`)));
-
-
---
--- Structure for view: view_driver
---
-DROP VIEW IF EXISTS `view_driver`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `udhdev`.`view_driver` AS select `k`.`id` AS `id`,`k`.`is_active` AS `is_active`,`k`.`created_at` AS `created_at`,`k`.`gaji_pokok` AS `gaji_pokok`,`k`.`updated_at` AS `updated_at`,`k`.`kode` AS `kode`,`k`.`nama` AS `nama`,`k`.`panggilan` AS `panggilan`,`k`.`ktp` AS `ktp`,`k`.`tempat_lahir` AS `tempat_lahir`,`k`.`tgl_lahir` AS `tgl_lahir`,date_format(`k`.`tgl_lahir`,'%d-%m-%Y') AS `tgl_lahir_formatted`,date_format(`k`.`tgl_lahir`,'%d') AS `tanggal`,date_format(`k`.`tgl_lahir`,'%m') AS `bulan`,date_format(`k`.`tgl_lahir`,'%Y') AS `tahun`,`k`.`alamat` AS `alamat`,`k`.`desa_id` AS `desa_id`,`k`.`telp` AS `telp`,`k`.`telp2` AS `telp2`,`k`.`foto` AS `foto`,`k`.`jabatan_id` AS `jabatan_id`,`j`.`nama` AS `jabatan`,`j`.`kode` AS `kode_jabatan`,`d`.`name` AS `desa`,`kc`.`id` AS `kecamatan_id`,`kc`.`name` AS `kecamatan`,`kb`.`id` AS `kabupaten_id`,`kb`.`name` AS `kabupaten`,`pr`.`id` AS `provinsi_id`,`pr`.`name` AS `provinsi`,(select count(`udhdev`.`armada`.`id`) from `udhdev`.`armada` where (`udhdev`.`armada`.`karyawan_id` = `k`.`id`)) AS `ref`,`udhdev`.`armada`.`nopol` AS `nopol` from ((((((`udhdev`.`_karyawan` `k` join `udhdev`.`jabatan` `j` on((`k`.`jabatan_id` = `j`.`id`))) left join `udhdev`.`desa` `d` on((`k`.`desa_id` = `d`.`id`))) join `udhdev`.`armada` on((`k`.`id` = `udhdev`.`armada`.`karyawan_id`))) left join `udhdev`.`kecamatan` `kc` on((`d`.`kecamatan_id` = `kc`.`id`))) left join `udhdev`.`kabupaten` `kb` on((`kc`.`kabupaten_id` = `kb`.`id`))) left join `udhdev`.`provinsi` `pr` on((`kb`.`provinsi_id` = `pr`.`id`))) where (`j`.`kode` = 'DV');
 
 
 --
